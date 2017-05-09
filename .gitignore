@@ -27,3 +27,6 @@
 *.exe
 *.out
 *.app
+
+# default build directory
+build
