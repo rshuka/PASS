@@ -14,7 +14,7 @@ message(STATUS "Configuring library build.")
 
 # All paths must start with "src/"
 
-add_executable(pass SHARED
+add_executable(pass 
   src/problem.cpp
   src/problem/sphere_function.cpp
 
