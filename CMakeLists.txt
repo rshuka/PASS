@@ -1,10 +1,20 @@
+# Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+
 project(PASS CXX)
 
-find_path(MANTELLA_INCLUDE_DIR mantella0)
-find_package(Armadillo REQUIRED 7.300.0)
+find_package(Armadillo REQUIRED 7.800.2)
 
-add_executable(pass
+# -------------------------
+# CONFIGURING LIBRARY BUILD
+# -------------------------
+
+message(STATUS "")
+message(STATUS "Configuring library build.")
+
+# All paths must start with "src/"
+
+add_executable(pass SHARED
   src/problem.cpp
   src/problem/sphere_function.cpp
 
@@ -16,5 +26,4 @@ add_executable(pass
 set_property(TARGET pass PROPERTY CXX_STANDARD 14)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
-target_include_directories(pass SYSTEM PUBLIC ${MANTELLA_INCLUDE_DIR})
 target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
