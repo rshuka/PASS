@@ -28,4 +28,11 @@
 *.out
 *.app
 
-build
+# Project specific
+## Common build folders
+bin/
+build/
+lib/
+
+# MacOS specific
+.DS_Store
