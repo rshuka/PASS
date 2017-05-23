@@ -53,7 +53,7 @@ class optimiser {
   /**
    * The maximal number of evaluations before the optimiser stops.
    *
-   * Initialised to the maximum value representable with `std::size_t`.
+   * Initialised to the maximum value representable with `arma::uword`.
    */
   arma::uword maximal_evaluations;
 
