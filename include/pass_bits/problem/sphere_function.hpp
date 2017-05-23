@@ -20,6 +20,6 @@ class sphere_function : public problem {
    * Initialises a sphere function with `dimension` dimensions, lower bounds of
    * -5.12 and upper bounds of 5.12.
    */
-  sphere_function(const std::size_t dimension);
+  sphere_function(const arma::uword dimension);
 };
 }  // namespace pass

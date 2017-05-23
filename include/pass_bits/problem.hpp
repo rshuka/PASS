@@ -35,13 +35,13 @@ class problem {
   /**
    * Returns the problem dimension.
    */
-  std::size_t dimension() const noexcept;
+  arma::uword dimension() const noexcept;
 
   /**
    * Initialises an `dimension`-dimensional problem with uniform lower and upper
    * bounds.
    */
-  problem(const std::size_t dimension, const double lower_bound,
+  problem(const arma::uword dimension, const double lower_bound,
           const double upper_bound);
 
   /**

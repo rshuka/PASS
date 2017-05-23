@@ -26,14 +26,14 @@ struct optimise_result {
   /**
    * The total number of times `problem.evaluate` was called.
    */
-  std::size_t evaluations;
+  arma::uword evaluations;
 
   /**
    * Total time the optimiser took to find `objective_value`.
    */
   std::chrono::nanoseconds duration;
 
-  optimise_result(const std::size_t dimension) noexcept;
+  optimise_result(const arma::uword dimension) noexcept;
 };
 
 /**
@@ -55,7 +55,7 @@ class optimiser {
    *
    * Initialised to the maximum value representable with `std::size_t`.
    */
-  std::size_t maximal_evaluations;
+  arma::uword maximal_evaluations;
 
   /**
    * The maximal elapsed time before the optimiser stops.

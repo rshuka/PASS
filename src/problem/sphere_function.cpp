@@ -1,4 +1,4 @@
-#include "sphere_function.hpp"
+#include "../../include/pass_bits/problem/sphere_function.hpp"
 
 // std::accumulate
 #include <algorithm>
@@ -9,7 +9,8 @@
 // assert
 #include <cassert>
 
-pass::sphere_function::sphere_function(const std::size_t dimension)
+pass::sphere_function::sphere_function(const arma::uword dimension)
+//call super constructor
     : problem(dimension, -5.12, 5.12) {}
 
 double pass::sphere_function::evaluate(const arma::vec& parameter) const {

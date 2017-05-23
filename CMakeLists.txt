@@ -1,7 +1,7 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-project(PASS CXX)
+project(PASS LANGUAGES CXX)
 
 find_package(Armadillo REQUIRED 7.800.2)
 
@@ -14,14 +14,14 @@ message(STATUS "Configuring library build.")
 
 # All paths must start with "src/"
 
-add_executable(pass 
+add_executable(pass
   src/problem.cpp
   src/problem/sphere_function.cpp
 
   src/optimiser.cpp
   src/optimiser/random_search.cpp
 
-  src/main.cpp
+  bin/main.cpp
 )
 set_property(TARGET pass PROPERTY CXX_STANDARD 14)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)

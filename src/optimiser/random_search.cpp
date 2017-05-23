@@ -1,4 +1,4 @@
-#include "random_search.hpp"
+#include "../../include/pass_bits/optimiser/random_search.hpp"
 
 #include <cassert>
 
@@ -11,7 +11,7 @@ pass::optimise_result pass::random_search::optimise(
 
   auto start_time = std::chrono::steady_clock::now();
   pass::optimise_result result(problem.dimension());
-  std::size_t it = 0;
+  arma::uword it = 0;
 
   do {
     arma::vec parameter(problem.dimension());
