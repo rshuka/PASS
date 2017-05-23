@@ -30,6 +30,7 @@
 
 # Project specific
 ## Common build folders
+bin/
 build/
 lib/
 
