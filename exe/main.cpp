@@ -5,9 +5,10 @@
 #include "../include/pass_bits/problem/sphere_function.hpp"
 
 int main(int argc, char** argv) {
+  arma::arma_rng::set_seed_random();
+
   pass::sphere_function problem(3);
   pass::random_search optimiser;
-  optimiser.maximal_duration = std::chrono::seconds(10);
 
   const auto result = optimiser.optimise(problem, {});
   std::cout << "random_search found a solution of " << result.objective_value
