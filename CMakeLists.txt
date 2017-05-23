@@ -21,7 +21,7 @@ add_executable(pass
   src/optimiser.cpp
   src/optimiser/random_search.cpp
 
-  bin/main.cpp
+  exe/main.cpp
 )
 set_property(TARGET pass PROPERTY CXX_STANDARD 14)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)
