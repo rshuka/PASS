@@ -6,9 +6,10 @@ namespace pass {
 
 /**
  * The sphere function is a common *toy* problem with a very small computational
- * cost, used for testing and benchmarking algorithms.
+ * cost, used for testing and benchmarking algorithms. Its optimal parameter =
+ * (0, ..., 0) and optimal function value = 0.
  *
- *      n
+ *      N
  *      Σ (p(i)^2)
  *     i=1
  */
