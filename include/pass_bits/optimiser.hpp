@@ -29,6 +29,11 @@ struct optimise_result {
   arma::uword evaluations;
 
   /**
+   * The number of iterations executed by the optimiser.
+   */
+  arma::uword iterations;
+
+  /**
    * Total time the optimiser took to find `objective_value`.
    */
   std::chrono::nanoseconds duration;

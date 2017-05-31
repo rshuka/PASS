@@ -30,6 +30,7 @@ pass::optimise_result pass::random_search::optimise(
     }
 
     ++result.evaluations;
+    ++result.iterations;
     result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now() - start_time);
   } while (result.duration < maximal_duration &&

@@ -11,6 +11,7 @@ pass::optimise_result::optimise_result(const arma::uword dimension) noexcept
           arma::vec(dimension).fill(std::numeric_limits<double>::quiet_NaN())),
       objective_value(std::numeric_limits<double>::infinity()),
       evaluations(0),
+      iterations(0),
       duration(std::chrono::nanoseconds(0)) {}
 
 pass::optimiser::optimiser() noexcept
