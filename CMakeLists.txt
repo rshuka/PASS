@@ -16,6 +16,7 @@ message(STATUS "Configuring library build.")
 
 add_executable(pass
   src/problem.cpp
+  src/problem/ackley_function.cpp
   src/problem/sphere_function.cpp
 
   src/optimiser.cpp
