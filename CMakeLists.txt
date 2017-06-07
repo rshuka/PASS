@@ -15,6 +15,7 @@ message(STATUS "Configuring library build.")
 # All paths must start with "src/"
 
 add_executable(pass
+  src/helper/random.cpp
   src/problem.cpp
   src/problem/ackley_function.cpp
   src/problem/sphere_function.cpp
