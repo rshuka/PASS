@@ -16,7 +16,7 @@ arma::uword pass::problem::dimension() const noexcept {
 
 pass::problem::problem(const arma::uword dimension, const double lower_bound,
                        const double upper_bound)
-    //initialiser list
+    // initialiser list
     : lower_bounds(arma::vec(dimension).fill(lower_bound)),
       upper_bounds(arma::vec(dimension).fill(upper_bound)) {
   assert(lower_bound < upper_bound &&
@@ -32,4 +32,11 @@ pass::problem::problem(const arma::vec& lower_bounds,
   assert(arma::all(lower_bounds < upper_bounds) &&
          "`problem.lower_bounds` must be less than `problem.upper_bounds` in "
          "each dimension");
+}
+
+arma::mat pass::problem::random_parameters(const arma::uword count) const {
+  arma::mat parameters{dimension(), count, arma::fill::randu};
+  parameters.each_col() %= bounds_range();
+  parameters.each_col() += lower_bounds;
+  return parameters;
 }

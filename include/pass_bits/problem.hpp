@@ -55,6 +55,12 @@ class problem {
    * this problem.
    */
   virtual double evaluate(const arma::vec& parameter) const = 0;
+
+  /**
+   * Draws `count` uniformly distributed random vectors from range
+   * [lower_bounds, upper_bounds].
+   */
+  arma::mat random_parameters(const arma::uword count) const;
 };
 
 }  // namespace pass
