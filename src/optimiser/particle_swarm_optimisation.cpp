@@ -79,6 +79,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
          result.evaluations < maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {
     const auto n = result.evaluations % particle_count;
+
     const auto& position = positions.col(n);
     const auto& velocity = velocities.col(n);
     const auto& best_found_parameter = best_found_parameters.col(n);
@@ -98,13 +99,13 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const double inertia = random_uniform_in_range(0, maximal_acceleration);
     velocities.col(n) = inertia * velocity + displaced_acceleration;
     positions.col(n) += velocity;
-    for (std::size_t k = 0; k < dimension; ++k) {
+    for (arma::uword k = 0; k < dimension; ++k) {
       if (position(k) < problem.lower_bounds(k)) {
-        positions(n, k) = problem.lower_bounds(k);
-        velocities(n, k) *= -0.5;
+        positions(k, n) = problem.lower_bounds(k);
+        velocities(k, n) *= -0.5;
       } else if (position(k) > problem.upper_bounds(k)) {
-        positions(n, k) = problem.upper_bounds(k);
-        velocities(n, k) *= -0.5;
+        positions(k, n) = problem.upper_bounds(k);
+        velocities(k, n) *= -0.5;
       }
     }
 
