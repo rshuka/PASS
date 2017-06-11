@@ -16,6 +16,11 @@ namespace pass {
 inline std::mt19937_64& random_number_generator();
 
 /**
+ * Returns a uniformly drawn random number in range [min, max].
+ */
+double random_uniform_in_range(double min, double max);
+
+/**
  * Return a randomly and uniformly drawn neighbour of *parameter*, with distance
  * [*minimal_distance*, *maximal_distance*].
  */
