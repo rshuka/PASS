@@ -21,6 +21,7 @@ add_executable(pass
   src/problem/sphere_function.cpp
 
   src/optimiser.cpp
+  src/optimiser/particle_swarm_optimisation.cpp
   src/optimiser/random_search.cpp
 
   exe/main.cpp
