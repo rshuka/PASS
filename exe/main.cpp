@@ -12,15 +12,14 @@ int main(int argc, char** argv) {
 
   pass::random_search random_search;
   random_search.maximal_duration = std::chrono::seconds(10);
-  auto result = random_search.optimise(problem, {});
+  auto result = random_search.optimise(problem);
   std::cout << "random_search found a solution of " << result.objective_value
             << " at " << result.parameter.t() << " after " << result.evaluations
             << " evaluations." << std::endl;
 
   pass::particle_swarm_optimisation pso;
   pso.maximal_duration = std::chrono::seconds(10);
-  result = pso.optimise(problem,
-                        problem.random_parameters(problem.dimension() * 20));
+  result = pso.optimise(problem);
   std::cout << "PSO found a solution of " << result.objective_value << " at "
             << result.parameter.t() << " after " << result.evaluations
             << " evaluations." << std::endl;

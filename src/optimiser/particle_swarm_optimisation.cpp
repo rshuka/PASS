@@ -20,36 +20,31 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
       maximal_global_attraction(maximal_local_attraction) {}
 
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
-    const pass::problem& problem, const arma::mat& initial_parameters) {
+    const pass::problem& problem) {
   const arma::uword dimension = problem.dimension();
-  const arma::uword particle_count = initial_parameters.n_cols;
+  const arma::uword particle_count = dimension * 20;
 
   assert(initial_velocity >= 0.0);
   assert(maximal_acceleration >= 0.0);
   assert(maximal_local_attraction >= 0.0);
   assert(maximal_global_attraction >= 0.0);
-  assert(initial_parameters.n_rows == dimension &&
-         initial_parameters.n_cols > 0 &&
-         "`initial_parameters` must have the same dimension as `problem` and "
-         "not be empty");
 
   auto start_time = std::chrono::steady_clock::now();
   pass::optimise_result result(dimension);
 
-  // Best found parameters and objective values for each particle. The data for
-  // each particle is stored in a column.
-  arma::mat best_found_parameters = initial_parameters;
-  arma::rowvec best_found_values(particle_count);
+  // Particle data, stored column-wise.
+  arma::mat positions = problem.random_parameters(particle_count);
 
-  // The current positions and velocities of each particle.
-  arma::mat positions = best_found_parameters;
-  arma::mat velocities{arma::size(best_found_parameters), arma::fill::randu};
+  arma::mat velocities(dimension, particle_count, arma::fill::randu);
   velocities *= 2 * initial_velocity;
   velocities.for_each([this](auto& elem) { elem -= initial_velocity; });
 
-  // Evaluate the initial parameters.
+  arma::mat best_found_parameters = positions;
+  arma::rowvec best_found_values(particle_count);
+
+  // Evaluate the initial positions.
   for (arma::uword n = 0; n < particle_count; ++n) {
-    const auto& parameter = best_found_parameters.col(n);
+    const auto& parameter = positions.col(n);
     const double objective_value = best_found_values(n) =
         problem.evaluate(parameter);
 
@@ -74,7 +69,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   }
   ++result.iterations;
 
-  // Evaluate a single particle per iteration.
+  // Evaluate a single particle per loop iteration.
   while (result.duration < maximal_duration &&
          result.evaluations < maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {

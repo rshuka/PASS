@@ -72,12 +72,9 @@ class optimiser {
   optimiser() noexcept;
 
   /**
-   * Optimises `problem`, starting at `initial_parameters`.
-   *
-   * `initial_parameters` must be a N×M matrix, with N = `problem.dimension()`
-   * and M = number of parameters, which depends on the optimiser.
+   * Optimises `problem`, storing the result and performance characteristics of
+   * the optimisation in the returned `optimise_result`.
    */
-  virtual optimise_result optimise(const pass::problem& problem,
-                                   const arma::mat& initial_parameters) = 0;
+  virtual optimise_result optimise(const pass::problem& problem) = 0;
 };
 }  // namespace pass

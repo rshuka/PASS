@@ -3,27 +3,16 @@
 #include <cassert>
 
 pass::optimise_result pass::random_search::optimise(
-    const pass::problem& problem, const arma::mat& initial_parameters) {
-  assert(initial_parameters.n_elem == 0 ||
-         initial_parameters.n_rows == problem.dimension() &&
-             "`initial_parameters` must have the same dimension as `problem`, "
-             "or be empty");
-
+    const pass::problem& problem) {
   auto start_time = std::chrono::steady_clock::now();
   pass::optimise_result result(problem.dimension());
-  arma::uword it = 0;
 
   do {
-    arma::vec parameter(problem.dimension());
-    if (it < initial_parameters.n_cols) {
-      parameter = initial_parameters.col(it++);
-    } else {
-      parameter.randu();
-      parameter %= problem.bounds_range();  // element-wise multiplication
-      parameter += problem.lower_bounds;
-    }
+    arma::vec parameter(problem.dimension(), arma::fill::randu);
+    parameter %= problem.bounds_range();  // element-wise multiplication
+    parameter += problem.lower_bounds;
 
-    const auto objective_value = problem.evaluate(parameter);
+    const auto objective_value = problem.evaluate(problem.random_parameters(1));
     if (objective_value <= result.objective_value) {
       result.parameter = parameter;
       result.objective_value = objective_value;

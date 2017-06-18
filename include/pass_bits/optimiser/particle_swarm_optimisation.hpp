@@ -40,7 +40,9 @@ class particle_swarm_optimisation : public optimiser {
 
   particle_swarm_optimisation() noexcept;
 
-  virtual optimise_result optimise(const pass::problem& problem,
-                                   const arma::mat& initial_parameters);
+  /**
+   * Optimises the problem with 20 * `problem.dimension()` particles.
+   */
+  virtual optimise_result optimise(const pass::problem& problem);
 };
 }  // namespace pass
