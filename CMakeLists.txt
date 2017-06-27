@@ -18,7 +18,10 @@ add_executable(pass
   src/helper/random.cpp
   src/problem.cpp
   src/problem/ackley_function.cpp
+  src/problem/rastrigin_function.cpp
+  src/problem/rosenbrock_function.cpp
   src/problem/sphere_function.cpp
+  src/problem/sum_of_different_powers.cpp
 
   src/optimiser.cpp
   src/optimiser/particle_swarm_optimisation.cpp
