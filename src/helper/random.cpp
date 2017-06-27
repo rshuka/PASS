@@ -29,15 +29,8 @@ arma::vec pass::random_neighbour(const arma::vec& parameter,
    *     from [*minimal_distance*, *maximal_distance*].
    *  3. Translate its origin by adding *parameter*.
    */
-  arma::vec neighbour{parameter.n_elem, arma::fill::randu};
 
-  // Instead of iterating twice through the vector (normalising it first and
-  // scaling it afterwards), we do everything in one step and normalise the
-  // length accordingly.
-  const double length =
-      (minimal_distance + pass::random_uniform_in_range(0.0, 1.0) *
-                              (maximal_distance - minimal_distance)) /
-      arma::norm(neighbour);
-
-  return parameter + neighbour * length;
+  return parameter +
+         arma::normalise(arma::vec{parameter.n_elem, arma::fill::randn}) *
+             pass::random_uniform_in_range(minimal_distance, maximal_distance);
 }
