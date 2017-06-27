@@ -22,7 +22,7 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const pass::problem& problem) {
   const arma::uword dimension = problem.dimension();
-  const arma::uword particle_count = dimension * 20;
+  const arma::uword particle_count = dimension * 10;
 
   assert(initial_velocity >= 0.0);
   assert(maximal_acceleration >= 0.0);
