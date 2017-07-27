@@ -20,6 +20,9 @@ add_executable(pass
   src/problem.cpp
   src/problem/ackley_function.cpp
   src/problem/parallel_kinematic_machine_3PRPR.cpp
+  src/problem/parallel_kinematic_machine_3PRRR.cpp
+  src/problem/parallel_kinematic_machine_6PRUS.cpp
+  src/problem/parallel_kinematic_machine_6PUPS.cpp
   src/problem/rastrigin_function.cpp
   src/problem/rosenbrock_function.cpp
   src/problem/sphere_function.cpp
