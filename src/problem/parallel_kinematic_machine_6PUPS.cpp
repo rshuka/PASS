@@ -31,7 +31,7 @@ pass::parallel_kinematic_machine_6PUPS::parallel_kinematic_machine_6PUPS()
            {0.086933324366016, 0.086933324366016, -0.023293714059227,
             -0.063639610306789, -0.063639610306789, -0.023293714059227},
            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}),
-      end_effector_trajectory({{arma::fill::zeros}}),
+      end_effector_trajectory({{0, 0, 0.6, 0, 0, 0}}),
       problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
               {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}) {}
 

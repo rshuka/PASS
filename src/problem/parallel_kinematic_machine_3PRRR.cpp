@@ -21,7 +21,7 @@ pass::parallel_kinematic_machine_3PRRR::parallel_kinematic_machine_3PRRR()
       end_effector_joints_relative_position(
           {{-0.000066580445834, -0.092751709777083, 0.092818290222917},
            {0.106954081945581, -0.053477040972790, -0.053477040972790}}),
-      end_effector_trajectory({{arma::fill::zeros}}),
+      end_effector_trajectory({{0.3, 1.0, 0.0}}),
       problem({-0.5, -0.2, -0.2}, {0.5, 0.8, 0.8}) {}
 
 double pass::parallel_kinematic_machine_3PRRR::evaluate(
