@@ -3,6 +3,10 @@
 #include "../optimiser.hpp"
 
 namespace pass {
+/**
+ * Implements the [Standard Particle Swarm Optimisation 2011]
+ * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848) algorithm.
+ */
 class particle_swarm_optimisation : public optimiser {
  public:
   /**
@@ -38,11 +42,23 @@ class particle_swarm_optimisation : public optimiser {
    */
   double maximal_global_attraction;
 
-  particle_swarm_optimisation() noexcept;
+  /**
+   * The number of particles used during optimisation.
+   *
+   * Is initialized to `40`.
+   */
+  arma::uword population_size;
 
   /**
-   * Optimises the problem with 20 * `problem.dimension()` particles.
+   * Probability of a particle to be in the neighbourhood of another particle.
+   * Must be in range `[0, 1]`.
+   *
+   * Is initialized to `(1 - 1/population_size)^3`.
    */
+  double neighbourhood_probability;
+
+  particle_swarm_optimisation() noexcept;
+
   virtual optimise_result optimise(const pass::problem& problem);
 };
 }  // namespace pass

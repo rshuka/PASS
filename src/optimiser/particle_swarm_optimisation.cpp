@@ -17,12 +17,14 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
       initial_velocity(0.5),
       maximal_acceleration(1.0 / (2.0 * std::log(2.0))),
       maximal_local_attraction(0.5 + std::log(2.0)),
-      maximal_global_attraction(maximal_local_attraction) {}
+      maximal_global_attraction(maximal_local_attraction),
+      population_size(40),
+      neighbourhood_probability(
+          std::pow(1.0 - 1.0 / static_cast<double>(population_size), 3.0)) {}
 
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const pass::problem& problem) {
   const arma::uword dimension = problem.dimension();
-  const arma::uword particle_count = dimension * 10;
 
   assert(initial_velocity >= 0.0);
   assert(maximal_acceleration >= 0.0);
@@ -33,17 +35,17 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   pass::optimise_result result(dimension);
 
   // Particle data, stored column-wise.
-  arma::mat positions = problem.random_parameters(particle_count);
+  arma::mat positions = problem.random_parameters(population_size);
 
-  arma::mat velocities(dimension, particle_count, arma::fill::randu);
+  arma::mat velocities(dimension, population_size, arma::fill::randu);
   velocities *= 2 * initial_velocity;
   velocities.for_each([this](auto& elem) { elem -= initial_velocity; });
 
   arma::mat best_found_parameters = positions;
-  arma::rowvec best_found_values(particle_count);
+  arma::rowvec best_found_values(population_size);
 
   // Evaluate the initial positions.
-  for (arma::uword n = 0; n < particle_count; ++n) {
+  for (arma::uword n = 0; n < population_size; ++n) {
     const auto& parameter = positions.col(n);
     const double objective_value = best_found_values(n) =
         problem.evaluate(parameter);
@@ -69,23 +71,51 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   }
   ++result.iterations;
 
+  arma::umat topology(population_size, population_size);
+  bool randomize_topology = true;
+
   // Evaluate a single particle per loop iteration.
   while (result.duration < maximal_duration &&
          result.evaluations < maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {
-    const auto n = result.evaluations % particle_count;
+    const auto n = result.evaluations % population_size;
 
+    if (n == 0 && randomize_topology) {
+      topology = (arma::mat(population_size, population_size,
+                            arma::fill::randu) <= neighbourhood_probability);
+
+      // When searching for the best neighbour, we begin with the particles
+      // personal best value; We don't need to visit it twice.
+      topology.diag().fill(0);
+      randomize_topology = false;
+    }
+
+    // X_i^t
     const auto& position = positions.col(n);
+    // V_i^t
     const auto& velocity = velocities.col(n);
+    // p_i^t
     const auto& best_found_parameter = best_found_parameters.col(n);
     const double best_found_value = best_found_values(n);
+
+    // l_i^t
+    arma::vec local_best_parameter = best_found_parameter;
+    {
+      double local_best_value = best_found_value;
+      for (arma::uword i = 0; i < population_size; i++) {
+        if (topology(n, i) && best_found_values(i) < local_best_value) {
+          local_best_value = best_found_values(i);
+          local_best_parameter = best_found_parameters.col(i);
+        }
+      }
+    }
 
     const arma::vec weighted_local_attraction =
         random_uniform_in_range(0.0, maximal_local_attraction) *
         (best_found_parameter - position);
     const arma::vec weighted_global_attraction =
         random_uniform_in_range(0.0, maximal_global_attraction) *
-        (result.parameter - position);
+        (local_best_parameter - position);
     const arma::vec acceleration =
         (weighted_local_attraction + weighted_global_attraction) / 3.0;
     const arma::vec displaced_acceleration =
@@ -106,7 +136,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
     const double objective_value = problem.evaluate(position);
     ++result.evaluations;
-    if (n == particle_count - 1) {
+    if (n == population_size - 1) {
       ++result.iterations;
     }
     result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -115,6 +145,8 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     if (objective_value < best_found_value) {
       best_found_parameters.col(n) = position;
       best_found_values(n) = objective_value;
+    } else {
+      randomize_topology = true;
     }
     if (objective_value < result.objective_value) {
       result.parameter = position;
