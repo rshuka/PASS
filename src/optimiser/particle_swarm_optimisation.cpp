@@ -3,9 +3,6 @@
 // pass::random_number_generator(), pass::random_neighbour()
 #include "../../include/pass_bits/helper/random.hpp"
 
-// std::accumulate
-#include <algorithm>
-
 // std::pow
 #include <cmath>
 
@@ -24,20 +21,21 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
 
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const pass::problem& problem) {
-  const arma::uword dimension = problem.dimension();
-
   assert(initial_velocity >= 0.0);
   assert(maximal_acceleration >= 0.0);
   assert(maximal_local_attraction >= 0.0);
   assert(maximal_global_attraction >= 0.0);
 
   auto start_time = std::chrono::steady_clock::now();
-  pass::optimise_result result(dimension);
 
+  // Initialization of PSO
+  pass::optimise_result result(problem.dimension());
   // Particle data, stored column-wise.
   arma::mat positions = problem.random_parameters(population_size);
 
-  arma::mat velocities(dimension, population_size, arma::fill::randu);
+  arma::mat velocities(problem.dimension(), population_size, arma::fill::randu);
+
+  // Place the velocities within the boundaries
   velocities *= 2 * initial_velocity;
   velocities.for_each([this](auto& elem) { elem -= initial_velocity; });
 
@@ -45,12 +43,13 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   arma::rowvec best_found_values(population_size);
 
   // Evaluate the initial positions.
-  for (arma::uword n = 0; n < population_size; ++n) {
+  for (std::size_t n = 0; n < population_size; ++n) {
     const auto& parameter = positions.col(n);
-    const double objective_value = best_found_values(n) =
-        problem.evaluate(parameter);
+    const double objective_value = problem.evaluate(parameter);
+    best_found_values(n) = objective_value;
 
     ++result.evaluations;
+
     result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now() - start_time);
 
@@ -63,9 +62,8 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       }
     }
 
-    if (result.evaluations >= maximal_evaluations) {
-      return result;
-    } else if (result.duration >= maximal_duration) {
+    if (result.evaluations >= maximal_evaluations ||
+        result.duration >= maximal_duration) {
       return result;
     }
   }
@@ -78,6 +76,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   while (result.duration < maximal_duration &&
          result.evaluations < maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {
+    // n is the n-th Particle
     const auto n = result.evaluations % population_size;
 
     if (n == 0 && randomize_topology) {
@@ -89,7 +88,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       topology.diag().fill(0);
       randomize_topology = false;
     }
-
+    // TODO AB hier weitermachen---
     // X_i^t
     const auto& position = positions.col(n);
     // V_i^t
@@ -124,7 +123,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const double inertia = random_uniform_in_range(0, maximal_acceleration);
     velocities.col(n) = inertia * velocity + displaced_acceleration;
     positions.col(n) += velocity;
-    for (arma::uword k = 0; k < dimension; ++k) {
+    for (arma::uword k = 0; k < problem.dimension(); ++k) {
       if (position(k) < problem.lower_bounds(k)) {
         positions(k, n) = problem.lower_bounds(k);
         velocities(k, n) *= -0.5;
