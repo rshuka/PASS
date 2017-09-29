@@ -65,7 +65,7 @@ class optimiser {
   /**
    * The maximal elapsed time before the optimiser stops.
    *
-   * Initialised to 1 second.
+   * Initialised to 1 minute.
    */
   std::chrono::nanoseconds maximal_duration;
 

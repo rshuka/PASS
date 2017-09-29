@@ -3,9 +3,6 @@
 // NAN, INFINITY
 #include <cmath>
 
-// assert
-#include <cassert>
-
 pass::optimise_result::optimise_result(const arma::uword dimension) noexcept
     : parameter(
           arma::vec(dimension).fill(std::numeric_limits<double>::quiet_NaN())),
@@ -17,4 +14,4 @@ pass::optimise_result::optimise_result(const arma::uword dimension) noexcept
 pass::optimiser::optimiser() noexcept
     : acceptable_objective_value(-std::numeric_limits<double>::infinity()),
       maximal_evaluations(std::numeric_limits<arma::uword>::max()),
-      maximal_duration(std::chrono::seconds(1)) {}
+      maximal_duration(std::chrono::minutes(1)) {}

@@ -27,8 +27,8 @@ class problem {
   const arma::vec upper_bounds;
 
   /**
-   * Returns the element-wise maximum difference between `lower_bounds` and
-   * `upper_bounds`.
+   * Returns the element-wise maximum difference between `upper_bounds` and
+   * `lower_bounds`.
    */
   arma::vec bounds_range() const noexcept;
 
@@ -48,13 +48,13 @@ class problem {
    * Initialises this problem with custom lower and upper bounds. The problem
    * dimension is derived from the bounds dimensions, which have to be equal.
    */
-  problem(const arma::vec& lower_bounds, const arma::vec& upper_bounds);
+  problem(const arma::vec &lower_bounds, const arma::vec &upper_bounds);
 
   /**
    * Evaluates this problem at `parameter`, which must match the dimensions of
    * this problem.
    */
-  virtual double evaluate(const arma::vec& parameter) const = 0;
+  virtual double evaluate(const arma::vec &parameter) const = 0;
 
   /**
    * Draws `count` uniformly distributed random vectors from range

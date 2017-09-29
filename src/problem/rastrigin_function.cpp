@@ -20,6 +20,6 @@ double pass::rastrigin_function::evaluate(const arma::vec& parameter) const {
                          [](const double sum, const double element) {
                            return sum + std::pow(element, 2.0) -
                                   10.0 *
-                                      std::cos(2.0 * std::acos(-1.0) * element);
+                                      std::cos(2.0 * arma::datum::pi * element);
                          });
 }
