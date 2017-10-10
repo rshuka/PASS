@@ -37,7 +37,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   // Place the velocities within the boundaries
   velocities *= 2 * initial_velocity;
-  velocities.for_each([this](auto& elem) { elem -= initial_velocity; });
+  velocities.for_each([this](double& elem) { elem -= initial_velocity; });
 
   arma::mat best_found_parameters = positions;
   arma::rowvec best_found_values(population_size);
@@ -77,7 +77,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
          result.evaluations < maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {
     // n is the n-th Particle
-    const auto n = result.evaluations % population_size;
+    const arma::uword n = result.evaluations % population_size;
 
     if (n == 0 && randomize_topology) {
       topology = (arma::mat(population_size, population_size,
@@ -88,13 +88,12 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       topology.diag().fill(0);
       randomize_topology = false;
     }
-    // TODO AB hier weitermachen---
     // X_i^t
-    const auto& position = positions.col(n);
+    const arma::vec& position = positions.col(n);
     // V_i^t
-    const auto& velocity = velocities.col(n);
+    const arma::vec& velocity = velocities.col(n);
     // p_i^t
-    const auto& best_found_parameter = best_found_parameters.col(n);
+    const arma::vec& best_found_parameter = best_found_parameters.col(n);
     const double best_found_value = best_found_values(n);
 
     // l_i^t
@@ -123,6 +122,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const double inertia = random_uniform_in_range(0, maximal_acceleration);
     velocities.col(n) = inertia * velocity + displaced_acceleration;
     positions.col(n) += velocity;
+    // stay inside the bounds
     for (arma::uword k = 0; k < problem.dimension(); ++k) {
       if (position(k) < problem.lower_bounds(k)) {
         positions(k, n) = problem.lower_bounds(k);
