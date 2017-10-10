@@ -30,6 +30,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   // Initialization of PSO
   pass::optimise_result result(problem.dimension());
+
   // Particle data, stored column-wise.
   arma::mat positions = problem.random_parameters(population_size);
 
@@ -63,6 +64,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     }
 
     if (result.evaluations >= maximal_evaluations ||
+        result.iterations >= maximal_iterations ||
         result.duration >= maximal_duration) {
       return result;
     }
@@ -75,6 +77,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   // Evaluate a single particle per loop iteration.
   while (result.duration < maximal_duration &&
          result.evaluations < maximal_evaluations &&
+         result.iterations < maximal_iterations &&
          result.objective_value > acceptable_objective_value) {
     // n is the n-th Particle
     const arma::uword n = result.evaluations % population_size;

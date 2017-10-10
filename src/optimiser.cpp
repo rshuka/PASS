@@ -14,4 +14,5 @@ pass::optimise_result::optimise_result(const arma::uword dimension) noexcept
 pass::optimiser::optimiser() noexcept
     : acceptable_objective_value(-std::numeric_limits<double>::infinity()),
       maximal_evaluations(std::numeric_limits<arma::uword>::max()),
+      maximal_iterations(std::numeric_limits<arma::uword>::max()),
       maximal_duration(std::chrono::minutes(1)) {}

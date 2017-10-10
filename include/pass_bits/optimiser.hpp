@@ -63,6 +63,13 @@ class optimiser {
   arma::uword maximal_evaluations;
 
   /**
+   * The maximal number of iterations before the optimiser stops.
+   *
+   * Initialised to the maximum value representable with `arma::uword`.
+   */
+  arma::uword maximal_iterations;
+
+  /**
    * The maximal elapsed time before the optimiser stops.
    *
    * Initialised to 1 minute.

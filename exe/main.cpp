@@ -17,12 +17,13 @@ int main(int argc, char** argv) {
   pass::particle_swarm_optimisation pso;
   pso.maximal_duration = std::chrono::seconds(100);
   pso.acceptable_objective_value = 1e-5;
-  pso.maximal_evaluations = std::numeric_limits<std::size_t>::max();
+  pso.maximal_iterations = 10;
 
   auto result = pso.optimise(problem);
   std::cout << "PSO found a solution of " << result.objective_value << " at "
             << result.parameter.t() << " after " << result.evaluations
-            << " evaluations." << std::endl;
+            << " evaluations and"
+            << " iterations " << result.iterations << std::endl;
 
   return 0;
 }
