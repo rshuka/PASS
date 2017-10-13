@@ -11,11 +11,11 @@ namespace pass {
  * Genetic Hillclimbing. Kluwer Academic Publishers*. Its optimal parameter =
  * (0, ..., 0) and optimal function value = 0.
  *
- *      ⎛    ⎛            ⎞    ⎞      ⎛ N                  ⎞
- *      ⎜    ⎜-0.2 * ||p||⎟    ⎟      ⎜ ∑ cos(2 * π * p(i))⎟
- * -20 *⎜ exp⎜------------⎟ + 1⎟ - exp⎜i=1                 ⎟ + exp(1)
- *      ⎜    ⎜    √(N)    ⎟    ⎟      ⎜--------------------⎟
- *      ⎝    ⎝            ⎠    ⎠      ⎝         N          ⎠
+ *          ⎛        ⎛ N      ⎞⎞      ⎛ N               ⎞
+ *          ⎜        ⎜ ∑ p(i)²⎟⎟      ⎜ ∑ cos(2π * p(i))⎟
+ * -20 * exp⎜-0.2 * √⎜i=1     ⎟⎟ - exp⎜i=1              ⎟ + 20 + exp(1)
+ *          ⎜        ⎜--------⎟⎟      ⎜-----------------⎟
+ *          ⎝        ⎝   N    ⎠⎠      ⎝        N        ⎠
  */
 class ackley_function : public problem {
  public:
