@@ -9,7 +9,8 @@ pass::optimise_result::optimise_result(const arma::uword dimension) noexcept
       objective_value(std::numeric_limits<double>::infinity()),
       evaluations(0),
       iterations(0),
-      duration(std::chrono::nanoseconds(0)) {}
+      duration(std::chrono::nanoseconds(0)),
+      solved(false) {}
 
 pass::optimiser::optimiser() noexcept
     : acceptable_objective_value(-std::numeric_limits<double>::infinity()),

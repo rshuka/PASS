@@ -38,6 +38,11 @@ struct optimise_result {
    */
   std::chrono::nanoseconds duration;
 
+  /**
+   * Check if the problem was solved
+   */
+  bool solved;
+
   optimise_result(const arma::uword dimension) noexcept;
 };
 

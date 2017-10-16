@@ -59,6 +59,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       result.objective_value = objective_value;
 
       if (result.objective_value <= acceptable_objective_value) {
+        result.solved = true;
         return result;
       }
     }
@@ -154,6 +155,10 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       result.parameter = position;
       result.objective_value = objective_value;
     }
+  }
+
+  if (result.objective_value <= acceptable_objective_value) {
+    result.solved = true;
   }
 
   return result;

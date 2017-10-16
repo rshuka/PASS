@@ -12,18 +12,27 @@
 int main(int argc, char** argv) {
   arma::arma_rng::set_seed_random();
 
-  pass::ackley_function problem(6);
+  int dimension = 6;
+  pass::ackley_function problem(dimension);
 
   pass::particle_swarm_optimisation pso;
-  pso.maximal_duration = std::chrono::seconds(100);
+  pso.population_size = 40;
+  pso.maximal_duration = std::chrono::seconds(10);
   pso.acceptable_objective_value = 1e-5;
-  pso.maximal_iterations = 10;
+  pso.maximal_evaluations = 1000000;
+  int count = 0;
 
+  // for (int n = 0; n < 51; n++) {
   auto result = pso.optimise(problem);
   std::cout << "PSO found a solution of " << result.objective_value << " at "
             << result.parameter.t() << " after " << result.evaluations
-            << " evaluations and"
-            << " iterations " << result.iterations << std::endl;
+            << " evaluations." << std::endl;
+  std::cout << "solved? " << result.solved << std::endl;
+  if (result.objective_value <= 1e-5) {
+    count++;
+  }
+  // }
 
+  std::cout << "Count " << count << std::endl;
   return 0;
 }
