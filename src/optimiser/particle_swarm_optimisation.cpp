@@ -1,7 +1,7 @@
-#include "../../include/pass_bits/optimiser/particle_swarm_optimisation.hpp"
+#include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 
 // pass::random_number_generator(), pass::random_neighbour()
-#include "../../include/pass_bits/helper/random.hpp"
+#include "pass_bits/helper/random.hpp"
 
 // std::pow
 #include <cmath>

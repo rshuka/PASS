@@ -4,7 +4,7 @@
 
 #include <armadillo>
 
-#include "problem.hpp"
+#include "pass_bits/problem.hpp"
 
 namespace pass {
 

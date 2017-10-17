@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/problem/sum_of_different_powers.hpp"
+#include "pass_bits/problem/sum_of_different_powers.hpp"
 
 // std::accumulate
 #include <algorithm>

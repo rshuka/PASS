@@ -1,6 +1,15 @@
 #pragma once
 
-#include "../optimiser.hpp"
+// Armadillo
+#include <armadillo>
+
+// OpenMP
+#if defined(SUPPORT_OPENMP)
+#include <omp.h>
+#endif
+
+// PASS
+#include "pass_bits/optimiser.hpp"
 
 namespace pass {
 /**

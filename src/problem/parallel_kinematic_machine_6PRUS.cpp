@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/problem/parallel_kinematic_machine_6PRUS.hpp"
+#include "pass_bits/problem/parallel_kinematic_machine_6PRUS.hpp"
 
 // C++ standard library
 #include <algorithm>
@@ -8,7 +8,7 @@
 #include <string>
 #include <utility>
 
-#include "../../include/pass_bits/helper/geometry.hpp"
+#include "pass_bits/helper/geometry.hpp"
 
 // The following robot configuration is based on the work of our research
 // colleagues from the Institute of Mechatronic Systems, Leibniz Universität

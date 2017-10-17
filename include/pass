@@ -1,0 +1,39 @@
+#pragma once
+
+#define PASS_VERSION_MAJOR 0
+#define PASS_VERSION_MINOR 10
+#define PASS_VERSION_PATCH 0
+
+//
+// PASS
+//
+// IWYU pragma: begin_exports
+// Configuration
+#include <pass_bits/config.hpp>
+
+// Mathematical functions
+#include <pass_bits/helper/geometry.hpp>
+
+// Random number generator
+#include <pass_bits/helper/random.hpp>
+
+// Optimisation problems
+#include <pass_bits/problem.hpp>
+
+// Benchmark Optimisation problems
+#include <pass_bits/problem/ackley_function.hpp>
+#include <pass_bits/problem/rastrigin_function.hpp>
+#include <pass_bits/problem/rosenbrock_function.hpp>
+#include <pass_bits/problem/sphere_function.hpp>
+#include <pass_bits/problem/sum_of_different_powers.hpp>
+
+// Kinematically Rendundand Machine Optimisation Problems
+#include <pass_bits/problem/parallel_kinematic_machine_3PRPR.hpp>
+#include <pass_bits/problem/parallel_kinematic_machine_3PRRR.hpp>
+#include <pass_bits/problem/parallel_kinematic_machine_6PRUS.hpp>
+#include <pass_bits/problem/parallel_kinematic_machine_6PUPS.hpp>
+
+// Optimisation algorithms
+#include <pass_bits/optimiser.hpp>
+#include <pass_bits/optimiser/particle_swarm_optimisation.hpp>
+#include <pass_bits/optimiser/random_search.hpp>

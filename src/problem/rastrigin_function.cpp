@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/problem/rastrigin_function.hpp"
+#include "pass_bits/problem/rastrigin_function.hpp"
 
 // std::accumulate
 #include <algorithm>

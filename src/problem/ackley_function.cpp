@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/problem/ackley_function.hpp"
+#include "pass_bits/problem/ackley_function.hpp"
 
 // std::accumulate
 #include <algorithm>

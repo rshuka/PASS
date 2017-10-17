@@ -1,4 +1,4 @@
-#include "../include/pass_bits/problem.hpp"
+#include "pass_bits/problem.hpp"
 
 // NAN, INFINITY
 #include <cmath>
