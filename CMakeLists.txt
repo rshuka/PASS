@@ -48,7 +48,29 @@ message(STATUS "")
 message(STATUS "Finding dependencies.")
 
 # Requite minimum Version of Amardillo
-find_package(Armadillo REQUIRED 7.300.0)
+set(REQUIRED_ARMADILLO_VERSION "7.300.0")
+find_package(Armadillo QUIET)
+    file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
+if (NOT ARMADILLO_FOUND)
+  # Unlike `find_package(Armadillo ...)` suggests, Armadillo can be used if its runtime library is missing, as long as `ARMA_USE_WRAPPER` is undefined/outcommented inside Armadillo's configuration file. In this case, we can also directly link against BLAS/LAPACK libraries instead.
+  # However, we need to make sure that a missing runtime library was the only reason for `ARMADILLO_FOUND` to be unset.
+  # Currently, we only support OpenBLAS as a replacement for Armadillo's runtime library.
+  if (NOT ARMADILLO_INCLUDE_DIR)
+    message(FATAL_ERROR "Could NOT find Armadillo includes.")
+  elseif (ARMADILLO_VERSION_STRING VERSION_LESS REQUIRED_ARMADILLO_VERSION)
+    message(FATAL_ERROR "Found unsuitable Armadillo version ${ARMADILLO_VERSION_STRING}, but required is at least ${REQUIRED_ARMADILLO_VERSION} (found at ${ARMADILLO_INCLUDE_DIR}).")
+  else()
+    file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
+    if (ARMA_USE_WRAPPER AND NOT ARMADILLO_LIBRARY)
+      message(FATAL_ERROR "Armadillo's runtime library could not be found, undefine/outcomment `ARMA_USE_WRAPPER` inside Armadillo's configuration file, if you want to link directly againt OpenBLAS instead.")
+    endif()
+
+    message(STATUS "Found Armadillo: ${ARMADILLO_INCLUDE_DIR} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
+    find_package(OpenBLAS REQUIRED)
+  endif()
+else()
+  message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
+endif()
 
 # Support MPI
 if (SUPPORT_MPI)
