@@ -164,6 +164,9 @@ target_include_directories(pass PUBLIC
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
 target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
 
+target_include_directories(pass SYSTEM PUBLIC ${OPENBLAS_INCLUDE_DIR})
+target_link_libraries(pass PUBLIC ${OPENBLAS_LIBRARIES})
+
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
   target_link_libraries(pass PUBLIC ${MPI_C_LIBRARIES})
