@@ -48,29 +48,7 @@ message(STATUS "")
 message(STATUS "Finding dependencies.")
 
 # Requite minimum Version of Amardillo
-set(REQUIRED_ARMADILLO_VERSION "7.300.0")
-find_package(Armadillo QUIET)
-    file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
-if (NOT ARMADILLO_FOUND)
-  # Unlike `find_package(Armadillo ...)` suggests, Armadillo can be used if its runtime library is missing, as long as `ARMA_USE_WRAPPER` is undefined/outcommented inside Armadillo's configuration file. In this case, we can also directly link against BLAS/LAPACK libraries instead.
-  # However, we need to make sure that a missing runtime library was the only reason for `ARMADILLO_FOUND` to be unset.
-  # Currently, we only support OpenBLAS as a replacement for Armadillo's runtime library.
-  if (NOT ARMADILLO_INCLUDE_DIR)
-    message(FATAL_ERROR "Could NOT find Armadillo includes.")
-  elseif (ARMADILLO_VERSION_STRING VERSION_LESS REQUIRED_ARMADILLO_VERSION)
-    message(FATAL_ERROR "Found unsuitable Armadillo version ${ARMADILLO_VERSION_STRING}, but required is at least ${REQUIRED_ARMADILLO_VERSION} (found at ${ARMADILLO_INCLUDE_DIR}).")
-  else()
-    file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
-    if (ARMA_USE_WRAPPER AND NOT ARMADILLO_LIBRARY)
-      message(FATAL_ERROR "Armadillo's runtime library could not be found, undefine/outcomment `ARMA_USE_WRAPPER` inside Armadillo's configuration file, if you want to link directly againt OpenBLAS instead.")
-    endif()
-
-    message(STATUS "Found Armadillo: ${ARMADILLO_INCLUDE_DIR} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
-    find_package(OpenBLAS REQUIRED)
-  endif()
-else()
-  message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
-endif()
+find_package(Armadillo REQUIRED 7.800.2)
 
 # Support MPI
 if (SUPPORT_MPI)
@@ -105,7 +83,7 @@ if (SUPPORT_OPENMP)
     if (OPENMP_FOUND)
       message(STATUS "  - Adding OpenMP support (optimising for ${MAXIMAL_NUMBER_OF_THREADS} threads(s)).")
     message(STATUS "  - Use 'cmake ... -DMAXIMAL_NUMBER_OF_THREADS=...' to specify the maximal number of threads (>= 1) manually.")
-      message(STATUS "  - Alternatively, set `#define MAXIMAL_NUMBER_OF_THREADS ...` in your source code, prior to including Mantella the first time.")
+      message(STATUS "  - Alternatively, set `#define MAXIMAL_NUMBER_OF_THREADS ...` in your source code, prior to including PASS the first time.")
       set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
       set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     else()
@@ -160,7 +138,7 @@ add_library(pass SHARED
   src/optimiser/particle_swarm_optimisation.cpp
   src/optimiser/random_search.cpp
 )
-set_property(TARGET pass PROPERTY CXX_STANDARD 14)
+set_property(TARGET pass PROPERTY CXX_STANDARD 11)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)
 
 if (SUPPORT_SIMD)
