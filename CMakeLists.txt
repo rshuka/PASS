@@ -50,7 +50,7 @@ message(STATUS "Finding dependencies.")
 # Requite minimum Version of Amardillo
 set(REQUIRED_ARMADILLO_VERSION "7.300.0")
 find_package(Armadillo QUIET)
-  file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
+include_directories(${ARMADILLO_INCLUDE_DIR})
 message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
 
 # Support MPI
@@ -113,7 +113,6 @@ message(STATUS "Configuring library build.")
 
 configure_file(${PROJECT_SOURCE_DIR}/include/pass_bits/config.hpp.cmake ${PROJECT_SOURCE_DIR}/include/pass_bits/config.hpp)
 
-
 # All paths must start with "src/"
 
 add_library(pass SHARED
@@ -156,9 +155,11 @@ endif()
 message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
-target_include_directories(pass PUBLIC
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
+# Include PASS
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+#target_include_directories(pass PUBLIC
+#  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+#  $<INSTALL_INTERFACE:include>)
 
   target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
   if (ARMADILLO_LIBRARIES)
