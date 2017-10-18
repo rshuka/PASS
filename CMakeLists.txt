@@ -53,9 +53,6 @@ find_package(Armadillo QUIET)
 include_directories(${ARMADILLO_INCLUDE_DIR})
 message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
 
-find_package(OpenBLAS QUIET)
-include_directories(${OPENBLAS_INCLUDE_DIR})
-
 # Support MPI
 if (SUPPORT_MPI)
   message(STATUS "- Adding MPI support.")
@@ -166,9 +163,6 @@ target_include_directories(pass PUBLIC
 
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
 target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
-
-target_include_directories(pass SYSTEM PUBLIC ${OPENBLAS_INCLUDE_DIR})
-target_link_libraries(pass PUBLIC ${OPENBLAS_LIBRARIES})
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
