@@ -162,7 +162,7 @@ target_include_directories(pass PUBLIC
   $<INSTALL_INTERFACE:include>)
 
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
-target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
+target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES} openblas pass)
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
