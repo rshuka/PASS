@@ -47,8 +47,6 @@ endif()
 message(STATUS "")
 message(STATUS "Finding dependencies.")
 
-# Requite minimum Version of Amardillo
-find_package(Armadillo REQUIRED 7.800.2)
 
 # Support MPI
 if (SUPPORT_MPI)
@@ -161,10 +159,11 @@ target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
 target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
 
 if (SUPPORT_MPI)
-  target_include_directories(mantella SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
-  target_link_libraries(mantella PUBLIC ${MPI_C_LIBRARIES})
+  target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
+  target_link_libraries(pass PUBLIC ${MPI_C_LIBRARIES})
 endif()
-
+# Requite minimum Version of Amardillo
+find_package(Armadillo REQUIRED 7.800.2)
 # -------------
 # BUILD LIBRARY
 # -------------
