@@ -48,8 +48,7 @@ message(STATUS "")
 message(STATUS "Finding dependencies.")
 
 # Requite minimum Version of Amardillo
-set(REQUIRED_ARMADILLO_VERSION "7.300.0")
-find_package(Armadillo QUIET)
+find_package(Armadillo REQUIRED 7.300.0)
 
 # Support MPI
 if (SUPPORT_MPI)
