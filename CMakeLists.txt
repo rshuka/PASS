@@ -156,17 +156,13 @@ message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
 # Include PASS
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
-#target_include_directories(pass PUBLIC
-#  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-#  $<INSTALL_INTERFACE:include>)
 
-  target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
-  if (ARMADILLO_LIBRARIES)
-    target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
-  else()
-    target_link_libraries(pass PUBLIC ${OPENBLAS_LIBRARIES})
-  endif()
+target_include_directories(pass PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
+target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
