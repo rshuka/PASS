@@ -48,7 +48,7 @@ message(STATUS "")
 message(STATUS "Finding dependencies.")
 
 # Requite minimum Version of Amardillo
-set(REQUIRED_ARMADILLO_VERSION "7.300.0")
+set(REQUIRED_ARMADILLO_VERSION "8.200.0")
 find_package(Armadillo QUIET)
 include_directories(${ARMADILLO_INCLUDE_DIR})
 message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
@@ -162,7 +162,7 @@ target_include_directories(pass PUBLIC
   $<INSTALL_INTERFACE:include>)
 
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
-target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES} openblas pass)
+target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES} openblas)
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
