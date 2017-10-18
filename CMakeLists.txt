@@ -9,7 +9,7 @@ string(REGEX REPLACE ".*#define PASS_VERSION_PATCH ([0-9]+).*" "\\1" PASS_VERSIO
 set(PASS_VERSION "${PASS_VERSION_MAJOR}.${PASS_VERSION_MINOR}.${PASS_VERSION_PATCH}")
 
 # Project name
-project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX C)
+project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX)
 
 
 # Adding additional support
@@ -28,7 +28,7 @@ endif()
 if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 endif()
-# ------------------------------------------------------------ #
+
 
 
 message(STATUS "")
@@ -48,7 +48,10 @@ message(STATUS "")
 message(STATUS "Finding dependencies.")
 
 # Requite minimum Version of Amardillo
-find_package(Armadillo REQUIRED 7.300.0)
+set(REQUIRED_ARMADILLO_VERSION "7.300.0")
+find_package(Armadillo QUIET)
+  file(STRINGS "${ARMADILLO_INCLUDE_DIR}/armadillo_bits/config.hpp" ARMA_USE_WRAPPER REGEX "^[ ]*#define ARMA_USE_WRAPPER")
+message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
 
 # Support MPI
 if (SUPPORT_MPI)
@@ -138,7 +141,7 @@ add_library(pass SHARED
   src/optimiser/particle_swarm_optimisation.cpp
   src/optimiser/random_search.cpp
 )
-set_property(TARGET pass PROPERTY CXX_STANDARD 11)
+set_property(TARGET pass PROPERTY CXX_STANDARD 14)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)
 
 if (SUPPORT_SIMD)
@@ -157,8 +160,12 @@ target_include_directories(pass PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
-target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
+  target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
+  if (ARMADILLO_LIBRARIES)
+    target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
+  else()
+    target_link_libraries(pass PUBLIC ${OPENBLAS_LIBRARIES})
+  endif()
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
