@@ -36,3 +36,6 @@ lib/
 
 # MacOS specific
 .DS_Store
+
+#CMAKE files
+CMakeFiles/
