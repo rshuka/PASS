@@ -1,11 +1,8 @@
 # Parallel Adaptive Swarm Search (PASS)
 
-Version 0.10.0
-==============
-
 PASS is written in C++14 and uses [Armadillo](http://arma.sourceforge.net/) (developed by Conrad Sanderson et al., NICTA, Australia) for highly efficient linear algebra calculations.
 
-#Prerequirements
+# Prerequirements
 
 - GCC 4.8.1 or later
 - CMake 3.2 or later
@@ -40,7 +37,7 @@ sudo make install
 ```
 
 ## MacOS Installation
-The following commands are based on [Homebrew] (https://brew.sh), a package manager for OS X.
+The following commands are based on [Homebrew](https://brew.sh), a package manager for OS X.
 
 1. Install Cmake
 
@@ -70,7 +67,7 @@ make
 sudo make install
 ```
 
-5. Change default gcc compiler: open .bash_profiles and paste the following code (if you are using GCC 7.*)
+5. Change default gcc compiler: open *.bash_profiles* and paste the following code (if you are using GCC 7.*)
 ```
 # Modify system PATH for new GNU compiler install
 export PATH="/usr/local/bin:$PATH"
@@ -84,7 +81,7 @@ alias c++='c++-7'
 Implemented Algorithms
 -------
 - Standard Particle Swarm Optimisation 2011
-- Random Searcb
+- Random Search
 - Parallel Swarm Search (own)
 
 Implemented Problems
@@ -94,6 +91,7 @@ Implemented Problems
   - Rosenbrock Function
   - Sphere Function
   - Sum of Different Powers
+  - Rastrigin Function
 
 - Astro Problems
   - [GTOC1 C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
@@ -107,4 +105,4 @@ Distributed under [MIT license](http://opensource.org/licenses/MIT).
 
 Credits
 -------
-Big thanks goes to [Sebastian Niemann](https://github.com/SebastianNiemann) helping during the developement. 
+Big thanks goes to [Sebastian Niemann](https://github.com/SebastianNiemann) helping during the development.
