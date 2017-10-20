@@ -5,15 +5,15 @@ Version 0.10.0
 
 PASS is written in C++14 and uses [Armadillo](http://arma.sourceforge.net/) (developed by Conrad Sanderson et al., NICTA, Australia) for highly efficient linear algebra calculations.
 
-Installation
----------------
 #Prerequirements
 
 - GCC 4.8.1 or later
 - CMake 3.2 or later
 - Armadillo C++ 8.200.0 or later
 
-# Linux Installation
+# Installation
+
+## Linux Installation
 The following commands are based on Ubuntu, using apt-get. If you are using another Linux distributions, the names of each package might also differ.
 
 If you are using any recent Linux distribution, you should already be equipped with a C++11 feature complete compiler, like GCC 4.8.1+
@@ -39,7 +39,7 @@ make
 sudo make install
 ```
 
-# MacOS Installation
+## MacOS Installation
 The following commands are based on [Homebrew] (https://brew.sh), a package manager for OS X.
 
 1. Install Cmake
@@ -90,16 +90,16 @@ Implemented Algorithms
 Implemented Problems
 -------
 - Benchmark Problems
--- Ackley Function
--- Rosenbrock Function
--- Sphere Function
--- Sum of Different Powers
+  - Ackley Function
+  - Rosenbrock Function
+  - Sphere Function
+  - Sum of Different Powers
 
 - Astro Problems
--- [GTOC1 C++ implementation by the ESA] (http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
+  - [GTOC1 C++ implementation by the ESA] (http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
 
 - Parallel Kinematic Machine
--- Implements robot simulation models described in [Influence of kinematic redundancy on the singularity-free workspace of parallel kinematic machines.] (https://link.springer.com/article/10.1007/s11465-012-0321-8)
+  - Implements robot simulation models described in [Influence of kinematic redundancy on the singularity-free workspace of parallel kinematic machines.] (https://link.springer.com/article/10.1007/s11465-012-0321-8)
 
 License
 -------
