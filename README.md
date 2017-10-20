@@ -24,7 +24,7 @@ If you are using any recent Linux distribution, you should already be equipped w
 sudo apt-get install cmake
 ```
 
-2. Install Armadillo C++ with OpenBLAS support (visit [Armadillo’s download page] (http://arma.sourceforge.net/download.html) to find more information on how to use other implementations of BLAS and LAPACK):
+2. Install Armadillo C++ with OpenBLAS support (visit [Armadillo’s download page](http://arma.sourceforge.net/download.html) to find more information on how to use other implementations of BLAS and LAPACK):
 
 ```
 sudo apt-get install cmake
@@ -96,10 +96,10 @@ Implemented Problems
   - Sum of Different Powers
 
 - Astro Problems
-  - [GTOC1 C++ implementation by the ESA] (http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
+  - [GTOC1 C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
 
 - Parallel Kinematic Machine
-  - Implements robot simulation models described in [Influence of kinematic redundancy on the singularity-free workspace of parallel kinematic machines.] (https://link.springer.com/article/10.1007/s11465-012-0321-8)
+  - Implements robot simulation models described in [Influence of kinematic redundancy on the singularity-free workspace of parallel kinematic machines.](https://link.springer.com/article/10.1007/s11465-012-0321-8)
 
 License
 -------
@@ -107,4 +107,4 @@ Distributed under [MIT license](http://opensource.org/licenses/MIT).
 
 Credits
 -------
-Distributed under [MIT license](http://opensource.org/licenses/MIT).
+Big thanks goes to [Sebastian Niemann](https://github.com/SebastianNiemann) helping during the developement. 
