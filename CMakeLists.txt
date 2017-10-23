@@ -37,6 +37,7 @@ add_executable(pass
   src/problem/sum_of_different_powers.cpp
 
   src/optimiser.cpp
+  src/optimiser/hooke_jeeves_algorithm.cpp
   src/optimiser/particle_swarm_optimisation.cpp
   src/optimiser/random_search.cpp
 
