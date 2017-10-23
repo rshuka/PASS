@@ -7,7 +7,7 @@
 //
 // PASS
 //
-// IWYU pragma: begin_exports
+
 // Configuration
 #include <pass_bits/config.hpp>
 

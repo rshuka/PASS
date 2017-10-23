@@ -28,7 +28,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   auto start_time = std::chrono::steady_clock::now();
 
-  // Initialization of PSO
+  // Initialisation of PSO
   pass::optimise_result result(problem.dimension());
 
   // Particle data, stored column-wise.
