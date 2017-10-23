@@ -17,8 +17,16 @@ message(STATUS "Configuring library build.")
 add_executable(pass
   src/helper/geometry.cpp
   src/helper/random.cpp
+  src/helper/gtoc1/Astro_Functions.cpp
+  src/helper/gtoc1/astro_helpers.cpp
+  src/helper/gtoc1/constants.cpp
+  src/helper/gtoc1/Lambert.cpp
+  src/helper/gtoc1/PowSwingByInv.cpp
+  src/helper/gtoc1/vector3d_helpers.cpp
+  src/helper/gtoc1/ZeroFinder.cpp
   src/problem.cpp
   src/problem/ackley_function.cpp
+  src/problem/gtoc1.cpp
   src/problem/parallel_kinematic_machine_3PRPR.cpp
   src/problem/parallel_kinematic_machine_3PRRR.cpp
   src/problem/parallel_kinematic_machine_6PRUS.cpp
