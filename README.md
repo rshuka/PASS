@@ -82,6 +82,7 @@ Implemented Algorithms
 -------
 - Standard Particle Swarm Optimisation 2011
 - Random Search
+- Hooke Jeeves Algorithm
 - Parallel Swarm Search (own)
 
 Implemented Problems
