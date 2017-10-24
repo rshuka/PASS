@@ -55,6 +55,7 @@ message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version 
 
 # Support MPI
 if (SUPPORT_MPI)
+  message(STATUS "")
   message(STATUS "- Adding MPI support.")
   message(STATUS "  - Use 'cmake ... -DSUPPORT_MPI=Off' to exclude this.")
   find_package(MPI REQUIRED)
@@ -65,6 +66,7 @@ endif()
 
 # Support OPENMP
 if (SUPPORT_OPENMP)
+  message(STATUS "")
   message(STATUS "- Trying to add OpenMP support.")
   message(STATUS "  - Use 'cmake ... -DSUPPORT_OPENMP=Off' to exclude this.")
 
