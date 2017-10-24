@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/helper/random.hpp"
+#include "pass_bits/helper/random.hpp"
 
 // assert
 #include <cassert>

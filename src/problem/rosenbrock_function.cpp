@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/problem/rosenbrock_function.hpp"
+#include "pass_bits/problem/rosenbrock_function.hpp"
 
 // std::accumulate
 #include <algorithm>

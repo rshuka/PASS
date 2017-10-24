@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/helper/geometry.hpp"
+#include "pass_bits/helper/geometry.hpp"
 
 // C++ standard library
 #include <algorithm>

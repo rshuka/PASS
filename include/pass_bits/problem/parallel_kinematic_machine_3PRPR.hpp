@@ -1,6 +1,10 @@
 #pragma once
 
-#include "../problem.hpp"
+// Armadillo
+#include <armadillo>
+
+// PASS
+#include "pass_bits/problem.hpp"
 
 namespace pass {
 

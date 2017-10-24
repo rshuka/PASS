@@ -1,3 +1,5 @@
+#pragma once
+
 #include <armadillo>
 
 namespace pass {

@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/optimiser/random_search.hpp"
+#include "pass_bits/optimiser/random_search.hpp"
 
 #include <cassert>
 

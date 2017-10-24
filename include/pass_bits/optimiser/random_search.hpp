@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../optimiser.hpp"
+// PASS
+#include "pass_bits/optimiser.hpp"
 
 namespace pass {
 class random_search : public optimiser {

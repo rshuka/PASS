@@ -1,3 +1,4 @@
+#pragma once
 // std::mt19937_64
 #include <random>
 

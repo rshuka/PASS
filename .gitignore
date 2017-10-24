@@ -33,6 +33,7 @@
 bin/
 build/
 lib/
+CMakeFiles/
 
 # MacOS specific
 .DS_Store

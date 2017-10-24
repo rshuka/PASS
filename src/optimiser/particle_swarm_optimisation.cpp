@@ -1,7 +1,7 @@
-#include "../../include/pass_bits/optimiser/particle_swarm_optimisation.hpp"
+#include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 
 // pass::random_number_generator(), pass::random_neighbour()
-#include "../../include/pass_bits/helper/random.hpp"
+#include "pass_bits/helper/random.hpp"
 
 // std::pow
 #include <cmath>
@@ -28,7 +28,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   auto start_time = std::chrono::steady_clock::now();
 
-  // Initialization of PSO
+  // Initialisation of PSO
   pass::optimise_result result(problem.dimension());
 
   // Particle data, stored column-wise.
