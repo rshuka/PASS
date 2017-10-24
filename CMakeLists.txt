@@ -148,7 +148,7 @@ add_library(pass SHARED
   src/optimiser/hooke_jeeves_algorithm.cpp
   src/optimiser/particle_swarm_optimisation.cpp
   src/optimiser/random_search.cpp
-  src/optimiser/parallel_swarm_search.cpp
+  src/optimiser/parallel_swarm_search/parallel_swarm_search.cpp
 )
 set_property(TARGET pass PROPERTY CXX_STANDARD 14)
 set_property(TARGET pass PROPERTY CXX_STANDARD_REQUIRED ON)

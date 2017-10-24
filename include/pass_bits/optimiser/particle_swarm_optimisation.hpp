@@ -19,14 +19,6 @@ namespace pass {
 class particle_swarm_optimisation : public optimiser {
  public:
   /**
-   * The velocity of all particles is initialized with a uniformly distributed
-   * random value from the interval [-initial_velocity, initial_velocity].
-   *
-   * Is initialized to `0.5`.
-   */
-  double initial_velocity;
-
-  /**
    * Controls the inertia of the particles:
    *
    *     new_velocity = old_velocity * maximal_acceleration + attraction_center

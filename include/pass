@@ -37,7 +37,7 @@
 #include <pass_bits/optimiser.hpp>
 #include <pass_bits/optimiser/particle_swarm_optimisation.hpp>
 #include <pass_bits/optimiser/random_search.hpp>
-#include <pass_bits/optimiser/parallel_swarm_search.hpp>
+#include <pass_bits/optimiser/parallel_swarm_search/parallel_swarm_search.hpp>
 #include <pass_bits/optimiser/hooke_jeeves_algorithm.hpp>
 
 //GTOC

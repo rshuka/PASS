@@ -11,7 +11,6 @@
 
 pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
     : optimiser(),
-      initial_velocity(0.5),
       maximal_acceleration(1.0 / (2.0 * std::log(2.0))),
       maximal_local_attraction(0.5 + std::log(2.0)),
       maximal_global_attraction(maximal_local_attraction),
@@ -21,10 +20,10 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
 
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const pass::problem& problem) {
-  assert(initial_velocity >= 0.0);
   assert(maximal_acceleration >= 0.0);
   assert(maximal_local_attraction >= 0.0);
   assert(maximal_global_attraction >= 0.0);
+  assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0);
 
   auto start_time = std::chrono::steady_clock::now();
 
@@ -37,8 +36,9 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   arma::mat velocities(problem.dimension(), population_size, arma::fill::randu);
 
   // Place the velocities within the boundaries
-  velocities *= 2 * initial_velocity;
-  velocities.for_each([this](double& elem) { elem -= initial_velocity; });
+  velocities.each_col() %= problem.bounds_range();
+  velocities.each_col() += problem.lower_bounds;
+  velocities -= positions;
 
   arma::mat best_found_parameters = positions;
   arma::rowvec best_found_values(population_size);

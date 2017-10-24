@@ -1,4 +1,4 @@
-#include "pass_bits/optimiser/parallel_swarm_search.hpp"
+#include "pass_bits/optimiser/parallel_swarm_search/parallel_swarm_search.hpp"
 
 // pass::random_number_generator(), pass::random_neighbour()
 #include "pass_bits/helper/random.hpp"
@@ -56,19 +56,21 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
       if (result.objective_value <= acceptable_objective_value) {
         result.solved = true;
-        return result;
+        break;
       }
     }
 
     if (result.evaluations >= maximal_evaluations ||
         result.iterations >= maximal_iterations ||
         result.duration >= maximal_duration) {
-      return result;
+      break;
     }
   }
   ++result.iterations;
 
+  // TODO: hier ändern
   while (true) {
+    // MPI Call MPI_Allreduce
     for (std::size_t n = 0; n < population_size; ++n) {
       // X_i^t
       const arma::vec& position = positions.col(n);
