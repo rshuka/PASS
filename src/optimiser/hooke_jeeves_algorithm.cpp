@@ -1,4 +1,4 @@
-#include "../../include/pass_bits/optimiser/hooke_jeeves_algorithm.hpp"
+#include "pass_bits/optimiser/hooke_jeeves_algorithm.hpp"
 
 #include <cassert>
 

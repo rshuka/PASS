@@ -8,7 +8,7 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "../../../include/pass_bits/helper/gtoc1/PowSwingByInv.h"
+#include "pass_bits/helper/gtoc1/PowSwingByInv.hpp"
 
 #include <cmath>
 

@@ -38,3 +38,14 @@
 #include <pass_bits/optimiser/particle_swarm_optimisation.hpp>
 #include <pass_bits/optimiser/random_search.hpp>
 #include <pass_bits/optimiser/parallel_swarm_search.hpp>
+#include <pass_bits/optimiser/hooke_jeeves_algorithm.hpp>
+
+//GTOC
+#include <pass_bits/problem/gtoc1.hpp>
+#include <pass_bits/helper/gtoc1/Astro_Functions.hpp>
+#include <pass_bits/helper/gtoc1/astro_helpers.hpp>
+#include <pass_bits/helper/gtoc1/constants.hpp>
+#include <pass_bits/helper/gtoc1/Lambert.hpp>
+#include <pass_bits/helper/gtoc1/PowSwingByInv.hpp>
+#include <pass_bits/helper/gtoc1/vector3d_helpers.hpp>
+#include <pass_bits/helper/gtoc1/ZeroFinder.hpp>

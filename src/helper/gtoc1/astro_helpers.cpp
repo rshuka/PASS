@@ -1,10 +1,10 @@
-#include "../../../include/pass_bits/helper/gtoc1/astro_helpers.hpp"
+#include "pass_bits/helper/gtoc1/astro_helpers.hpp"
 
 #include <cmath>
 #include <stdexcept>
 
-#include "../../../include/pass_bits/helper/gtoc1/Astro_Functions.h"
-#include "../../../include/pass_bits/helper/gtoc1/vector3d_helpers.hpp"
+#include "pass_bits/helper/gtoc1/Astro_Functions.hpp"
+#include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
 
 pass::lambert_solution pass::lambert(std::array<double, 3> r1,
                                      std::array<double, 3> r2, double t,

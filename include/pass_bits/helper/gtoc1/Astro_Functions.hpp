@@ -1,3 +1,4 @@
+#pragma once
 // ------------------------------------------------------------------------ //
 // This source file is part of the 'ESA Advanced Concepts Team's            //
 // Space Mechanics Toolbox' software.                                       //
@@ -8,14 +9,11 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#ifndef ASTRO_FUNCTIONS_H
-#define ASTRO_FUNCTIONS_H
-
 #include <float.h>
 #include <math.h>
 #include <cctype>
 #include <vector>
-#include "ZeroFinder.h"
+#include "ZeroFinder.hpp"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -41,5 +39,3 @@ double tofabn(const double &, const double &, const double &);
 void vers(const double *, double *);
 
 double x2tof(const double &, const double &, const double &, const int);
-
-#endif

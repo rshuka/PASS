@@ -1,10 +1,10 @@
-#include "../../../include/pass_bits/helper/gtoc1/constants.hpp"
+#include "pass_bits/helper/gtoc1/constants.hpp"
 
 #include <cmath>
 #include <iterator>
 #include <numeric>
 
-#include "../../../include/pass_bits/helper/gtoc1/astro_helpers.hpp"
+#include "pass_bits/helper/gtoc1/astro_helpers.hpp"
 
 using namespace pass;
 

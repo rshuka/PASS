@@ -1,10 +1,10 @@
-#include "../../include/pass_bits/problem/gtoc1.hpp"
+#include "pass_bits/problem/gtoc1.hpp"
 
 // assert
 #include <cassert>
 
-#include "../../include/pass_bits/helper/gtoc1/astro_helpers.hpp"
-#include "../../include/pass_bits/helper/gtoc1/vector3d_helpers.hpp"
+#include "pass_bits/helper/gtoc1/astro_helpers.hpp"
+#include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
 
 pass::gtoc1::gtoc1()
     : sequence({&celestial_body::EARTH, &celestial_body::VENUS,
@@ -12,7 +12,7 @@ pass::gtoc1::gtoc1()
                 &celestial_body::EARTH, &celestial_body::JUPITER,
                 &celestial_body::SATURN}),
       rev_flag({0, 0, 0, 0, 0, 0, 1, 0}),
-      asteroid(
+      destination(
           {{2.5897261, 0.2734625, 6.40734, 128.34711, 264.78691, 320.479555},
            53600.0,
            0.0}),
@@ -47,7 +47,7 @@ double pass::gtoc1::evaluate(const arma::vec& parameter) const {
       v[i] = result.second;
     }
     totalTime += parameter[7];
-    auto result = asteroid.ephemeris(totalTime + 2451544.5);
+    auto result = destination.ephemeris(totalTime + 2451544.5);
     r[7] = result.first;
     v[7] = result.second;
   }

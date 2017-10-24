@@ -1,3 +1,4 @@
+#pragma once
 // ------------------------------------------------------------------------ //
 // This source file is part of the 'ESA Advanced Concepts Team's            //
 // Space Mechanics Toolbox' software.                                       //
@@ -7,9 +8,6 @@
 //                                                                          //
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
-
-#ifndef ZEROFINDER_H
-#define ZEROFINDER_H
 
 /// Namespace
 namespace ZeroFinder {
@@ -52,4 +50,3 @@ class FZero {
   void SetBounds(double a, double b);
 };
 }  // namespace ZeroFinder
-#endif

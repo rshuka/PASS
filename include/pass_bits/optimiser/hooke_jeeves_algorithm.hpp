@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../optimiser.hpp"
+#include "pass_bits/optimiser.hpp"
 
 namespace pass {
 class hooke_jeeves_algorithm : public optimiser {

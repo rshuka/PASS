@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../helper/gtoc1/constants.hpp"
-#include "../problem.hpp"
+#include "pass_bits/helper/gtoc1/constants.hpp"
+#include "pass_bits/problem.hpp"
 
 namespace pass {
 
@@ -29,7 +29,7 @@ class gtoc1 : public problem {
    * The destination of this gravity assist; the final element in the flyby
    * sequence.
    */
-  asteroid asteroid;
+  asteroid destination;
 
   /**
    * vector of flags for clockwise legs
