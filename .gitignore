@@ -37,3 +37,19 @@ CMakeFiles/
 
 # MacOS specific
 .DS_Store
+
+# Automatically generated from `include/pass_bits/config.hpp.cmake`
+include/pass_bits/config.hpp
+
+# IDEs
+## Qt Designer
+*.autosave
+*.user*
+*.cbp
+
+## Netbeans
+nbproject/
+
+## CLion
+*.iml
+.idea/
