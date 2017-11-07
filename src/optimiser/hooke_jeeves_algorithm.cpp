@@ -24,9 +24,10 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     bool is_improving = false;
 
     for (std::size_t n = 0; n < problem.dimension(); ++n) {
-      for (double step : (const double[]){stepsize, -2 * stepsize}) {
+      const std::array<double, 2> directions{stepsize, -2 * stepsize};
+      for (double step : directions) {
         arma::vec parameter = result.parameter;
-        parameter(n) += stepsize;
+        parameter(n) += step;
         if (parameter(n) < problem.lower_bounds(n)) {
           parameter(n) = problem.lower_bounds(n);
         } else if (parameter(n) > problem.upper_bounds(n)) {

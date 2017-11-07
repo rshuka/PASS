@@ -32,7 +32,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   // Initialisation of PSO
   pass::optimise_result result(problem.dimension());
-  pass::particle* global_best;
+  pass::particle* global_best = nullptr;
 
   // Instantiate `population_size` particles.
   std::vector<particle> particles;

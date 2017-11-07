@@ -14,7 +14,8 @@
 // colleagues from the Institute of Mechatronic Systems, Leibniz Universität
 // Hannover, Germany.
 pass::parallel_kinematic_machine_3PRPR::parallel_kinematic_machine_3PRPR()
-    : redundant_joints_position(
+    : problem({-0.5, -0.2, -0.2}, {0.5, 0.8, 0.8}),
+      redundant_joints_position(
           {{{0.6, 0.0, 1.2}, {1.039230484541327, 0.0, 0.0}}}),
       redundant_joints_angles({{0.0, -1.0, -1.0}, {1.0, 0.0, 0.0}}),
       middle_joints_minimal_length({0.1, 0.1, 0.1}),
@@ -22,8 +23,7 @@ pass::parallel_kinematic_machine_3PRPR::parallel_kinematic_machine_3PRPR()
       end_effector_joints_relative_position(
           {{-0.000066580445834, -0.092751709777083, 0.092818290222917},
            {0.106954081945581, -0.053477040972790, -0.053477040972790}}),
-      end_effector_trajectory({{0.3, 1.0, 0.0}}),
-      problem({-0.5, -0.2, -0.2}, {0.5, 0.8, 0.8}) {}
+      end_effector_trajectory({{0.3, 1.0, 0.0}}) {}
 
 double pass::parallel_kinematic_machine_3PRPR::evaluate(
     const arma::vec& redundant_joints_actuation) const {

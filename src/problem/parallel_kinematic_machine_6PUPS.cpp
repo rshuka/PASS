@@ -14,7 +14,9 @@
 // colleagues from the Institute of Mechatronic Systems, Leibniz Universität
 // Hannover, Germany.
 pass::parallel_kinematic_machine_6PUPS::parallel_kinematic_machine_6PUPS()
-    : redundant_joints_position(
+    : problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
+              {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}),
+      redundant_joints_position(
           {{-0.304055915910215, 0.304055915910215, 0.415348105304299,
             0.111292189394084, -0.111292189394084, -0.415348105304299},
            {0.304055915910215, 0.304055915910215, 0.111292189394084,
@@ -31,9 +33,7 @@ pass::parallel_kinematic_machine_6PUPS::parallel_kinematic_machine_6PUPS()
            {0.086933324366016, 0.086933324366016, -0.023293714059227,
             -0.063639610306789, -0.063639610306789, -0.023293714059227},
            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}),
-      end_effector_trajectory({{0, 0, 0.6, 0, 0, 0}}),
-      problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
-              {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}) {}
+      end_effector_trajectory({{0, 0, 0.6, 0, 0, 0}}) {}
 
 double pass::parallel_kinematic_machine_6PUPS::evaluate(
     const arma::vec& redundant_joints_actuation) const {

@@ -62,7 +62,7 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
     double error = 1;
 
     // Newton iterations
-    double x_new, y_new;
+    double x_new = 0.0, y_new;
     while ((error > tolerance) && (y1 != y2)) {
       x_new = (x1 * y2 - y1 * x2) / (y2 - y1);
       y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) - logf(t);

@@ -64,10 +64,8 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
   // If the initial estimates do not bracket a root, set the err flag and //
   // return.  If an initial estimate is a root, then return the root.     //
 
-  double err = 0;
   if (fb >= 0.0) {
     if (fb > 0.0) {
-      err = -1;
       return 0.0;
     } else {
       return (fa == 0.0) ? a : c;
@@ -224,7 +222,6 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
     b = 0.5 * (a + c);
   }
 
-  err = -2;
   return b;
 }
 
@@ -240,10 +237,8 @@ double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
   // If the initial estimates do not bracket a root, set the err flag and //
   // return.  If an initial estimate is a root, then return the root.     //
 
-  double err = 0;
   if (fb >= 0.0) {
     if (fb > 0.0) {
-      err = -1;
       return 0.0;
     } else {
       return (fa == 0.0) ? a : c;
@@ -401,6 +396,5 @@ double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
     fb < 0 ? (a = b, fa = fb) : (c = b, fc = fb);
     b = 0.5 * (a + c);
   }
-  err = -2;
   return b;
 }

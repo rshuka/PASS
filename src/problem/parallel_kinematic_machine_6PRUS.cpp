@@ -15,7 +15,9 @@
 // Hannover, Germany. However, we changed the coordinates of the 3rd end
 // effector joint to make the configuration symmetric.
 pass::parallel_kinematic_machine_6PRUS::parallel_kinematic_machine_6PRUS()
-    : redundant_joints_position(
+    : problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
+              {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}),
+      redundant_joints_position(
           {{-0.050659008749464, 0.050659008749464, 0.337494923062311,
             0.286835914312847, -0.286835914312847, -0.337494923062311},
            {0.360457577021932, 0.360457577021932, -0.136356800003392,
@@ -38,9 +40,7 @@ pass::parallel_kinematic_machine_6PRUS::parallel_kinematic_machine_6PRUS()
            {0.067684421383375, 0.067684421383375, -0.010159636370085,
             -0.057524785013291, -0.057524785013291, -0.010159636370085},
            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}),
-      end_effector_trajectory({{0, 0, 0.5, 0, 0, 0}}),
-      problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
-              {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}) {}
+      end_effector_trajectory({{0, 0, 0.5, 0, 0, 0}}) {}
 
 double pass::parallel_kinematic_machine_6PRUS::evaluate(
     const arma::vec& redundant_joints_actuation) const {

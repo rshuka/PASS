@@ -7,7 +7,9 @@
 #include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
 
 pass::gtoc1::gtoc1()
-    : sequence({&celestial_body::EARTH, &celestial_body::VENUS,
+    : problem({3000, 14, 14, 14, 14, 100, 366, 300},
+              {10000, 2000, 2000, 2000, 2000, 9000, 9000, 9000}),
+      sequence({&celestial_body::EARTH, &celestial_body::VENUS,
                 &celestial_body::EARTH, &celestial_body::VENUS,
                 &celestial_body::EARTH, &celestial_body::JUPITER,
                 &celestial_body::SATURN}),
@@ -18,9 +20,7 @@ pass::gtoc1::gtoc1()
            0.0}),
       Isp(2500.0),
       mass(1500.0),
-      DVlaunch(2.5),
-      problem({3000, 14, 14, 14, 14, 100, 366, 300},
-              {10000, 2000, 2000, 2000, 2000, 9000, 9000, 9000}) {}
+      DVlaunch(2.5) {}
 
 double pass::gtoc1::evaluate(const arma::vec& parameter) const {
   assert(parameter.n_elem == dimension() &&
@@ -55,8 +55,6 @@ double pass::gtoc1::evaluate(const arma::vec& parameter) const {
   std::array<double, 3> current_section_departure_velocity;
   std::array<double, 3> current_section_arrival_velocity;
   for (size_t i = 0; i <= n - 2; i++) {
-    std::array<double, 3> last_section_departure_velocity =
-        current_section_departure_velocity;
     std::array<double, 3> last_section_arrival_velocity =
         current_section_arrival_velocity;
 
