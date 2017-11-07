@@ -1,5 +1,6 @@
 #include "pass_bits/optimiser/hooke_jeeves_algorithm.hpp"
 
+#include <array>
 #include <cassert>
 
 pass::hooke_jeeves_algorithm::hooke_jeeves_algorithm() noexcept
@@ -24,7 +25,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     bool is_improving = false;
 
     for (std::size_t n = 0; n < problem.dimension(); ++n) {
-      const std::array<double, 2> directions{stepsize, -2 * stepsize};
+      const std::array<double, 2> directions{{stepsize, -2 * stepsize}};
       for (double step : directions) {
         arma::vec parameter = result.parameter;
         parameter(n) += step;
