@@ -26,15 +26,15 @@ class gtoc1 : public problem {
   std::array<const celestial_body*, 7> sequence;
 
   /**
+   * vector of flags for clockwise legs
+   */
+  std::array<bool, 8> rev_flag;
+
+  /**
    * The destination of this gravity assist; the final element in the flyby
    * sequence.
    */
   asteroid destination;
-
-  /**
-   * vector of flags for clockwise legs
-   */
-  std::array<bool, 8> rev_flag;
 
   /**
    * Specific impulse of the spacecraft. Initialized to 2500.

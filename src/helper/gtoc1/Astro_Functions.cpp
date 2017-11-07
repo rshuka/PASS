@@ -121,9 +121,9 @@ void vett(const double *vet1, const double *vet2, double *prod) {
   prod[2] = (vet1[0] * vet2[1] - vet1[1] * vet2[0]);
 }
 
-double asinh(double x) { return log(x + sqrt(x * x + 1)); };
+double asinh(double x) { return log(x + sqrt(x * x + 1)); }
 
-double acosh(double x) { return log(x + sqrt(x * x - 1)); };
+double acosh(double x) { return log(x + sqrt(x * x - 1)); }
 
 double x2tof(const double &x, const double &s, const double &c, const int lw) {
   double am, a, alfa, beta;

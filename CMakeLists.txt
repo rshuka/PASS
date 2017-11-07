@@ -175,6 +175,10 @@ endif()
 message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
+target_compile_options(pass PRIVATE "-Wall")
+target_compile_options(pass PRIVATE "-Wextra")
+target_compile_options(pass PRIVATE "-Wpedantic")
+
 # Include PASS
 
 target_include_directories(pass PUBLIC

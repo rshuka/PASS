@@ -28,6 +28,11 @@ namespace pass {
 class parallel_kinematic_machine_6PUPS : public problem {
  public:
   /**
+   * Initialises this object according to table 5 in the paper.
+   */
+  parallel_kinematic_machine_6PUPS();
+
+  /**
    * Stores the x/y/z coordinates for each base joint. (`(0)x_G_i`, `(0)y_G_i`,
    * `(0)z_G_i`)
    */
@@ -67,11 +72,6 @@ class parallel_kinematic_machine_6PUPS : public problem {
    * Is initialised to (0, 0, 0.6, 0, 0, 0).
    */
   std::vector<arma::vec::fixed<6>> end_effector_trajectory;
-
-  /**
-   * Initialises this object according to table 5 in the paper.
-   */
-  parallel_kinematic_machine_6PUPS();
 
   virtual double evaluate(const arma::vec& parameter) const override;
 };
