@@ -78,12 +78,21 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       }
     }
 
-    if (++result.evaluations == population_size) {
-      ++result.iterations;
-    }
-
     result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now() - start_time);
+
+    if (++result.evaluations == population_size) {
+      ++result.iterations;
+
+      const double averagePerformance =
+          std::accumulate(particles.begin(), particles.end(), 0.0,
+                          [](const double sum, const pass::particle& particle) {
+                            return sum + particle.best_value;
+                          });
+      if (result.objective_value >= stagnationThreshold * averagePerformance) {
+        break;
+      }
+    }
   }
 
   result.solved = result.objective_value <= acceptable_objective_value;

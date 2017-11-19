@@ -44,6 +44,18 @@ class parallel_swarm_search : public optimiser {
   double maximal_global_attraction;
 
   /**
+   * Used by the [agile restart mechanism](TODO: citation). The optimization is
+   * aborted (so it can be restarted by the caller) when the globally best
+   * found value better than the swarm average of historically best found times
+   * `stagnationThreshold`.
+   *
+   * Is initialized to `0.9`. Should be set to a value between `0.9` for low-
+   * dimensional problems and `0.7` for high-dimensional problems according to
+   * the paper.
+   */
+  double stagnationThreshold;
+
+  /**
    * The number of particles used during optimisation.
    *
    * Is initialized to `40`.
