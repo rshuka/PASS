@@ -8,7 +8,8 @@ pass::hooke_jeeves_algorithm::hooke_jeeves_algorithm() noexcept
 
 pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     const pass::problem& problem) {
-  assert(stepsize_decrease > 1.0 && "");
+  assert(initial_stepsize > 0.0 && "initial_stepsize must not be 0");
+  assert(stepsize_decrease > 1.0 && "stepsize_decrease must be greater than 1");
 
   pass::optimise_result result(problem.dimension());
   auto start_time = std::chrono::steady_clock::now();
@@ -22,10 +23,12 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
   while (result.duration <= maximal_duration &&
          result.evaluations <= maximal_evaluations &&
          result.objective_value > acceptable_objective_value) {
-    bool is_improving = false;
+    arma::vec best_neighbour = result.parameter;
+    double neighbour_objective_value = result.objective_value;
+
+    const std::array<double, 2> directions{{stepsize, -stepsize}};
 
     for (std::size_t n = 0; n < problem.dimension(); ++n) {
-      const std::array<double, 2> directions{{stepsize, -2 * stepsize}};
       for (double step : directions) {
         arma::vec parameter = result.parameter;
         parameter(n) += step;
@@ -40,31 +43,34 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
         result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
             std::chrono::steady_clock::now() - start_time);
 
-        if (objective_value < result.objective_value) {
-          is_improving = true;
-
-          result.parameter = parameter;
-          result.objective_value = objective_value;
-
+        if (objective_value < neighbour_objective_value) {
           if (result.objective_value <= this->acceptable_objective_value) {
+            result.parameter = parameter;
+            result.objective_value = objective_value;
             result.solved = true;
             return result;
           }
+
+          best_neighbour = parameter;
+          neighbour_objective_value = objective_value;
         }
 
-        if (result.evaluations >= this->maximal_evaluations) {
-          result.solved = result.objective_value <= acceptable_objective_value;
-          return result;
-        } else if (result.duration >= this->maximal_duration) {
-          result.solved = result.objective_value <= acceptable_objective_value;
+        if (result.evaluations >= this->maximal_evaluations ||
+            result.duration >= this->maximal_duration) {
+          result.parameter = best_neighbour;
+          result.objective_value = neighbour_objective_value;
           return result;
         }
       }
     }
     ++result.iterations;
 
-    if (!is_improving) {
+    if (result.objective_value == neighbour_objective_value) {
+      // not improving
       stepsize /= stepsize_decrease;
+    } else {
+      result.parameter = best_neighbour;
+      result.objective_value = neighbour_objective_value;
     }
   }
 
