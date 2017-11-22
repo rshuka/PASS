@@ -4,7 +4,7 @@
 #include <cassert>
 
 pass::hooke_jeeves_algorithm::hooke_jeeves_algorithm() noexcept
-    : initial_stepsize(1), stepsize_decrease(2) {}
+    : initial_stepsize(0), stepsize_decrease(2) {}
 
 pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     const pass::problem& problem) {
