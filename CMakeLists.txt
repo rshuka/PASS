@@ -131,6 +131,7 @@ add_library(pass SHARED
   # Helper
   src/helper/geometry.cpp
   src/helper/random.cpp
+  src/helper/stopwatch.cpp
   src/helper/gtoc1/Astro_Functions.cpp
   src/helper/gtoc1/astro_helpers.cpp
   src/helper/gtoc1/constants.cpp
