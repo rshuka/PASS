@@ -55,7 +55,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     }
 
     ++result.iterations;
-    result.duration stopwatch.get_elapsed();
+    result.duration = stopwatch.get_elapsed();
   }
 
   return result;
