@@ -1,14 +1,15 @@
 #include "pass_bits/optimiser/random_search.hpp"
+#include "pass_bits/helper/stopwatch.hpp"
 
 #include <cassert>
 
 pass::optimise_result pass::random_search::optimise(
     const pass::problem& problem) {
-  pass::optimise_result result(problem.dimension());
-  auto start_time = std::chrono::steady_clock::now();
+  pass::optimise_result result(problem.dimension(), acceptable_objective_value);
+  pass::stopwatch stopwatch;
 
   do {
-    arma::vec parameter = problem.random_parameters(1).col(0);
+    arma::vec parameter = problem.random_parameters(1);
     const double objective_value = problem.evaluate(parameter);
 
     if (objective_value <= result.objective_value) {
@@ -16,14 +17,11 @@ pass::optimise_result pass::random_search::optimise(
       result.objective_value = objective_value;
     }
 
-    result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-        std::chrono::steady_clock::now() - start_time);
-    ++result.evaluations;
     ++result.iterations;
+    result.duration = stopwatch.get_elapsed();
   }  // Termintation criteria
-  while (result.duration <= maximal_duration &&
-         result.evaluations <= maximal_evaluations &&
-         result.objective_value > acceptable_objective_value);
+  while (result.duration < maximal_duration &&
+         result.iterations < maximal_iterations && !result.solved());
 
   return result;
 }

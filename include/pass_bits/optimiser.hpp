@@ -24,9 +24,9 @@ struct optimise_result {
   double objective_value;
 
   /**
-   * The total number of times `problem.evaluate` was called.
+   * The acceptable objective value of the optimiser that created this result.
    */
-  arma::uword evaluations;
+  const double acceptable_objective_value;
 
   /**
    * The number of iterations executed by the optimiser.
@@ -39,11 +39,24 @@ struct optimise_result {
   std::chrono::nanoseconds duration;
 
   /**
-   * Check if the problem was solved
+   * The total number of times `problem.evaluate` was called per [iteration].
    */
-  bool solved;
+  const arma::uword evaluations_per_iteration;
 
-  optimise_result(const arma::uword dimension) noexcept;
+  /**
+   * Initializes [evaluations_per_iteration] to `1`.
+   */
+  optimise_result(const arma::uword dimension,
+                  const double acceptable_objective_value) noexcept;
+
+  optimise_result(const arma::uword dimension,
+                  const double acceptable_objective_value,
+                  const arma::uword evaluations_per_iteration) noexcept;
+
+  /**
+   * Returns `true` if the problem was solved.
+   */
+  bool solved() const;
 };
 
 /**
@@ -59,13 +72,6 @@ class optimiser {
    * Initialised to -infinity.
    */
   double acceptable_objective_value;
-
-  /**
-   * The maximal number of evaluations before the optimiser stops.
-   *
-   * Initialised to the maximum value representable with `arma::uword`.
-   */
-  arma::uword maximal_evaluations;
 
   /**
    * The maximal number of iterations before the optimiser stops.

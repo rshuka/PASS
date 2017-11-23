@@ -65,5 +65,9 @@ class parallel_swarm_search : public optimiser {
   parallel_swarm_search() noexcept;
 
   virtual optimise_result optimise(const pass::problem& problem);
+
+ private:
+  optimise_result optimise(const pass::problem& problem,
+                           const std::chrono::nanoseconds maximal_duration);
 };
 }  // namespace pass

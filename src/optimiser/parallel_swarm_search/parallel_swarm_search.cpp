@@ -3,6 +3,7 @@
 
 // pass::random_number_generator(), pass::random_neighbour()
 #include "pass_bits/helper/random.hpp"
+#include "pass_bits/helper/stopwatch.hpp"
 
 // std::pow
 #include <cmath>
@@ -28,10 +29,35 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   assert(maximal_local_attraction >= 0.0);
   assert(maximal_global_attraction >= 0.0);
 
-  auto start_time = std::chrono::steady_clock::now();
+  pass::stopwatch stopwatch;
 
-  // Initialisation of PSO
-  pass::optimise_result result(problem.dimension());
+  pass::optimise_result result(problem.dimension(), acceptable_objective_value,
+                               population_size);
+
+  while (result.duration < maximal_duration &&
+         result.iterations < maximal_iterations && !result.solved()) {
+    pass::optimise_result sub_result =
+        optimise(problem, maximal_duration - result.duration);
+    if (sub_result.objective_value < result.objective_value) {
+      result.parameter = sub_result.parameter;
+      result.objective_value = sub_result.objective_value;
+    }
+    result.iterations += sub_result.iterations;
+    result.duration = stopwatch.get_elapsed();
+  }
+  return result;
+}
+
+pass::optimise_result pass::parallel_swarm_search::optimise(
+    const pass::problem& problem,
+    const std::chrono::nanoseconds maximal_duration) {
+  // Note: `result.duration` isn't used by this function because the termination
+  // criterion can be extracted from the stopwatch directly, and the caller has
+  // its own timer anyways.
+  pass::stopwatch stopwatch;
+
+  pass::optimise_result result(problem.dimension(), acceptable_objective_value,
+                               population_size);
   pass::particle* global_best = nullptr;
 
   // Instantiate `population_size` particles.
@@ -40,61 +66,40 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   for (arma::uword n = 0; n < population_size; ++n) {
     particles.push_back({*this, problem});
 
-    ++result.evaluations;
-    result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-        std::chrono::steady_clock::now() - start_time);
-
     if (particles[n].best_value <= result.objective_value) {
       result.parameter = particles[n].best_parameter;
       result.objective_value = particles[n].best_value;
       global_best = &particles[n];
-
-      if (result.objective_value <= acceptable_objective_value) {
-        result.solved = true;
-        return result;
-      }
-    }
-
-    if (result.evaluations >= maximal_evaluations) {
-      return result;
-    } else if (result.duration >= maximal_duration) {
-      return result;
     }
   }
   ++result.iterations;
 
-  while (result.duration < maximal_duration &&
-         result.evaluations < maximal_evaluations &&
-         result.objective_value > acceptable_objective_value) {
-    pass::particle& particle = particles[result.evaluations % population_size];
-
-    // If `particle.update()` returns `true`, it has found a new personal best
-    // value.
-    if (particle.update(*global_best)) {
-      if (particle.best_value < result.objective_value) {
-        result.parameter = particle.best_parameter;
-        result.objective_value = particle.best_value;
-        global_best = &particle;
+  while (stopwatch.get_elapsed() < maximal_duration &&
+         result.iterations < maximal_iterations && !result.solved()) {
+    for (pass::particle& particle : particles) {
+      // If `particle.update()` returns `true`, it has found a new personal best
+      // value.
+      if (particle.update(*global_best)) {
+        if (particle.best_value < result.objective_value) {
+          result.parameter = particle.best_parameter;
+          result.objective_value = particle.best_value;
+          global_best = &particle;
+        }
       }
     }
 
-    result.duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
-        std::chrono::steady_clock::now() - start_time);
+    ++result.iterations;
 
-    if (++result.evaluations == population_size) {
-      ++result.iterations;
-
-      const double averagePerformance =
-          std::accumulate(particles.begin(), particles.end(), 0.0,
-                          [](const double sum, const pass::particle& particle) {
-                            return sum + particle.best_value;
-                          });
-      if (result.objective_value >= stagnationThreshold * averagePerformance) {
-        break;
-      }
+    // Restart criterion
+    const double averagePerformance =
+        std::accumulate(particles.begin(), particles.end(), 0.0,
+                        [](const double sum, const pass::particle& particle) {
+                          return sum + particle.best_value;
+                        });
+    if (result.objective_value >= stagnationThreshold * averagePerformance) {
+      break;
     }
   }
 
-  result.solved = result.objective_value <= acceptable_objective_value;
   return result;
 }
