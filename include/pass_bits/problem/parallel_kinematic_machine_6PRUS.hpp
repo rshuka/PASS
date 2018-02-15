@@ -69,7 +69,7 @@ class parallel_kinematic_machine_6PRUS : public problem {
    */
   std::vector<arma::vec::fixed<6>> end_effector_trajectory;
 
-   /**
+  /**
    * Sets the lower and upper bounds (margin for the additional actuators) to
    * (-0.6, 0.2) for all joints.
    */

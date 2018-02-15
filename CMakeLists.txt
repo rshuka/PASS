@@ -176,6 +176,7 @@ endif()
 message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
+# Show all the warnings
 target_compile_options(pass PRIVATE "-Wall")
 target_compile_options(pass PRIVATE "-Wextra")
 target_compile_options(pass PRIVATE "-Wpedantic")

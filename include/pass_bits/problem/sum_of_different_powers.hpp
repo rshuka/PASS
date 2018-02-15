@@ -20,8 +20,8 @@ namespace pass {
 class sum_of_different_powers : public problem {
  public:
   /**
-   * Initialises a different powers function with `dimension` dimensions, lower bounds of
-   * -1.0 and upper bounds of 1.0.
+   * Initialises a different powers function with `dimension` dimensions, lower
+   * bounds of -1.0 and upper bounds of 1.0.
    */
   sum_of_different_powers(const arma::uword dimension);
 

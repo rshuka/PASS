@@ -14,7 +14,7 @@
 #include <valarray>
 #include <vector>
 
-#define NUMERATOR(dab, dcb, fa, fb, fc)                                        \
+#define NUMERATOR(dab, dcb, fa, fb, fc) \
   fb *(dab * fc * (fc - fb) - fa * dcb * (fa - fb))
 #define DENOMINATOR(fa, fb, fc) (fc - fb) * (fa - fb) * (fa - fc)
 
@@ -94,8 +94,7 @@ double zero_finder::FZero::FindZero(Function1D &f) {
     for (i = 0; i < max_iterations; i++) {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance)
-        return 0.5 * (a + c);
+      if ((c - a) < tolerance) return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -104,8 +103,7 @@ double zero_finder::FZero::FindZero(Function1D &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance)
-        return 0.5 * (a + c);
+      if ((c - a) < tolerance) return 0.5 * (a + c);
       if ((b - a) < tolerance) {
         if (fb > 0) {
           a = b;
@@ -176,8 +174,7 @@ double zero_finder::FZero::FindZero(Function1D &f) {
   // nonnegative.                                                       //
 
   for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance)
-      return 0.5 * (a + c);
+    if ((c - a) < tolerance) return 0.5 * (a + c);
     fb = f(b);
 
     if ((b - a) < tolerance) {
@@ -270,8 +267,7 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
     for (i = 0; i < max_iterations; i++) {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance)
-        return 0.5 * (a + c);
+      if ((c - a) < tolerance) return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -280,8 +276,7 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance)
-        return 0.5 * (a + c);
+      if ((c - a) < tolerance) return 0.5 * (a + c);
       if ((b - a) < tolerance) {
         if (fb > 0) {
           a = b;
@@ -352,8 +347,7 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
   // nonnegative.                                                       //
 
   for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance)
-      return 0.5 * (a + c);
+    if ((c - a) < tolerance) return 0.5 * (a + c);
     fb = f(b);
 
     if ((b - a) < tolerance) {

@@ -16,7 +16,7 @@ namespace pass {
  * planet at the point in time specified by the nth problem parameter.
  */
 class gtoc1 : public problem {
-public:
+ public:
   /**
    * Fly-by sequence of planets. This sequence is 1 element smaller than the
    * problem dimension because the last section always targets the `asteroid`.
@@ -38,8 +38,8 @@ public:
    * sequence.
    * (First Vector) Data for the Asteroid 2001 TW229
    * (Second Double Value) Asteroid Epoche initialized with 53600.0
-   * (Third Double Value) mu (standard gravitational parameter) initialized with 0.0
-   * Further Info:
+   * (Third Double Value) mu (standard gravitational parameter) initialized with
+   * 0.0 Further Info:
    * http://www.esa.int/gsp/ACT/doc/MAD/ACT-MEM-MAD-GTOC1-The%20Problem_V4.pdf
    */
   asteroid destination;
@@ -63,7 +63,7 @@ public:
    * Sets the lower and upper bounds for the times to
    * (3000, 10000) (14, 2000) (14, 2000) (14, 2000)
    * (14, 2000) (100, 9000) (366, 9000) (300, 9000)
-   * 
+   *
    * t0: start time (in MJD2000)
    * t1-7: transfer time from planet to another planet (in days)
    */
@@ -71,4 +71,4 @@ public:
 
   virtual double evaluate(const arma::vec &parameter) const override;
 };
-} // namespace pass
+}  // namespace pass

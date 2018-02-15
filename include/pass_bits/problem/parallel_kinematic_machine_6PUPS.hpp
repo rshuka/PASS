@@ -26,7 +26,7 @@ namespace pass {
  * the optimisation parameter.
  */
 class parallel_kinematic_machine_6PUPS : public problem {
-public:
+ public:
   /**
    * Stores the x/y/z coordinates for each base joint. (`(0)x_G_i`, `(0)y_G_i`,
    * `(0)z_G_i`)
@@ -77,4 +77,4 @@ public:
 
   virtual double evaluate(const arma::vec &parameter) const override;
 };
-} // namespace pass
+}  // namespace pass

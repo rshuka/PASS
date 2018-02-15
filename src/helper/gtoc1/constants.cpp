@@ -26,7 +26,7 @@ std::pair<std::array<double, 3>, std::array<double, 3>>
 celestial_body::ephemeris(const double mjd2000) const {
   const double pi = acos(-1.0);
   const double RAD = pi / 180.0;
-  const double AU = 149597870.66; // Astronomical Unit
+  const double AU = 149597870.66;  // Astronomical Unit
   const double KM = AU;
   std::array<double, 6> Kepl_Par;
   double XM;
@@ -159,15 +159,15 @@ asteroid::asteroid(std::array<double, 6> keplerian, double epoch,
                    double mu) noexcept
     : keplerian(keplerian), epoch(epoch), mu(mu) {}
 
-std::pair<std::array<double, 3>, std::array<double, 3>>
-asteroid::ephemeris(const double jd) const {
+std::pair<std::array<double, 3>, std::array<double, 3>> asteroid::ephemeris(
+    const double jd) const {
   const double pi = acos(-1.0);
   const double RAD = pi / 180.0;
-  const double AU = 149597870.66; // Astronomical Unit
+  const double AU = 149597870.66;  // Astronomical Unit
   double a, e, i, W, w, M, jdepoch, DT, n, E;
   std::array<double, 6> V;
 
-  a = keplerian[0] * AU; // in km
+  a = keplerian[0] * AU;  // in km
   e = keplerian[1];
   i = keplerian[2];
   W = keplerian[3];
@@ -190,4 +190,4 @@ asteroid::ephemeris(const double jd) const {
 
   return conversion(V, celestial_body::SUN.mu);
 }
-} // namespace pass
+}  // namespace pass

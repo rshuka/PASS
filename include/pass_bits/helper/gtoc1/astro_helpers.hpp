@@ -36,12 +36,12 @@ std::pair<double, double> pow_swing_by_inv(const double Vin, const double Vout,
  *
  * Returns a tuple (position, velocity).
  */
-std::pair<std::array<double, 3>, std::array<double, 3>>
-conversion(const std::array<double, 6> &E, const double mu);
+std::pair<std::array<double, 3>, std::array<double, 3>> conversion(
+    const std::array<double, 6> &E, const double mu);
 
 /**
  * This function is an adapted version of function `Mean2Eccentric` in file
  * `./astro_functions.h`.
  */
 double mean_to_eccentric(const double m, const double e);
-} // namespace pass
+}  // namespace pass

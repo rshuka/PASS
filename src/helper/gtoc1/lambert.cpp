@@ -63,18 +63,18 @@
 #include <iostream>
 
 void LambertI(const double *r1_in, const double *r2_in, double t,
-              const double mu, // INPUT
-              const int lw,    // INPUT
+              const double mu,  // INPUT
+              const int lw,     // INPUT
               double *v1, double *v2, double &a, double &p, double &theta,
-              int &iter) // OUTPUT
+              int &iter)  // OUTPUT
 {
   double V, T,
-      r2_mod = 0.0,   // R2 module
-      dot_prod = 0.0, // dot product
-      c,              // non-dimensional chord
-      s,              // non dimesnional semi-perimeter
-      am,             // minimum energy ellipse semi major axis
-      lambda,         // lambda parameter defined in Battin's Book
+      r2_mod = 0.0,    // R2 module
+      dot_prod = 0.0,  // dot product
+      c,               // non-dimensional chord
+      s,               // non dimesnional semi-perimeter
+      am,              // minimum energy ellipse semi major axis
+      lambda,          // lambda parameter defined in Battin's Book
       x, x1, x2, y1, y2, x_new = 0, y_new, err, alfa, beta, psi, eta, eta2,
       sigma1, vr1, vt1, vt2, vr2, R = 0.0;
   int i_count, i;
@@ -105,7 +105,7 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
 
   // working with non-dimensional radii and time-of-flight
   t /= T;
-  for (i = 0; i < 3; i++) // r1 dimension is 3
+  for (i = 0; i < 3; i++)  // r1 dimension is 3
   {
     r1[i] /= R;
     r2[i] /= R;
@@ -115,13 +115,11 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
   // Evaluation of the relevant geometry parameters in non dimensional units
   r2_mod = sqrt(r2_mod);
 
-  for (i = 0; i < 3; i++)
-    dot_prod += (r1[i] * r2[i]);
+  for (i = 0; i < 3; i++) dot_prod += (r1[i] * r2[i]);
 
   theta = acos(dot_prod / r2_mod);
 
-  if (lw)
-    theta = 2 * acos(-1.0) - theta;
+  if (lw) theta = 2 * acos(-1.0) - theta;
 
   c = sqrt(1 + r2_mod * (r2_mod - 2.0 * cos(theta)));
   s = (1 + r2_mod + c) / 2.0;
@@ -144,7 +142,7 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
     i_count++;
     x_new = (x1 * y2 - y1 * x2) / (y2 - y1);
     y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) -
-            logf(t); //[MR] Why ...f() functions? Loss of data!
+            logf(t);  //[MR] Why ...f() functions? Loss of data!
     x1 = x2;
     y1 = y2;
     x2 = x_new;
@@ -152,7 +150,7 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
     err = fabs(x1 - x_new);
   }
   iter = i_count;
-  x = expf(x_new) - 1; //[MR] Same here... expf -> exp
+  x = expf(x_new) - 1;  //[MR] Same here... expf -> exp
 
   // The solution has been evaluated in terms of log(x+1) or tan(x*pi/2), we
   // now need the conic. As for transfer angles near to pi the lagrange
@@ -164,20 +162,18 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
   a = am / (1 - x * x);
 
   // psi evaluation
-  if (x < 1) // ellipse
+  if (x < 1)  // ellipse
   {
     beta = 2 * asin(sqrt((s - c) / (2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
     alfa = 2 * acos(x);
     psi = (alfa - beta) / 2;
     eta2 = 2 * a * pow(sin(psi), 2) / s;
     eta = sqrt(eta2);
-  } else // hyperbola
+  } else  // hyperbola
   {
     beta = 2 * asinh(sqrt((c - s) / (2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
     alfa = 2 * acosh(x);
     psi = (alfa - beta) / 2;
     eta2 = -2 * a * pow(sinh(psi), 2) / s;
@@ -191,23 +187,20 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
   vers(ih_dum, ih);
 
   if (lw) {
-    for (i = 0; i < 3; i++)
-      ih[i] = -ih[i];
+    for (i = 0; i < 3; i++) ih[i] = -ih[i];
   }
 
   vr1 = sigma1;
   vt1 = sqrt(p);
   vett(ih, r1, dum);
 
-  for (i = 0; i < 3; i++)
-    v1[i] = vr1 * r1[i] + vt1 * dum[i];
+  for (i = 0; i < 3; i++) v1[i] = vr1 * r1[i] + vt1 * dum[i];
 
   vt2 = vt1 / r2_mod;
   vr2 = -vr1 + (vt1 - vt2) / tan(theta / 2);
   vers(r2, r2_vers);
   vett(ih, r2_vers, dum);
-  for (i = 0; i < 3; i++)
-    v2[i] = vr2 * r2[i] / r2_mod + vt2 * dum[i];
+  for (i = 0; i < 3; i++) v2[i] = vr2 * r2[i] / r2_mod + vt2 * dum[i];
 
   for (i = 0; i < 3; i++) {
     v1[i] *= V;

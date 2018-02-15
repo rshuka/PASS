@@ -29,8 +29,7 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
   double theta = acos(pass::gtoc::dot_product(r1, r2) / r2_mod);
 
-  if (lw)
-    theta = 2 * acos(-1.0) - theta;
+  if (lw) theta = 2 * acos(-1.0) - theta;
 
   // non-dimensional chord
   double c = sqrt(1 + r2_mod * (r2_mod - 2.0 * cos(theta)));
@@ -90,8 +89,7 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
   if (x < 1) {
     // ellipse
     double beta = 2 * asin(sqrt((s - c) / (2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
     double alfa = 2 * acos(x);
     double psi = (alfa - beta) / 2;
     eta_squared = 2 * a * pow(sin(psi), 2) / s;
@@ -99,8 +97,7 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
   } else {
     // hyperbola
     double beta = 2 * asinh(sqrt((c - s) / (2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
     double alfa = 2 * acosh(x);
     double psi = (alfa - beta) / 2;
     eta_squared = -2 * a * pow(sinh(psi), 2) / s;
@@ -112,8 +109,7 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
   std::array<double, 3> ih =
       pass::gtoc::unit_vector(pass::gtoc::cross_product(r1, r2));
-  if (lw)
-    ih = pass::gtoc::mul(ih, -1);
+  if (lw) ih = pass::gtoc::mul(ih, -1);
 
   pass::lambert_solution solution;
 
@@ -143,12 +139,12 @@ std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
   const int maxiter = 30;
   int i = 0;
   double err = 1.0;
-  double f, df; // function and its derivative
+  double f, df;  // function and its derivative
   double rp_new;
   const double tolerance = 1e-8;
 
-  double aIN = 1.0 / pow(Vin, 2);   // semimajor axis of the incoming hyperbola
-  double aOUT = 1.0 / pow(Vout, 2); // semimajor axis of the incoming hyperbola
+  double aIN = 1.0 / pow(Vin, 2);    // semimajor axis of the incoming hyperbola
+  double aOUT = 1.0 / pow(Vout, 2);  // semimajor axis of the incoming hyperbola
 
   rp = 1.0;
   while ((err > tolerance) && (i < maxiter)) {
@@ -170,8 +166,8 @@ std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
   return {DV, rp};
 }
 
-std::pair<std::array<double, 3>, std::array<double, 3>>
-pass::conversion(const std::array<double, 6> &E, const double mu) {
+std::pair<std::array<double, 3>, std::array<double, 3>> pass::conversion(
+    const std::array<double, 6> &E, const double mu) {
   double a, e, i, omg, omp, theta;
   double b, n;
   double X_per[3], X_dotper[3];

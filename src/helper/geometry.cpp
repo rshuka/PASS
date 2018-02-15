@@ -285,4 +285,4 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
          circle_centre + x * x_unit_vector - y * y_unit_vector});
   }
 }
-} // namespace pass
+}  // namespace pass

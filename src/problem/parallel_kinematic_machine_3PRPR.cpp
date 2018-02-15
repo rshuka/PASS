@@ -14,7 +14,7 @@
 
 #include "pass_bits/helper/geometry.hpp"
 
-/** 
+/**
  * The following robot configuration is based on the work of our research
  * colleagues from the Institute of Mechatronic Systems, Leibniz Universität
  * Hannover, Germany.
@@ -22,13 +22,12 @@
 pass::parallel_kinematic_machine_3PRPR::parallel_kinematic_machine_3PRPR()
     : problem({-0.5, -0.5, -0.5}, {0.5, 0.5, 0.5}),
       redundant_joints_position(
-          {{{0.6, 0.0, 1.2}, {std::sqrt(27)/5, 0.0, 0.0}}}),
+          {{{0.6, 0.0, 1.2}, {std::sqrt(27) / 5, 0.0, 0.0}}}),
       redundant_joints_angles({{0.0, -1.0, -1.0}, {1.0, 0.0, 0.0}}),
       middle_joints_minimal_length({0.1, 0.1, 0.1}),
       middle_joints_maximal_length({1.2, 1.2, 1.2}),
       end_effector_joints_relative_position(
-          {{0.0, -0.125, 0.125},
-           {0.0, -std::sqrt(3)/8, -std::sqrt(3)/8}}),
+          {{0.0, -0.125, 0.125}, {0.0, -std::sqrt(3) / 8, -std::sqrt(3) / 8}}),
       end_effector_trajectory({{0.3, 0.5, 0.0}}) {}
 
 double pass::parallel_kinematic_machine_3PRPR::evaluate(

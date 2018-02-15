@@ -42,10 +42,10 @@
 
 //GTOC
 #include <pass_bits/problem/gtoc1.hpp>
-#include <pass_bits/helper/gtoc1/Astro_Functions.hpp>
+#include <pass_bits/helper/gtoc1/astro_functions.hpp>
 #include <pass_bits/helper/gtoc1/astro_helpers.hpp>
 #include <pass_bits/helper/gtoc1/constants.hpp>
-#include <pass_bits/helper/gtoc1/Lambert.hpp>
-#include <pass_bits/helper/gtoc1/PowSwingByInv.hpp>
+#include <pass_bits/helper/gtoc1/lambert.hpp>
+#include <pass_bits/helper/gtoc1/pow_swing_by_inv.hpp>
 #include <pass_bits/helper/gtoc1/vector3d_helpers.hpp>
-#include <pass_bits/helper/gtoc1/ZeroFinder.hpp>
+#include <pass_bits/helper/gtoc1/zero_finder.hpp>

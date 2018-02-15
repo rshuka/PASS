@@ -13,7 +13,7 @@
 #include <iostream>
 
 class CZF : public zero_finder::Function1D {
-public:
+ public:
   double operator()(double x) {
     return p1 * tan(x) - log(tan(0.5 * x + 0.25 * M_PI)) - p2;
   }
@@ -21,12 +21,12 @@ public:
 
 double Mean2Eccentric(const double M, const double e) {
   double tolerance = 1e-13;
-  int n_of_it = 0; // Number of iterations
+  int n_of_it = 0;  // Number of iterations
   double Eccentric, Ecc_New;
   double err = 1.0;
 
   if (e < 1.0) {
-    Eccentric = M + e * cos(M); // Initial guess
+    Eccentric = M + e * cos(M);  // Initial guess
     while ((err > tolerance) && (n_of_it < 100)) {
       Ecc_New = Eccentric - (Eccentric - e * sin(Eccentric) - M) /
                                 (1.0 - e * cos(Eccentric));
@@ -35,9 +35,9 @@ double Mean2Eccentric(const double M, const double e) {
       n_of_it++;
     }
   } else {
-    CZF FF; // function to find its zero point
+    CZF FF;  // function to find its zero point
     zero_finder::FZero fz(-0.5 * 3.14159265358979 + 1e-8,
-                         0.5 * 3.14159265358979 - 1e-8);
+                          0.5 * 3.14159265358979 - 1e-8);
     FF.SetParameters(e, M);
     Ecc_New = fz.FindZero(FF);
     Eccentric = Ecc_New;
@@ -130,17 +130,15 @@ double x2tof(const double &x, const double &s, const double &c, const int lw) {
 
   am = s / 2;
   a = am / (1 - x * x);
-  if (x < 1) // ellpise
+  if (x < 1)  // ellpise
   {
     beta = 2 * asin(sqrt((s - c) / (2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
     alfa = 2 * acos(x);
   } else {
     alfa = 2 * acosh(x);
     beta = 2 * asinh(sqrt((s - c) / (-2 * a)));
-    if (lw)
-      beta = -beta;
+    if (lw) beta = -beta;
   }
 
   if (a > 0) {

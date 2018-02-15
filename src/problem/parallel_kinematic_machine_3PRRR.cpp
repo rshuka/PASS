@@ -25,12 +25,11 @@
 pass::parallel_kinematic_machine_3PRRR::parallel_kinematic_machine_3PRRR()
     : problem({-0.5, -0.5, -0.5}, {0.5, 0.5, 0.5}),
       redundant_joints_position(
-          {{0.6, 0.0, 1.2}, {std::sqrt(27)/5, 0.0, 0.0}}),
+          {{0.6, 0.0, 1.2}, {std::sqrt(27) / 5, 0.0, 0.0}}),
       redundant_joints_angles({{0.0, -1.0, -1.0}, {1.0, 0.0, 0.0}}),
       link_lengths({{0.6, 0.6, 0.6}, {0.6, 0.6, 0.6}}),
       end_effector_joints_relative_position(
-          {{0.0, -0.125, 0.125},
-           {0.0, -std::sqrt(3)/8, -std::sqrt(3)/8}}),
+          {{0.0, -0.125, 0.125}, {0.0, -std::sqrt(3) / 8, -std::sqrt(3) / 8}}),
       end_effector_trajectory({{0.3, 0.5, 0.0}}) {}
 
 double pass::parallel_kinematic_machine_3PRRR::evaluate(

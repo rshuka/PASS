@@ -26,7 +26,7 @@ namespace pass {
  * the optimisation parameter.
  */
 class parallel_kinematic_machine_3PRRR : public problem {
-public:
+ public:
   /**
    * Stores the x/y coordinates for each base joint.
    *
@@ -52,7 +52,7 @@ public:
   /**
    * Stores the attachment points of the kinematic chains to the end effector,
    * relative to the end effector center.
-   * 
+   *
    * Is initialised to (0, 0), (-0.125, -√(3)/8), (0.125, -√(3)/8).
    */
   arma::mat::fixed<2, 3> end_effector_joints_relative_position;
@@ -79,4 +79,4 @@ public:
    */
   virtual double evaluate(const arma::vec &parameter) const override;
 };
-} // namespace pass
+}  // namespace pass

@@ -24,8 +24,8 @@ namespace pass {
 class rosenbrock_function : public problem {
  public:
   /**
-   * Initialises a rosenbrock function with `dimension` dimensions, lower bounds of
-   * -2.048 and upper bounds of 2.048.
+   * Initialises a rosenbrock function with `dimension` dimensions, lower bounds
+   * of -2.048 and upper bounds of 2.048.
    */
   rosenbrock_function(const arma::uword dimension);
 
