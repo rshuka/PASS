@@ -1,9 +1,7 @@
 #pragma once
-// std::mt19937_64
-#include <random>
 
-// arma::vec
-#include <armadillo>
+#include <random> // std::mt19937_64
+#include <armadillo> // arma::vec
 
 namespace pass {
 /**

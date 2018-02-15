@@ -2,7 +2,8 @@
 
 #include "pass_bits/optimiser.hpp"
 
-namespace pass {
+namespace pass 
+{
 class hooke_jeeves_algorithm : public optimiser {
  public:
   /**

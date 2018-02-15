@@ -1,14 +1,7 @@
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
-
-// pass::random_number_generator(), pass::random_neighbour()
 #include "pass_bits/helper/random.hpp"
 #include "pass_bits/helper/stopwatch.hpp"
-
-// std::pow
-#include <cmath>
-
-// assert
-#include <cassert>
+#include <cmath> // std::pow
 
 pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
     : optimiser(),
@@ -20,7 +13,8 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
           std::pow(1.0 - 1.0 / static_cast<double>(population_size), 3.0)) {}
 
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
-    const pass::problem& problem) {
+    const pass::problem &problem)
+{
   assert(maximal_acceleration >= 0.0);
   assert(maximal_local_attraction >= 0.0);
   assert(maximal_global_attraction >= 0.0);
@@ -46,12 +40,14 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   arma::rowvec best_found_values(population_size);
 
   // Evaluate the initial positions.
-  for (std::size_t n = 0; n < population_size; ++n) {
-    const auto& parameter = positions.col(n);
+  for (std::size_t n = 0; n < population_size; ++n)
+  {
+    const auto &parameter = positions.col(n);
     const double objective_value = problem.evaluate(parameter);
     best_found_values(n) = objective_value;
 
-    if (objective_value <= result.objective_value) {
+    if (objective_value <= result.objective_value)
+    {
       result.parameter = parameter;
       result.objective_value = objective_value;
     }
@@ -64,8 +60,10 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   // Evaluate a single particle per loop iteration.
   while (result.duration < maximal_duration &&
-         result.iterations < maximal_iterations && !result.solved()) {
-    if (randomize_topology) {
+         result.iterations < maximal_iterations && !result.solved())
+  {
+    if (randomize_topology)
+    {
       topology = (arma::mat(population_size, population_size,
                             arma::fill::randu) <= neighbourhood_probability);
 
@@ -75,19 +73,22 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       randomize_topology = false;
     }
 
-    for (arma::uword n = 0; n < population_size; ++n) {
+    for (arma::uword n = 0; n < population_size; ++n)
+    {
       // V_i^t
-      const arma::vec& velocity = velocities.col(n);
+      const arma::vec &velocity = velocities.col(n);
       // p_i^t
-      const arma::vec& best_found_parameter = best_found_parameters.col(n);
+      const arma::vec &best_found_parameter = best_found_parameters.col(n);
       const double best_found_value = best_found_values(n);
 
       // l_i^t
       arma::vec local_best_parameter = best_found_parameter;
       {
         double local_best_value = best_found_value;
-        for (arma::uword i = 0; i < population_size; i++) {
-          if (topology(n, i) && best_found_values(i) < local_best_value) {
+        for (arma::uword i = 0; i < population_size; i++)
+        {
+          if (topology(n, i) && best_found_values(i) < local_best_value)
+          {
             local_best_value = best_found_values(i);
             local_best_parameter = best_found_parameters.col(i);
           }
@@ -109,26 +110,34 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       velocities.col(n) = inertia * velocity + displaced_acceleration;
       positions.col(n) += velocity;
       // stay inside the bounds
-      for (arma::uword k = 0; k < problem.dimension(); ++k) {
-        if (positions(k, n) < problem.lower_bounds(k)) {
+      for (arma::uword k = 0; k < problem.dimension(); ++k)
+      {
+        if (positions(k, n) < problem.lower_bounds(k))
+        {
           positions(k, n) = problem.lower_bounds(k);
           velocities(k, n) *= -0.5;
-        } else if (positions(k, n) > problem.upper_bounds(k)) {
+        }
+        else if (positions(k, n) > problem.upper_bounds(k))
+        {
           positions(k, n) = problem.upper_bounds(k);
           velocities(k, n) *= -0.5;
         }
       }
 
       const double objective_value = problem.evaluate(positions.col(n));
-      if (objective_value < best_found_value) {
+      if (objective_value < best_found_value)
+      {
         best_found_parameters.col(n) = positions.col(n);
         best_found_values(n) = objective_value;
 
-        if (objective_value < result.objective_value) {
+        if (objective_value < result.objective_value)
+        {
           result.parameter = positions.col(n);
           result.objective_value = objective_value;
         }
-      } else {
+      }
+      else
+      {
         randomize_topology = true;
       }
     }

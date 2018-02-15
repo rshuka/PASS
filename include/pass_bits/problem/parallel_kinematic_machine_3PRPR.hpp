@@ -1,13 +1,9 @@
 #pragma once
 
-// Armadillo
-#include <armadillo>
-
-// PASS
 #include "pass_bits/problem.hpp"
 
-namespace pass {
-
+namespace pass 
+{
 /**
  * This problem simulates the stability of the 3PRPR robot described in
  * [Influence of kinematic redundancy on the singularity-free workspace of

@@ -6,16 +6,22 @@
 #include <stdexcept>
 #endif
 
+#if defined(SUPPORT_OPENMP)
+#include <omp.h> 
+#endif
+
 /**
  * If parallelization is activated some useful variables are provided
  */
-namespace pass {
+namespace pass
+{
 /**
  * Use OpenMP
  * @numberOfThreads: returns the number of the threads
  * @threadNumber: returns which number the thread have
  */
-arma::uword numberOfThreads() {
+arma::uword numberOfThreads()
+{
 #if defined(SUPPORT_OPENMP)
   return omp_get_max_threads();
 #else
@@ -23,7 +29,8 @@ arma::uword numberOfThreads() {
 #endif
 }
 
-arma::uword threadNumber() {
+arma::uword threadNumber()
+{
 #if defined(SUPPORT_OPENMP)
   return omp_get_thread_num();
 #else
@@ -36,12 +43,14 @@ arma::uword threadNumber() {
  * @numberOfNodes: returns the number of the nodes
  * @nodeRank: returns which number a.k.a rank the node have
  */
-arma::uword numberOfNodes() {
+arma::uword numberOfNodes()
+{
 #if defined(SUPPORT_MPI)
   int numberOfNodes;
   MPI_Comm_size(MPI_COMM_WORLD, &numberOfNodes);
 
-  if (numberOfNodes < 0) {
+  if (numberOfNodes < 0)
+  {
     throw std::runtime_error(
         "getNumberOfNode: Please check your MPI installation, as we got a "
         "negative number of nodes.");
@@ -53,12 +62,14 @@ arma::uword numberOfNodes() {
 #endif
 }
 
-arma::uword nodeRank() {
+arma::uword nodeRank()
+{
 #if defined(SUPPORT_MPI)
   int nodeRank;
   MPI_Comm_rank(MPI_COMM_WORLD, &nodeRank);
 
-  if (nodeRank < 0) {
+  if (nodeRank < 0)
+  {
     throw std::runtime_error(
         "getNodeRank: Please check your MPI installation, as we got a negative "
         "node rank.");
@@ -70,4 +81,4 @@ arma::uword nodeRank() {
 #endif
 }
 
-}  // namespace pass
+} // namespace pass

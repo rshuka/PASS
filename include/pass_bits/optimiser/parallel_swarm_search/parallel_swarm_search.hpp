@@ -1,6 +1,5 @@
 #pragma once
 
-// PASS
 #include "pass_bits/optimiser.hpp"
 
 namespace pass {

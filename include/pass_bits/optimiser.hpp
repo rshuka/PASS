@@ -1,17 +1,25 @@
 #pragma once
 
-#include <chrono>
-
-#include <armadillo>
-
+#include <chrono> // std:: chrono
+#include <armadillo> // std::arma::vec
+#include <cassert> // assert
 #include "pass_bits/problem.hpp"
 
-namespace pass {
+#if defined(SUPPORT_OPENMP)
+#include <omp.h> 
+#endif
 
+#if defined(SUPPORT_MPI)
+#include <mpi.h> 
+#endif
+
+namespace pass 
+{
 /**
  * Created by `optimiser::optimise`. Stores information about the optimisation.
  */
-struct optimise_result {
+struct optimise_result 
+{
   /**
    * The parameter that was evaluated to `objective_value`. Is initialised to
    * NaN in all dimensions.

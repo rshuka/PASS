@@ -9,7 +9,6 @@
 // ------------------------------------------------------------------------ //
 
 #include "pass_bits/helper/gtoc1/zero_finder.hpp"
-
 #include <math.h>
 #include <valarray>
 #include <vector>

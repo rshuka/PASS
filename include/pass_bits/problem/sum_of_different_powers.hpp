@@ -1,13 +1,9 @@
 #pragma once
 
-// Armadillo
-#include <armadillo>
-
-// PASS
 #include "pass_bits/problem.hpp"
 
-namespace pass {
-
+namespace pass 
+{
 /**
  * The sum of different powers function is a common *toy* problem with a very
  * small computational cost, used for testing and benchmarking algorithms. Its

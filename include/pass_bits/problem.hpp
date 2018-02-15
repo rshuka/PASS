@@ -1,14 +1,25 @@
 #pragma once
 
 #include <armadillo>
+#include <vector>
+#include <cassert>
+#include <algorithm> 
+#include <cmath> 
+#if defined(SUPPORT_OPENMP)
+#include <omp.h> 
+#endif
 
-namespace pass {
-
+#if defined(SUPPORT_MPI)
+#include <mpi.h> 
+#endif
+namespace pass 
+{
 /**
  * This class defines the interface for problems that can be approximated by a
  * `pass::optimiser`. Subclasses need only implement `evaluate`.
  */
-class problem {
+class problem 
+{
  public:
   /**
    * Lower bound constraints for each problem dimension. An optimiser will never

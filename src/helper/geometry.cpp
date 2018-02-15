@@ -1,21 +1,15 @@
 #include "pass_bits/helper/geometry.hpp"
+#include <algorithm> // std::max
+#include <cassert> // assert
+#include <cmath> // std::cos, std::sin, std::isfinite, std::abs, std::fmod, std::pow, std::sqrt
+#include <stdexcept> // std::range_error
 
-// std::max
-#include <algorithm>
-
-// assert
-#include <cassert>
-
-// std::cos, std::sin, std::isfinite, std::abs, std::fmod, std::pow, std::sqrt
-#include <cmath>
-
-// std::range_error
-#include <stdexcept>
-
-namespace pass {
+namespace pass 
+{
 const double machine_precision = 1e-12;
 
-arma::mat::fixed<2, 2> rotation_matrix_2d(const double angle) {
+arma::mat::fixed<2, 2> rotation_matrix_2d(const double angle) 
+{
   assert(std::isfinite(angle) &&
          "rotation_matrix_2d: The angle must be finite.");
 
@@ -25,7 +19,8 @@ arma::mat::fixed<2, 2> rotation_matrix_2d(const double angle) {
 
 arma::mat::fixed<3, 3> rotation_matrix_3d(const double roll_angle,
                                           const double pitch_angle,
-                                          const double yaw_angle) {
+                                          const double yaw_angle) 
+{
   assert(std::isfinite(roll_angle) &&
          "rotation_matrix_3d: The roll angle must be finite.");
   assert(std::isfinite(pitch_angle) &&

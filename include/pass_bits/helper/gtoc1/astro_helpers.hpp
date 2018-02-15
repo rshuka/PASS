@@ -1,11 +1,12 @@
 #pragma once
 
-#include <array>
-#include <utility>
+#include <array> //std::array
+#include <utility> // std::pair
 
 namespace pass {
 
-typedef struct lambert_solution {
+typedef struct lambert_solution  
+{
   std::array<double, 3> departure_velocity;
   std::array<double, 3> arrival_velocity;
 } lambert_solution;

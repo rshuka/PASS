@@ -3,9 +3,7 @@
 #include <armadillo>
 
 namespace pass {
-
 extern const double machine_precision;
-
 /**
  * Rotation matrix in two dimensions
  * Further informations under:

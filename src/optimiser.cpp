@@ -25,8 +25,9 @@ pass::optimise_result::optimise_result(
       duration(std::chrono::nanoseconds(0)),
       evaluations_per_iteration(evaluations_per_iteration) {}
 
-bool pass::optimise_result::solved() const {
-  return objective_value <= acceptable_objective_value;
+bool pass::optimise_result::solved() const
+{
+    return objective_value <= acceptable_objective_value;
 }
 
 pass::optimiser::optimiser() noexcept

@@ -9,7 +9,6 @@
 // ------------------------------------------------------------------------ //
 
 #include "pass_bits/helper/gtoc1/pow_swing_by_inv.hpp"
-
 #include <cmath>
 
 void pow_swing_by_inv(const double Vin, const double Vout, const double alpha,

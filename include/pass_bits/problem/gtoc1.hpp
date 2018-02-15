@@ -3,8 +3,8 @@
 #include "pass_bits/helper/gtoc1/constants.hpp"
 #include "pass_bits/problem.hpp"
 
-namespace pass {
-
+namespace pass 
+{
 /**
  * `GTOC1` is an 8-dimensional optimization problem issued by the ESA:
  * http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html

@@ -58,7 +58,6 @@
 */
 
 #include "pass_bits/helper/gtoc1/lambert.hpp"
-
 #include <cmath>
 #include <iostream>
 

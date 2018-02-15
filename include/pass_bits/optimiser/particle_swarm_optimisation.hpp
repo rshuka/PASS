@@ -1,17 +1,9 @@
 #pragma once
 
-// Armadillo
-#include <armadillo>
-
-// OpenMP
-#if defined(SUPPORT_OPENMP)
-#include <omp.h>
-#endif
-
-// PASS
 #include "pass_bits/optimiser.hpp"
 
-namespace pass {
+namespace pass 
+{
 /**
  * Implements the [Standard Particle Swarm Optimisation 2011]
  * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848) algorithm.

@@ -20,7 +20,8 @@
 
 #endif
 
-namespace pass {
+namespace pass 
+{
   arma::uword threadNumber();
   arma::uword numberOfThreads();
   arma::uword nodeRank();

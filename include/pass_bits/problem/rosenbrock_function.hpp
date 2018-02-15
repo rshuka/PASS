@@ -1,13 +1,9 @@
 #pragma once
 
-// Armadillo
-#include <armadillo>
-
-// PASS
 #include "pass_bits/problem.hpp"
 
-namespace pass {
-
+namespace pass 
+{
 /**
  * The Rosenbrock function is a common *toy* problem with a very small
  * computational cost, used for testing and benchmarking algorithms. It is named

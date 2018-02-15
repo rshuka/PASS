@@ -9,9 +9,7 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-// Namespace
 namespace zero_finder {
-
 /** Class for one dimensional functions with some parameters
  *
  *  The ()-operator with one double argument

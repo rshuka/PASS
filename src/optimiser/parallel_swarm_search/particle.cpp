@@ -42,18 +42,22 @@ bool pass::particle::update(const pass::particle& best_neighbour) {
   position += velocity;
 
   // Check search space boundary breakouts
-  for (arma::uword k = 0; k < position.n_elem; ++k) {
-    if (position(k) < problem.lower_bounds(k)) {
+  for (arma::uword k = 0; k < position.n_elem; ++k) 
+  {
+    if (position(k) < problem.lower_bounds(k)) 
+    {
       position(k) = problem.lower_bounds(k);
       velocity(k) = 0;
-    } else if (position(k) > problem.upper_bounds(k)) {
+    } else if (position(k) > problem.upper_bounds(k)) 
+    {
       position(k) = problem.upper_bounds(k);
       velocity(k) = -0;
     }
   }
 
   const double objective_value = problem.evaluate(position);
-  if (objective_value < best_value) {
+  if (objective_value < best_value) 
+  {
     best_parameter = position;
     best_value = objective_value;
     return true;
