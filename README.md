@@ -4,7 +4,8 @@ PASS is written in C++14 and uses [Armadillo](http://arma.sourceforge.net/) (dev
 
 ## Prerequirements
 
-- GCC 4.8.1 or later
+- GCC 4.8.1 or later 
+- (MacOS) CLANG LLVM 9.0.0 or later
 - CMake 3.2 or later
 - Armadillo C++ 8.200.0 or later
 
@@ -70,7 +71,7 @@ make
 sudo make install
 ```
 
-- Change default gcc compiler: open *.bash_profiles* and paste the following code (if you are using GCC 7.*)
+- If you don't want to use the MacOS CLANG compiler, you have to change it to the gcc compiler: open *.bash_profiles* and paste the following code (if you are using GCC 7.*)
 
 ```bash
 # Modify system PATH for new GNU compiler install

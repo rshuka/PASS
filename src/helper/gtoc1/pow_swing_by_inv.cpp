@@ -8,21 +8,21 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/PowSwingByInv.hpp"
+#include "pass_bits/helper/gtoc1/pow_swing_by_inv.hpp"
 
 #include <cmath>
 
-void PowSwingByInv(const double Vin, const double Vout, const double alpha,
-                   double &DV, double &rp) {
+void pow_swing_by_inv(const double Vin, const double Vout, const double alpha,
+                      double &DV, double &rp) {
   const int maxiter = 30;
   int i = 0;
   double err = 1.0;
-  double f, df;  // function and its derivative
+  double f, df; // function and its derivative
   double rp_new;
   const double tolerance = 1e-8;
 
-  double aIN = 1.0 / pow(Vin, 2);    // semimajor axis of the incoming hyperbola
-  double aOUT = 1.0 / pow(Vout, 2);  // semimajor axis of the incoming hyperbola
+  double aIN = 1.0 / pow(Vin, 2);   // semimajor axis of the incoming hyperbola
+  double aOUT = 1.0 / pow(Vout, 2); // semimajor axis of the incoming hyperbola
 
   rp = 1.0;
   while ((err > tolerance) && (i < maxiter)) {

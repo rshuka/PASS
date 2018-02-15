@@ -19,12 +19,12 @@ namespace pass {
  */
 class sphere_function : public problem {
  public:
-  virtual double evaluate(const arma::vec& parameter) const override;
-
   /**
    * Initialises a sphere function with `dimension` dimensions, lower bounds of
    * -5.12 and upper bounds of 5.12.
    */
   sphere_function(const arma::uword dimension);
+
+  virtual double evaluate(const arma::vec& parameter) const override;
 };
 }  // namespace pass

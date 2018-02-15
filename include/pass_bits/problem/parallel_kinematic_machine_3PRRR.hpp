@@ -26,7 +26,7 @@ namespace pass {
  * the optimisation parameter.
  */
 class parallel_kinematic_machine_3PRRR : public problem {
- public:
+public:
   /**
    * Stores the x/y coordinates for each base joint.
    *
@@ -36,7 +36,7 @@ class parallel_kinematic_machine_3PRRR : public problem {
 
   /**
    * Stores the orientation of the additional actuators. (ξ in the paper)
-   *
+   * The angles are represented as unit vectors
    * Is initialised to (0, 1), (-1, 0), (-1, 0).
    */
   arma::mat::fixed<2, 3> redundant_joints_angles;
@@ -52,9 +52,8 @@ class parallel_kinematic_machine_3PRRR : public problem {
   /**
    * Stores the attachment points of the kinematic chains to the end effector,
    * relative to the end effector center.
-   *
-   * Is initialised to something weird, I have no idea where these values come
-   * from. :(
+   * 
+   * Is initialised to (0, 0), (-0.125, -√(3)/8), (0.125, -√(3)/8).
    */
   arma::mat::fixed<2, 3> end_effector_joints_relative_position;
 
@@ -62,14 +61,22 @@ class parallel_kinematic_machine_3PRRR : public problem {
    * Each element stores a position in the work area that must be reached by the
    * robot as a (x, y, γ) vector, with the γ part representing the orientation
    * of the end effector. If any position of the trajectory cannot be reached by
-   * the robot, the objective value becomes -∞.
+   * the robot, the objective value becomes ∞.
    *
    * Is initialised to (0.3, 1.0, 0.0).
    */
   std::vector<arma::vec::fixed<3>> end_effector_trajectory;
 
+  /**
+   * Sets the lower and upper bounds (margin for the additional actuators) to
+   * (-0.5, 0.5) for all joints.
+   */
   parallel_kinematic_machine_3PRRR();
 
-  virtual double evaluate(const arma::vec& parameter) const override;
+  /**
+   * Evaluates this problem at `parameter`, which must match the dimensions of
+   * this problem.
+   */
+  virtual double evaluate(const arma::vec &parameter) const override;
 };
-}  // namespace pass
+} // namespace pass

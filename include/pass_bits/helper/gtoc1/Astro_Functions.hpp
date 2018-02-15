@@ -9,11 +9,11 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
+#include "zero_finder.hpp"
+#include <cctype>
 #include <float.h>
 #include <math.h>
-#include <cctype>
 #include <vector>
-#include "ZeroFinder.hpp"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

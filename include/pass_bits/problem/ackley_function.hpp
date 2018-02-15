@@ -24,7 +24,7 @@ namespace pass {
 class ackley_function : public problem {
  public:
   /**
-   * Initialises a sphere function with `dimension` dimensions, lower bounds of
+   * Initialises a ackley function with `dimension` dimensions, lower bounds of
    * -32.768 and upper bounds of 32.768.
    */
   ackley_function(const arma::uword dimension);

@@ -9,9 +9,9 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "Astro_Functions.hpp"
+#include "astro_functions.hpp"
 
 void LambertI(const double *, const double *, double, const double,
-              const int,  // INPUT
+              const int, // INPUT
               double *, double *, double &, double &, double &,
-              int &);  // OUTPUT
+              int &); // OUTPUT

@@ -12,7 +12,7 @@ typedef struct lambert_solution {
 
 /**
  * This function is an adapted version of function `LambertI` in file
- * `src/Lambert.h`. For more details and documentation, please take a look at
+ * `./lambert.h`. For more details and documentation, please take a look at
  * the original file.
  *
  * Throws `std::invalid_argument` if `t` is negative or zero.
@@ -22,26 +22,26 @@ lambert_solution lambert(std::array<double, 3> r1_in,
                          const int lw);
 
 /**
- * This function is an adapted version of function `PowSwingByInv` in file
- * `src/PowSwingByInv.h`.
+ * This function is an adapted version of function `pow_swing_by_inv` in file
+ * `./pow_swing_by_inv.hpp`.
  *
  * Returns a tuple (DV, rp).
  */
-std::pair<double, double> PowSwingByInv(const double Vin, const double Vout,
-                                        const double alpha);
+std::pair<double, double> pow_swing_by_inv(const double Vin, const double Vout,
+                                           const double alpha);
 
 /**
  * This function is an adapted version of function `Conversion` in file
- * `src/Astro_Functions.h`.
+ * `./astro_functions.hpp`.
  *
  * Returns a tuple (position, velocity).
  */
-std::pair<std::array<double, 3>, std::array<double, 3>> conversion(
-    const std::array<double, 6>& E, const double mu);
+std::pair<std::array<double, 3>, std::array<double, 3>>
+conversion(const std::array<double, 6> &E, const double mu);
 
 /**
  * This function is an adapted version of function `Mean2Eccentric` in file
- * `src/Astro_Functions.h`.
+ * `./astro_functions.h`.
  */
 double mean_to_eccentric(const double m, const double e);
-}  // namespace pass
+} // namespace pass

@@ -1,15 +1,24 @@
 #include "pass_bits/helper/geometry.hpp"
 
-// C++ standard library
+// std::max
 #include <algorithm>
+
+// assert
 #include <cassert>
+
+// std::cos, std::sin, std::isfinite, std::abs, std::fmod, std::pow, std::sqrt
 #include <cmath>
+
+// std::range_error
 #include <stdexcept>
 
 namespace pass {
 const double machine_precision = 1e-12;
 
 arma::mat::fixed<2, 2> rotation_matrix_2d(const double angle) {
+  assert(std::isfinite(angle) &&
+         "rotation_matrix_2d: The angle must be finite.");
+
   return {{std::cos(angle), -std::sin(angle)},
           {std::sin(angle), std::cos(angle)}};
 }
@@ -24,12 +33,13 @@ arma::mat::fixed<3, 3> rotation_matrix_3d(const double roll_angle,
   assert(std::isfinite(yaw_angle) &&
          "rotation_matrix_3d: The yaw angle must be finite.");
 
-  // In case the Tait-Bryan angles losses a rank, i.e. a gimbal lock would
-  // occur.
+  /** In case the Tait-Bryan angles losses a rank, i.e. a gimbal lock would
+   * occur.
+   */
   if (std::abs(std::fmod(pitch_angle, arma::datum::pi / 2.0)) <
       ::pass::machine_precision) {
     // Uses quaternions
-    const arma::vec& quaternion = {
+    const arma::vec &quaternion = {
         std::cos(roll_angle / 2.0) * std::cos(pitch_angle / 2.0) *
                 std::cos(yaw_angle / 2.0) +
             std::sin(roll_angle / 2.0) * std::sin(pitch_angle / 2.0) *
@@ -80,8 +90,8 @@ arma::mat::fixed<3, 3> rotation_matrix_3d(const double roll_angle,
 }
 
 std::vector<arma::vec::fixed<2>> circle_circle_intersections(
-    const arma::vec::fixed<2>& first_centre, const double first_radius,
-    const arma::vec::fixed<2>& second_centre, const double second_radius) {
+    const arma::vec::fixed<2> &first_centre, const double first_radius,
+    const arma::vec::fixed<2> &second_centre, const double second_radius) {
   assert(first_centre.is_finite() &&
          "circle_circle_intersections: The first centre must be finite.");
   assert(first_radius >= 0 &&
@@ -93,7 +103,8 @@ std::vector<arma::vec::fixed<2>> circle_circle_intersections(
          "circle_circle_intersections: The second radius must be positive "
          "(including 0).");
 
-  /* The circle circle intersection points are calculated as follows:
+  /**
+   *  The circle circle intersection points are calculated as follows:
    *  0. We assume that both centers are on the x-axis and `first_centre` is at
    *     (0, 0).
    *     **Note:** This assumptions are lifted later on.
@@ -154,7 +165,7 @@ std::vector<arma::vec::fixed<2>> circle_circle_intersections(
   const double x = (std::pow(first_radius, 2.0) - std::pow(second_radius, 2.0) +
                     std::pow(distance, 2.0)) /
                    (2.0 * distance);
-  const arma::vec::fixed<2>& unit_vector =
+  const arma::vec::fixed<2> &unit_vector =
       (second_centre - first_centre) / distance;
 
   if (std::abs(first_radius - std::abs(x)) < ::pass::machine_precision) {
@@ -172,9 +183,9 @@ std::vector<arma::vec::fixed<2>> circle_circle_intersections(
 }
 
 std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
-    const arma::vec::fixed<3>& circle_centre, const double circle_radius,
-    const arma::vec::fixed<3>& circle_normal,
-    const arma::vec::fixed<3>& sphere_centre, const double sphere_radius) {
+    const arma::vec::fixed<3> &circle_centre, const double circle_radius,
+    const arma::vec::fixed<3> &circle_normal,
+    const arma::vec::fixed<3> &sphere_centre, const double sphere_radius) {
   assert(circle_centre.is_finite() &&
          "circle_sphere_intersections: The circle centre must be finite.");
   assert(circle_radius >= 0 &&
@@ -188,7 +199,8 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
          "circle_sphere_intersections: The sphere radius must be positive "
          "(including 0).");
 
-  /* The circle sphere intersection points are calculated as follows:
+  /**
+   * The circle sphere intersection points are calculated as follows:
    * 0. We assume that both centers are on the x-axis, ´circle_normal` is
    * perpendicular to the x- and y-axis and `circle_centre` is at (0, 0, 0).
    *    **Note:** This assumptions are lifted later on.
@@ -224,7 +236,7 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
     return {};
   };
 
-  const arma::vec::fixed<3>& inner_centre =
+  const arma::vec::fixed<3> &inner_centre =
       sphere_centre + inner_distance * circle_normal;
   // Due to rounding errors, the inner result might be negative instead of being
   // 0.
@@ -256,7 +268,7 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
   const double x = (std::pow(circle_radius, 2.0) - std::pow(inner_radius, 2.0) +
                     std::pow(distance, 2.0)) /
                    (2.0 * distance);
-  const arma::vec::fixed<3>& x_unit_vector =
+  const arma::vec::fixed<3> &x_unit_vector =
       (inner_centre - circle_centre) / distance;
 
   if (std::abs(circle_radius - std::abs(x)) < ::pass::machine_precision) {
@@ -266,11 +278,11 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
   } else {
     // Two intersections
     const double y = std::sqrt(std::pow(circle_radius, 2.0) - std::pow(x, 2.0));
-    const arma::vec::fixed<3>& y_unit_vector =
+    const arma::vec::fixed<3> &y_unit_vector =
         arma::normalise(arma::cross(x_unit_vector, circle_normal));
     return std::vector<arma::vec::fixed<3>>(
         {circle_centre + x * x_unit_vector + y * y_unit_vector,
          circle_centre + x * x_unit_vector - y * y_unit_vector});
   }
 }
-}  // namespace pass
+} // namespace pass

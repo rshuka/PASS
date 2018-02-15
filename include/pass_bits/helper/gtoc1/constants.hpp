@@ -4,8 +4,9 @@
 #include <utility>
 
 namespace pass {
+
 struct celestial_body {
- public:
+public:
   static const celestial_body SUN;
   static const celestial_body MERCURY;
   static const celestial_body VENUS;
@@ -23,16 +24,16 @@ struct celestial_body {
   /**
    * Returns a tuple (position, velocity).
    */
-  std::pair<std::array<double, 3>, std::array<double, 3>> ephemeris(
-      const double mjd2000) const;
+  std::pair<std::array<double, 3>, std::array<double, 3>>
+  ephemeris(const double mjd2000) const;
 
- private:
+private:
   celestial_body(double mu, double penalty,
                  double penalty_coefficient) noexcept;
 };
 
 struct asteroid {
- public:
+public:
   asteroid(std::array<double, 6> keplerian, double epoch, double mu) noexcept;
 
   std::array<double, 6> keplerian;
@@ -42,7 +43,7 @@ struct asteroid {
   /**
    * Returns a tuple (position, velocity).
    */
-  std::pair<std::array<double, 3>, std::array<double, 3>> ephemeris(
-      const double jd) const;
+  std::pair<std::array<double, 3>, std::array<double, 3>>
+  ephemeris(const double jd) const;
 };
-}  // namespace pass
+} // namespace pass

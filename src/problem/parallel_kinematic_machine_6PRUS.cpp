@@ -1,27 +1,42 @@
 #include "pass_bits/problem/parallel_kinematic_machine_6PRUS.hpp"
 
-// C++ standard library
+// std::max
 #include <algorithm>
+
+// assert
 #include <cassert>
-#include <functional>
+
+// std::numerical_limits
 #include <limits>
-#include <string>
-#include <utility>
+
+// std::vector
+#include <vector>
+
+// std::cos, std::sin
+#include <cmath>
+
+/**
+ * Contants from the table 7 in the paper.
+ */ 
+const double b = 0.364;
+const double p = 0.073;
 
 #include "pass_bits/helper/geometry.hpp"
 
-// The following robot configuration is based on the work of our research
-// colleagues from the Institute of Mechatronic Systems, Leibniz Universität
-// Hannover, Germany. However, we changed the coordinates of the 3rd end
-// effector joint to make the configuration symmetric.
+/**
+ * The following robot configuration is based on the work of our research
+ * colleagues from the Institute of Mechatronic Systems, Leibniz Universität
+ * Hannover, Germany. However, we changed the coordinates of the 3rd end
+ * effector joint to make the configuration symmetric.
+ */ 
 pass::parallel_kinematic_machine_6PRUS::parallel_kinematic_machine_6PRUS()
     : problem({-0.6, -0.6, -0.6, -0.6, -0.6, -0.6},
               {0.2, 0.2, 0.2, 0.2, 0.2, 0.2}),
       redundant_joints_position(
-          {{-0.050659008749464, 0.050659008749464, 0.337494923062311,
-            0.286835914312847, -0.286835914312847, -0.337494923062311},
-           {0.360457577021932, 0.360457577021932, -0.136356800003392,
-            -0.224100777018540, -0.224100777018540, -0.136356800003392},
+          {{-b * std::sin(2 * arma::datum::pi / 45), b * std::sin(2 * arma::datum::pi / 45), b * std::sin(28 * arma::datum::pi / 45), 
+             b * std::sin(32 * arma::datum::pi / 45), b * std::sin(58 * arma::datum::pi / 45), b * std::sin(62 * arma::datum::pi / 45)},
+           {b * std::cos(2 * arma::datum::pi / 45), b * std::cos(2 * arma::datum::pi / 45), b * std::cos(28 * arma::datum::pi / 45), 
+             b * std::cos(32 * arma::datum::pi / 45), b * std::cos(58 * arma::datum::pi / 45), b * std::cos(62 * arma::datum::pi / 45)},
            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}),
       redundant_joints_angles({{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
                                {0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
@@ -35,10 +50,10 @@ pass::parallel_kinematic_machine_6PRUS::parallel_kinematic_machine_6PRUS()
       link_lengths({{0.24, 0.24, 0.24, 0.24, 0.24, 0.24},
                     {0.56, 0.56, 0.56, 0.56, 0.56, 0.56}}),
       end_effector_joints_relative_position(
-          {{-0.027346281319362, 0.027346281319362, 0.072289569018135,
-            0.044943287698773, -0.044943287698773, -0.072289569018135},
-           {0.067684421383375, 0.067684421383375, -0.010159636370085,
-            -0.057524785013291, -0.057524785013291, -0.010159636370085},
+          {{-p * std::sin(11 * arma::datum::pi / 90), p * std::sin(11 * arma::datum::pi / 90), p * std::sin(49 * arma::datum::pi / 90), 
+             p * std::sin(4 * arma::datum::pi / 5), p * std::sin(109 * arma::datum::pi / 90), p * std::sin(131 * arma::datum::pi / 90)},
+           {p * std::cos(11 * arma::datum::pi / 90), p * std::cos(11 * arma::datum::pi / 90), p * std::cos(49 * arma::datum::pi / 90), 
+             p * std::cos(4 * arma::datum::pi / 5), p * std::cos(109 * arma::datum::pi / 90), p * std::cos(131 * arma::datum::pi / 90)},
            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}}),
       end_effector_trajectory({{0, 0, 0.5, 0, 0, 0}}) {}
 

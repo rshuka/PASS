@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 #!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
 if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.2.0/bin/g++-7")
+set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.3.0/bin/g++-7")
 endif()
 
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
@@ -132,13 +132,13 @@ add_library(pass SHARED
   src/helper/geometry.cpp
   src/helper/random.cpp
   src/helper/stopwatch.cpp
-  src/helper/gtoc1/Astro_Functions.cpp
+  src/helper/gtoc1/astro_functions.cpp
   src/helper/gtoc1/astro_helpers.cpp
   src/helper/gtoc1/constants.cpp
-  src/helper/gtoc1/Lambert.cpp
-  src/helper/gtoc1/PowSwingByInv.cpp
+  src/helper/gtoc1/lambert.cpp
+  src/helper/gtoc1/pow_swing_by_inv.cpp
   src/helper/gtoc1/vector3d_helpers.cpp
-  src/helper/gtoc1/ZeroFinder.cpp
+  src/helper/gtoc1/zero_finder.cpp
 
   # Optimisation Problems
   src/problem.cpp
@@ -181,7 +181,6 @@ target_compile_options(pass PRIVATE "-Wextra")
 target_compile_options(pass PRIVATE "-Wpedantic")
 
 # Include PASS
-
 target_include_directories(pass PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)

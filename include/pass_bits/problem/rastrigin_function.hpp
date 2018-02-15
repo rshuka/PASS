@@ -24,7 +24,7 @@ namespace pass {
 class rastrigin_function : public problem {
  public:
   /**
-   * Initialises a sphere function with `dimension` dimensions, lower bounds of
+   * Initialises a rastrigin function with `dimension` dimensions, lower bounds of
    * -5.12 and upper bounds of 5.12.
    */
   rastrigin_function(const arma::uword dimension);

@@ -12,7 +12,7 @@
 pass::rastrigin_function::rastrigin_function(const arma::uword dimension)
     : problem(dimension, -5.12, 5.12) {}
 
-double pass::rastrigin_function::evaluate(const arma::vec& parameter) const {
+double pass::rastrigin_function::evaluate(const arma::vec &parameter) const {
   assert(parameter.n_elem == dimension() &&
          "`parameter` has incompatible dimension");
   return 10.0 * dimension() +

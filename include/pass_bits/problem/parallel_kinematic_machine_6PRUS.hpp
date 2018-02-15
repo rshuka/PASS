@@ -63,12 +63,16 @@ class parallel_kinematic_machine_6PRUS : public problem {
   /**
    * Each element stores a position in the work area that must be reached by the
    * robot as a (x, y, z, α, β, γ) vector. If any position of the trajectory
-   * cannot be reached by the robot, the objective value becomes -∞.
+   * cannot be reached by the robot, the objective value becomes ∞.
    *
    * Is initialised to (0, 0, 0.5, 0, 0, 0).
    */
   std::vector<arma::vec::fixed<6>> end_effector_trajectory;
 
+   /**
+   * Sets the lower and upper bounds (margin for the additional actuators) to
+   * (-0.6, 0.2) for all joints.
+   */
   parallel_kinematic_machine_6PRUS();
 
   virtual double evaluate(const arma::vec& parameter) const override;

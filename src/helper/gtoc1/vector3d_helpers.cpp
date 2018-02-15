@@ -16,7 +16,7 @@ double pass::gtoc::norm(std::array<double, 3> v) {
   return sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 }
 
-std::array<double, 3> pass::gtoc::unit_vector(const std::array<double, 3>& v) {
+std::array<double, 3> pass::gtoc::unit_vector(const std::array<double, 3> &v) {
   return div(v, norm(v));
 }
 

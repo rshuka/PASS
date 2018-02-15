@@ -8,24 +8,24 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/ZeroFinder.hpp"
+#include "pass_bits/helper/gtoc1/zero_finder.hpp"
 
 #include <math.h>
 #include <valarray>
 #include <vector>
 
-#define NUMERATOR(dab, dcb, fa, fb, fc) \
+#define NUMERATOR(dab, dcb, fa, fb, fc)                                        \
   fb *(dab * fc * (fc - fb) - fa * dcb * (fa - fb))
 #define DENOMINATOR(fa, fb, fc) (fc - fb) * (fa - fb) * (fa - fc)
 
-void ZeroFinder::Function1D::SetParameters(double a, double b) {
+void zero_finder::Function1D::SetParameters(double a, double b) {
   p1 = a;
   p2 = b;
 }
 
-void ZeroFinder::Function1D_7param::SetParameters(double a, double b, double c,
-                                                  double d, double e, double f,
-                                                  double g) {
+void zero_finder::Function1D_7param::SetParameters(double a, double b, double c,
+                                                   double d, double e, double f,
+                                                   double g) {
   p1 = a;
   p2 = b;
   p3 = c;
@@ -36,10 +36,10 @@ void ZeroFinder::Function1D_7param::SetParameters(double a, double b, double c,
 }
 
 //
-ZeroFinder::FZero::FZero(double a, double b) { SetBounds(a, b); }
+zero_finder::FZero::FZero(double a, double b) { SetBounds(a, b); }
 
 //
-void ZeroFinder::FZero::SetBounds(double lb, double ub) {
+void zero_finder::FZero::SetBounds(double lb, double ub) {
   a = lb;
   c = ub;
 }
@@ -53,7 +53,7 @@ void ZeroFinder::FZero::SetBounds(double lb, double ub) {
 // //
 //
 //-------------------------------------------------------------------------------------//
-double ZeroFinder::FZero::FindZero(Function1D &f) {
+double zero_finder::FZero::FindZero(Function1D &f) {
   int max_iterations = 500;
   double tolerance = 1e-15;
 
@@ -94,7 +94,8 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
     for (i = 0; i < max_iterations; i++) {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -103,7 +104,8 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
       if ((b - a) < tolerance) {
         if (fb > 0) {
           a = b;
@@ -174,7 +176,8 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
   // nonnegative.                                                       //
 
   for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance) return 0.5 * (a + c);
+    if ((c - a) < tolerance)
+      return 0.5 * (a + c);
     fb = f(b);
 
     if ((b - a) < tolerance) {
@@ -226,7 +229,7 @@ double ZeroFinder::FZero::FindZero(Function1D &f) {
 }
 
 //-----------------------------------------------------------------------------------
-double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
+double zero_finder::FZero::FindZero7(Function1D_7param &f) {
   int max_iterations = 500;
   double tolerance = 1e-15;
 
@@ -267,7 +270,8 @@ double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
     for (i = 0; i < max_iterations; i++) {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -276,7 +280,8 @@ double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
       if ((b - a) < tolerance) {
         if (fb > 0) {
           a = b;
@@ -347,7 +352,8 @@ double ZeroFinder::FZero::FindZero7(Function1D_7param &f) {
   // nonnegative.                                                       //
 
   for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance) return 0.5 * (a + c);
+    if ((c - a) < tolerance)
+      return 0.5 * (a + c);
     fb = f(b);
 
     if ((b - a) < tolerance) {

@@ -118,7 +118,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
           velocities(k, n) *= -0.5;
         }
       }
-
+  
       const double objective_value = problem.evaluate(positions.col(n));
       if (objective_value < best_found_value) {
         best_found_parameters.col(n) = positions.col(n);

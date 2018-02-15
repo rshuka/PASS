@@ -79,7 +79,7 @@ double pass::gtoc1::evaluate(const arma::vec& parameter) const {
           pass::gtoc::sub(current_section_departure_velocity, v[i]));
 
       // calculation of delta V at pericenter
-      const auto swing_by_solution = PowSwingByInv(
+      const auto swing_by_solution = pow_swing_by_inv(
           Vin, Vout,
           acos(pass::gtoc::dot_product(
                    pass::gtoc::sub(last_section_arrival_velocity, v[i]),

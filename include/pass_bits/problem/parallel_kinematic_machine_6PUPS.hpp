@@ -26,12 +26,7 @@ namespace pass {
  * the optimisation parameter.
  */
 class parallel_kinematic_machine_6PUPS : public problem {
- public:
-  /**
-   * Initialises this object according to table 5 in the paper.
-   */
-  parallel_kinematic_machine_6PUPS();
-
+public:
   /**
    * Stores the x/y/z coordinates for each base joint. (`(0)x_G_i`, `(0)y_G_i`,
    * `(0)z_G_i`)
@@ -67,12 +62,19 @@ class parallel_kinematic_machine_6PUPS : public problem {
   /**
    * Each element stores a position in the work area that must be reached by the
    * robot as a (x, y, z, α, β, γ) vector. If any position of the trajectory
-   * cannot be reached by the robot, the objective value becomes -∞.
+   * cannot be reached by the robot, the objective value becomes ∞.
    *
    * Is initialised to (0, 0, 0.6, 0, 0, 0).
    */
   std::vector<arma::vec::fixed<6>> end_effector_trajectory;
 
-  virtual double evaluate(const arma::vec& parameter) const override;
+  /**
+   * Initialises this object according to table 5 in the paper.
+   * Sets the lower and upper bounds (margin for the additional actuators) to
+   * (-0.6, 0.2) for all joints.
+   */
+  parallel_kinematic_machine_6PUPS();
+
+  virtual double evaluate(const arma::vec &parameter) const override;
 };
-}  // namespace pass
+} // namespace pass
