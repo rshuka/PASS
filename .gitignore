@@ -50,5 +50,9 @@ include/pass_bits/config.hpp
 ## Netbeans
 nbproject/
 
+## CLion
+*.iml
+.idea/
+
 ## Visual Studio Code
 *.vscode
