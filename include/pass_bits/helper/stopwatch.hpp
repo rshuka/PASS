@@ -2,20 +2,22 @@
 
 #include <chrono> // std::chrono
 
-namespace pass {
+namespace pass
+{
 /**
  * A stopwatch measures the time since its creation.
  */
-class stopwatch {
- public:
+class stopwatch
+{
+public:
   stopwatch() noexcept;
 
   /**
-   * The time in nanoseconds since this object was created.
+   * The time in microseconds since this object was created.
    */
-  std::chrono::nanoseconds get_elapsed() const noexcept;
+  std::chrono::microseconds get_elapsed() const noexcept;
 
- private:
+private:
   const std::chrono::steady_clock::time_point start_time;
 };
-}  // namespace pass
+} // namespace pass

@@ -9,6 +9,8 @@ pass::optimise_result pass::random_search::optimise(
 
   do
   {
+    ++result.iterations;
+
     arma::vec parameter = problem.random_parameters(1);
     const double objective_value = problem.evaluate(parameter);
 
@@ -18,11 +20,11 @@ pass::optimise_result pass::random_search::optimise(
       result.objective_value = objective_value;
     }
 
-    ++result.iterations;
-    result.duration = stopwatch.get_elapsed();
   } // Termintation criteria
   while (result.duration < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved());
+
+  result.duration = stopwatch.get_elapsed();
 
   return result;
 }

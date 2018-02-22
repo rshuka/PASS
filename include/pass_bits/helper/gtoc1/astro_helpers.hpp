@@ -1,11 +1,12 @@
 #pragma once
 
-#include <array> //std::array
+#include <array>   //std::array
 #include <utility> // std::pair
 
-namespace pass {
+namespace pass
+{
 
-typedef struct lambert_solution  
+typedef struct lambert_solution
 {
   std::array<double, 3> departure_velocity;
   std::array<double, 3> arrival_velocity;
@@ -45,4 +46,4 @@ std::pair<std::array<double, 3>, std::array<double, 3>> conversion(
  * `./astro_functions.h`.
  */
 double mean_to_eccentric(const double m, const double e);
-}  // namespace pass
+} // namespace pass

@@ -1,38 +1,38 @@
 #pragma once
 
-#include <chrono> // std:: chrono
-#include <armadillo> // std::arma::vec
-#include <cassert> // assert
+#include <chrono>    // std::chrono
+#include <armadillo> // std::arma::vec, arma::uword
+#include <cassert>   // assert
 #include "pass_bits/problem.hpp"
 
 #if defined(SUPPORT_OPENMP)
-#include <omp.h> 
+#include <omp.h>
 #endif
 
 #if defined(SUPPORT_MPI)
-#include <mpi.h> 
+#include <mpi.h>
 #endif
 
-namespace pass 
+namespace pass
 {
 /**
  * Created by `optimiser::optimise`. Stores information about the optimisation.
  */
-struct optimise_result 
+struct optimise_result
 {
   /**
-   * The parameter that was evaluated to `objective_value`. Is initialised to
+   * The best found parameter that was evaluated to `objective_value`. Is initialised to
    * NaN in all dimensions.
    */
   arma::vec parameter;
 
   /**
-   * The best found objective value. Is initialised to infinity.
+   * The best found objective value. Is initialised to + infinity.
    */
   double objective_value;
 
   /**
-   * The acceptable objective value of the optimiser that created this result.
+   * The acceptable objective (good enough) value of the optimiser.
    */
   const double acceptable_objective_value;
 
@@ -44,7 +44,7 @@ struct optimise_result
   /**
    * Total time the optimiser took to find `objective_value`.
    */
-  std::chrono::nanoseconds duration;
+  std::chrono::microseconds duration;
 
   /**
    * The total number of times `problem.evaluate` was called per [iteration].
@@ -71,8 +71,9 @@ struct optimise_result
  * Interface for algorithms that approximate a solution to a `pass::problem`.
  * Subclasses need only implement `optimise`.
  */
-class optimiser {
- public:
+class optimiser
+{
+public:
   /**
    * The optimiser will stop early if it finds a parameter that evaluates to a
    * value less than or equal to `acceptable_objective_value`.
@@ -93,7 +94,7 @@ class optimiser {
    *
    * Initialised to 1 minute.
    */
-  std::chrono::nanoseconds maximal_duration;
+  std::chrono::microseconds maximal_duration;
 
   optimiser() noexcept;
 
@@ -101,6 +102,6 @@ class optimiser {
    * Optimises `problem`, storing the result and performance characteristics of
    * the optimisation in the returned `optimise_result`.
    */
-  virtual optimise_result optimise(const pass::problem& problem) = 0;
+  virtual optimise_result optimise(const pass::problem &problem) = 0;
 };
-}  // namespace pass
+} // namespace pass

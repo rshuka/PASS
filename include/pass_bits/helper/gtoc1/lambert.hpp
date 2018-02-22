@@ -12,6 +12,6 @@
 #include "astro_functions.hpp"
 
 void LambertI(const double *, const double *, double, const double,
-              const int,  // INPUT
+              const int, // INPUT
               double *, double *, double &, double &, double &,
-              int &);  // OUTPUT
+              int &); // OUTPUT

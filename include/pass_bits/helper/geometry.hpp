@@ -2,7 +2,8 @@
 
 #include <armadillo>
 
-namespace pass {
+namespace pass
+{
 extern const double machine_precision;
 /**
  * Rotation matrix in two dimensions
@@ -38,4 +39,4 @@ std::vector<arma::vec::fixed<3>> circle_sphere_intersections(
     const arma::vec::fixed<3> &circle_center, const double circle_radius,
     const arma::vec::fixed<3> &circle_normal,
     const arma::vec::fixed<3> &sphere_center, const double sphere_radius);
-}  // namespace pass
+} // namespace pass

@@ -2,10 +2,11 @@
 
 #include "pass_bits/optimiser.hpp"
 
-namespace pass 
+namespace pass
 {
-class random_search : public optimiser {
- public:
-  virtual optimise_result optimise(const pass::problem& problem);
+class random_search : public optimiser
+{
+public:
+  virtual optimise_result optimise(const pass::problem &problem);
 };
-}  // namespace pass
+} // namespace pass

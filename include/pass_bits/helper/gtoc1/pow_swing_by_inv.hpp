@@ -9,7 +9,8 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-namespace pass {
+namespace pass
+{
 
 void pow_swing_by_inv(const double, const double, const double, double &,
                       double &);

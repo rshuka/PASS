@@ -17,14 +17,16 @@
   fb *(dab * fc * (fc - fb) - fa * dcb * (fa - fb))
 #define DENOMINATOR(fa, fb, fc) (fc - fb) * (fa - fb) * (fa - fc)
 
-void zero_finder::Function1D::SetParameters(double a, double b) {
+void zero_finder::Function1D::SetParameters(double a, double b)
+{
   p1 = a;
   p2 = b;
 }
 
 void zero_finder::Function1D_7param::SetParameters(double a, double b, double c,
                                                    double d, double e, double f,
-                                                   double g) {
+                                                   double g)
+{
   p1 = a;
   p2 = b;
   p3 = c;
@@ -38,7 +40,8 @@ void zero_finder::Function1D_7param::SetParameters(double a, double b, double c,
 zero_finder::FZero::FZero(double a, double b) { SetBounds(a, b); }
 
 //
-void zero_finder::FZero::SetBounds(double lb, double ub) {
+void zero_finder::FZero::SetBounds(double lb, double ub)
+{
   a = lb;
   c = ub;
 }
@@ -52,7 +55,8 @@ void zero_finder::FZero::SetBounds(double lb, double ub) {
 // //
 //
 //-------------------------------------------------------------------------------------//
-double zero_finder::FZero::FindZero(Function1D &f) {
+double zero_finder::FZero::FindZero(Function1D &f)
+{
   int max_iterations = 500;
   double tolerance = 1e-15;
 
@@ -63,17 +67,22 @@ double zero_finder::FZero::FindZero(Function1D &f) {
   // If the initial estimates do not bracket a root, set the err flag and //
   // return.  If an initial estimate is a root, then return the root.     //
 
-  if (fb >= 0.0) {
-    if (fb > 0.0) {
+  if (fb >= 0.0)
+  {
+    if (fb > 0.0)
+    {
       return 0.0;
-    } else {
+    }
+    else
+    {
       return (fa == 0.0) ? a : c;
     }
   }
 
   // Insure that the initial estimate a < c. //
 
-  if (a > c) {
+  if (a > c)
+  {
     delta = a;
     a = c;
     c = delta;
@@ -89,11 +98,14 @@ double zero_finder::FZero::FindZero(Function1D &f) {
   // remains nonnegative and the function at the right endpoint remains //
   // nonpositive.                                                       //
 
-  if (fa > 0.0) {
-    for (i = 0; i < max_iterations; i++) {
+  if (fa > 0.0)
+  {
+    for (i = 0; i < max_iterations; i++)
+    {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -102,14 +114,19 @@ double zero_finder::FZero::FindZero(Function1D &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance) return 0.5 * (a + c);
-      if ((b - a) < tolerance) {
-        if (fb > 0) {
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
+      if ((b - a) < tolerance)
+      {
+        if (fb > 0)
+        {
           a = b;
           fa = fb;
           b = 0.5 * (a + c);
           continue;
-        } else {
+        }
+        else
+        {
           return b;
         }
       }
@@ -118,22 +135,28 @@ double zero_finder::FZero::FindZero(Function1D &f) {
       // the right endpoint of the inverval.  If it appears that the //
       // interval is not decreasing fast enough, use bisection.      //
 
-      if ((c - b) < tolerance) {
-        if (fb < 0) {
+      if ((c - b) < tolerance)
+      {
+        if (fb < 0)
+        {
           c = b;
           fc = fb;
           b = 0.5 * (a + c);
           continue;
-        } else {
+        }
+        else
+        {
           return b;
         }
       }
 
       // If quadratic inverse interpolation is feasible, try it. //
 
-      if ((fa > fb) && (fb > fc)) {
+      if ((fa > fb) && (fb > fc))
+      {
         delta = DENOMINATOR(fa, fb, fc);
-        if (delta != 0.0) {
+        if (delta != 0.0)
+        {
           dab = a - b;
           dcb = c - b;
           delta = NUMERATOR(dab, dcb, fa, fb, fc) / delta;
@@ -142,14 +165,20 @@ double zero_finder::FZero::FindZero(Function1D &f) {
           // interval?  If yes, use it and update interval.    //
           // If no, use the bisection method.                  //
 
-          if (delta > dab && delta < dcb) {
-            if (fb > 0.0) {
+          if (delta > dab && delta < dcb)
+          {
+            if (fb > 0.0)
+            {
               a = b;
               fa = fb;
-            } else if (fb < 0.0) {
+            }
+            else if (fb < 0.0)
+            {
               c = b;
               fc = fb;
-            } else {
+            }
+            else
+            {
               return b;
             }
             b += delta;
@@ -172,45 +201,61 @@ double zero_finder::FZero::FindZero(Function1D &f) {
   // remains nonpositive and the function at the right endpoint remains //
   // nonnegative.                                                       //
 
-  for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance) return 0.5 * (a + c);
+  for (i = 0; i < max_iterations; i++)
+  {
+    if ((c - a) < tolerance)
+      return 0.5 * (a + c);
     fb = f(b);
 
-    if ((b - a) < tolerance) {
-      if (fb < 0) {
+    if ((b - a) < tolerance)
+    {
+      if (fb < 0)
+      {
         a = b;
         fa = fb;
         b = 0.5 * (a + c);
         continue;
-      } else
+      }
+      else
         return b;
     }
 
-    if ((c - b) < tolerance) {
-      if (fb > 0) {
+    if ((c - b) < tolerance)
+    {
+      if (fb > 0)
+      {
         c = b;
         fc = fb;
         b = 0.5 * (a + c);
         continue;
-      } else {
+      }
+      else
+      {
         return b;
       }
     }
 
-    if ((fa < fb) && (fb < fc)) {
+    if ((fa < fb) && (fb < fc))
+    {
       delta = DENOMINATOR(fa, fb, fc);
-      if (delta != 0.0) {
+      if (delta != 0.0)
+      {
         dab = a - b;
         dcb = c - b;
         delta = NUMERATOR(dab, dcb, fa, fb, fc) / delta;
-        if (delta > dab && delta < dcb) {
-          if (fb < 0.0) {
+        if (delta > dab && delta < dcb)
+        {
+          if (fb < 0.0)
+          {
             a = b;
             fa = fb;
-          } else if (fb > 0.0) {
+          }
+          else if (fb > 0.0)
+          {
             c = b;
             fc = fb;
-          } else
+          }
+          else
             return b;
           b += delta;
           continue;
@@ -225,7 +270,8 @@ double zero_finder::FZero::FindZero(Function1D &f) {
 }
 
 //-----------------------------------------------------------------------------------
-double zero_finder::FZero::FindZero7(Function1D_7param &f) {
+double zero_finder::FZero::FindZero7(Function1D_7param &f)
+{
   int max_iterations = 500;
   double tolerance = 1e-15;
 
@@ -236,17 +282,22 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
   // If the initial estimates do not bracket a root, set the err flag and //
   // return.  If an initial estimate is a root, then return the root.     //
 
-  if (fb >= 0.0) {
-    if (fb > 0.0) {
+  if (fb >= 0.0)
+  {
+    if (fb > 0.0)
+    {
       return 0.0;
-    } else {
+    }
+    else
+    {
       return (fa == 0.0) ? a : c;
     }
   }
 
   // Insure that the initial estimate a < c. //
 
-  if (a > c) {
+  if (a > c)
+  {
     delta = a;
     a = c;
     c = delta;
@@ -262,11 +313,14 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
   // remains nonnegative and the function at the right endpoint remains //
   // nonpositive.                                                       //
 
-  if (fa > 0.0) {
-    for (i = 0; i < max_iterations; i++) {
+  if (fa > 0.0)
+  {
+    for (i = 0; i < max_iterations; i++)
+    {
       // Are the two endpoints within the user specified tolerance ?
 
-      if ((c - a) < tolerance) return 0.5 * (a + c);
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
 
       // No, Continue iteration.
 
@@ -275,14 +329,19 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
       // Check that we are converging or that we have converged near //
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
-      if ((c - a) < tolerance) return 0.5 * (a + c);
-      if ((b - a) < tolerance) {
-        if (fb > 0) {
+      if ((c - a) < tolerance)
+        return 0.5 * (a + c);
+      if ((b - a) < tolerance)
+      {
+        if (fb > 0)
+        {
           a = b;
           fa = fb;
           b = 0.5 * (a + c);
           continue;
-        } else {
+        }
+        else
+        {
           return b;
         }
       }
@@ -291,22 +350,28 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
       // the right endpoint of the inverval.  If it appears that the //
       // interval is not decreasing fast enough, use bisection.      //
 
-      if ((c - b) < tolerance) {
-        if (fb < 0) {
+      if ((c - b) < tolerance)
+      {
+        if (fb < 0)
+        {
           c = b;
           fc = fb;
           b = 0.5 * (a + c);
           continue;
-        } else {
+        }
+        else
+        {
           return b;
         }
       }
 
       // If quadratic inverse interpolation is feasible, try it. //
 
-      if ((fa > fb) && (fb > fc)) {
+      if ((fa > fb) && (fb > fc))
+      {
         delta = DENOMINATOR(fa, fb, fc);
-        if (delta != 0.0) {
+        if (delta != 0.0)
+        {
           dab = a - b;
           dcb = c - b;
           delta = NUMERATOR(dab, dcb, fa, fb, fc) / delta;
@@ -315,14 +380,20 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
           // interval?  If yes, use it and update interval.    //
           // If no, use the bisection method.                  //
 
-          if (delta > dab && delta < dcb) {
-            if (fb > 0.0) {
+          if (delta > dab && delta < dcb)
+          {
+            if (fb > 0.0)
+            {
               a = b;
               fa = fb;
-            } else if (fb < 0.0) {
+            }
+            else if (fb < 0.0)
+            {
               c = b;
               fc = fb;
-            } else {
+            }
+            else
+            {
               return b;
             }
             b += delta;
@@ -345,46 +416,64 @@ double zero_finder::FZero::FindZero7(Function1D_7param &f) {
   // remains nonpositive and the function at the right endpoint remains //
   // nonnegative.                                                       //
 
-  for (i = 0; i < max_iterations; i++) {
-    if ((c - a) < tolerance) return 0.5 * (a + c);
+  for (i = 0; i < max_iterations; i++)
+  {
+    if ((c - a) < tolerance)
+      return 0.5 * (a + c);
     fb = f(b);
 
-    if ((b - a) < tolerance) {
-      if (fb < 0) {
+    if ((b - a) < tolerance)
+    {
+      if (fb < 0)
+      {
         a = b;
         fa = fb;
         b = 0.5 * (a + c);
         continue;
-      } else {
+      }
+      else
+      {
         return b;
       }
     }
 
-    if ((c - b) < tolerance) {
-      if (fb > 0) {
+    if ((c - b) < tolerance)
+    {
+      if (fb > 0)
+      {
         c = b;
         fc = fb;
         b = 0.5 * (a + c);
         continue;
-      } else {
+      }
+      else
+      {
         return b;
       }
     }
 
-    if ((fa < fb) && (fb < fc)) {
+    if ((fa < fb) && (fb < fc))
+    {
       delta = DENOMINATOR(fa, fb, fc);
-      if (delta != 0.0) {
+      if (delta != 0.0)
+      {
         dab = a - b;
         dcb = c - b;
         delta = NUMERATOR(dab, dcb, fa, fb, fc) / delta;
-        if (delta > dab && delta < dcb) {
-          if (fb < 0.0) {
+        if (delta > dab && delta < dcb)
+        {
+          if (fb < 0.0)
+          {
             a = b;
             fa = fb;
-          } else if (fb > 0.0) {
+          }
+          else if (fb > 0.0)
+          {
             c = b;
             fc = fb;
-          } else {
+          }
+          else
+          {
             return b;
           }
           b += delta;

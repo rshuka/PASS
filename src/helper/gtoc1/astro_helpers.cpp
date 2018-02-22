@@ -6,8 +6,10 @@
 
 pass::lambert_solution pass::lambert(std::array<double, 3> r1,
                                      std::array<double, 3> r2, double t,
-                                     const double mu, const int lw) {
-  if (t <= 0) {
+                                     const double mu, const int lw)
+{
+  if (t <= 0)
+  {
     throw std::invalid_argument(
         "ERROR in Lambert Solver: Negative Time in input.");
   }
@@ -27,7 +29,8 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
   double theta = acos(pass::gtoc::dot_product(r1, r2) / r2_mod);
 
-  if (lw) theta = 2 * acos(-1.0) - theta;
+  if (lw)
+    theta = 2 * acos(-1.0) - theta;
 
   // non-dimensional chord
   double c = sqrt(1 + r2_mod * (r2_mod - 2.0 * cos(theta)));
@@ -61,7 +64,8 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
     // Newton iterations
     double x_new = 0.0, y_new;
-    while ((error > tolerance) && (y1 != y2)) {
+    while ((error > tolerance) && (y1 != y2))
+    {
       x_new = (x1 * y2 - y1 * x2) / (y2 - y1);
       y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) - logf(t);
       x1 = x2;
@@ -84,18 +88,23 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
   double eta, eta_squared;
   // psi evaluation
-  if (x < 1) {
+  if (x < 1)
+  {
     // ellipse
     double beta = 2 * asin(sqrt((s - c) / (2 * a)));
-    if (lw) beta = -beta;
+    if (lw)
+      beta = -beta;
     double alfa = 2 * acos(x);
     double psi = (alfa - beta) / 2;
     eta_squared = 2 * a * pow(sin(psi), 2) / s;
     eta = sqrt(eta_squared);
-  } else {
+  }
+  else
+  {
     // hyperbola
     double beta = 2 * asinh(sqrt((c - s) / (2 * a)));
-    if (lw) beta = -beta;
+    if (lw)
+      beta = -beta;
     double alfa = 2 * acosh(x);
     double psi = (alfa - beta) / 2;
     eta_squared = -2 * a * pow(sinh(psi), 2) / s;
@@ -107,7 +116,8 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
   std::array<double, 3> ih =
       pass::gtoc::unit_vector(pass::gtoc::cross_product(r1, r2));
-  if (lw) ih = pass::gtoc::mul(ih, -1);
+  if (lw)
+    ih = pass::gtoc::mul(ih, -1);
 
   pass::lambert_solution solution;
 
@@ -132,29 +142,33 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
 
 std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
                                                  const double Vout,
-                                                 const double alpha) {
+                                                 const double alpha)
+{
   double DV, rp;
   const int maxiter = 30;
   int i = 0;
   double err = 1.0;
-  double f, df;  // function and its derivative
+  double f, df; // function and its derivative
   double rp_new;
   const double tolerance = 1e-8;
 
-  double aIN = 1.0 / pow(Vin, 2);    // semimajor axis of the incoming hyperbola
-  double aOUT = 1.0 / pow(Vout, 2);  // semimajor axis of the incoming hyperbola
+  double aIN = 1.0 / pow(Vin, 2);   // semimajor axis of the incoming hyperbola
+  double aOUT = 1.0 / pow(Vout, 2); // semimajor axis of the incoming hyperbola
 
   rp = 1.0;
-  while ((err > tolerance) && (i < maxiter)) {
+  while ((err > tolerance) && (i < maxiter))
+  {
     i++;
     f = asin(aIN / (aIN + rp)) + asin(aOUT / (aOUT + rp)) - alpha;
     df = -aIN / sqrt((rp + 2 * aIN) * rp) / (aIN + rp) -
          aOUT / sqrt((rp + 2 * aOUT) * rp) / (aOUT + rp);
     rp_new = rp - f / df;
-    if (rp_new > 0) {
+    if (rp_new > 0)
+    {
       err = fabs(rp_new - rp);
       rp = rp_new;
-    } else
+    }
+    else
       rp /= 2.0;
   }
 
@@ -165,7 +179,8 @@ std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
 }
 
 std::pair<std::array<double, 3>, std::array<double, 3>> pass::conversion(
-    const std::array<double, 6> &E, const double mu) {
+    const std::array<double, 6> &E, const double mu)
+{
   double a, e, i, omg, omp, theta;
   double b, n;
   double X_per[3], X_dotper[3];
@@ -208,10 +223,12 @@ std::pair<std::array<double, 3>, std::array<double, 3>> pass::conversion(
 
   std::pair<std::array<double, 3>, std::array<double, 3>> result;
   // evaluate position and velocity
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++)
+  {
     result.first[i] = 0;
     result.second[i] = 0;
-    for (int j = 0; j < 2; j++) {
+    for (int j = 0; j < 2; j++)
+    {
       result.first[i] += R[i][j] * X_per[j];
       result.second[i] += R[i][j] * X_dotper[j];
     }
@@ -219,6 +236,7 @@ std::pair<std::array<double, 3>, std::array<double, 3>> pass::conversion(
   return result;
 }
 
-double pass::mean_to_eccentric(const double m, const double e) {
+double pass::mean_to_eccentric(const double m, const double e)
+{
   return Mean2Eccentric(m, e);
 }

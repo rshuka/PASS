@@ -1,7 +1,5 @@
 #include "pass_bits/optimiser.hpp"
-
-// NAN, INFINITY
-#include <cmath>
+#include <cmath> // NAN, INFINITY
 
 pass::optimise_result::optimise_result(
     const arma::uword dimension,
@@ -11,7 +9,7 @@ pass::optimise_result::optimise_result(
       objective_value(std::numeric_limits<double>::infinity()),
       acceptable_objective_value(acceptable_objective_value),
       iterations(0),
-      duration(std::chrono::nanoseconds(0)),
+      duration(std::chrono::microseconds(0)),
       evaluations_per_iteration(1) {}
 
 pass::optimise_result::optimise_result(
@@ -22,7 +20,7 @@ pass::optimise_result::optimise_result(
       objective_value(std::numeric_limits<double>::infinity()),
       acceptable_objective_value(acceptable_objective_value),
       iterations(0),
-      duration(std::chrono::nanoseconds(0)),
+      duration(std::chrono::microseconds(0)),
       evaluations_per_iteration(evaluations_per_iteration) {}
 
 bool pass::optimise_result::solved() const

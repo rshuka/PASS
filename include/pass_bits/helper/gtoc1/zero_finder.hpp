@@ -9,7 +9,8 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-namespace zero_finder {
+namespace zero_finder
+{
 /** Class for one dimensional functions with some parameters
  *
  *  The ()-operator with one double argument
@@ -17,8 +18,9 @@ namespace zero_finder {
  *  The return value is the ordinate computed for
  *  the abscissa-argument.
  */
-class Function1D {
- public:
+class Function1D
+{
+public:
   // virtual double Compute(double x)=0;
   virtual double operator()(double x) = 0;
   // parameters
@@ -26,8 +28,9 @@ class Function1D {
   void SetParameters(double a, double b);
 };
 
-class Function1D_7param {
- public:
+class Function1D_7param
+{
+public:
   // virtual double Compute(double x)=0;
   virtual double operator()(double x) = 0;
   // parameters
@@ -36,15 +39,16 @@ class Function1D_7param {
                      double g);
 };
 
-class FZero {
- private:
-  double a, c;  // lower and upper bound
+class FZero
+{
+private:
+  double a, c; // lower and upper bound
 
- public:
-  FZero(double a, double b);  // constructor
+public:
+  FZero(double a, double b); // constructor
   // fzero procedure
   double FindZero(Function1D &f);
   double FindZero7(Function1D_7param &f);
   void SetBounds(double a, double b);
 };
-}  // namespace zero_finder
+} // namespace zero_finder

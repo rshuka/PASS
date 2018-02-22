@@ -7,7 +7,7 @@
 #endif
 
 #if defined(SUPPORT_OPENMP)
-#include <omp.h> 
+#include <omp.h>
 #endif
 
 /**
