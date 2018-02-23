@@ -52,7 +52,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     if (result.objective_value >= neighbour_objective_value)
     {
       // if not improving, halve the stepsize
-      stepsize /= 2;
+      stepsize /= 2.0;
     }
     else
     {
