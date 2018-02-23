@@ -23,8 +23,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   pass::stopwatch stopwatch;
 
   // Initialisation of PSO
-  pass::optimise_result result(problem.dimension(), acceptable_objective_value,
-                               population_size);
+  pass::optimise_result result(problem.dimension(), acceptable_objective_value);
 
   // Particle data, stored column-wise.
   arma::mat positions = problem.random_parameters(population_size);
@@ -40,7 +39,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   arma::rowvec best_found_values(population_size);
 
   // Evaluate the initial positions.
-  for (std::size_t n = 0; n < population_size; ++n)
+  for (arma::uword n = 0; n < population_size; ++n)
   {
     const auto &parameter = positions.col(n);
     const double objective_value = problem.evaluate(parameter);

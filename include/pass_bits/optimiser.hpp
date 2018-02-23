@@ -4,6 +4,7 @@
 #include <armadillo> // std::arma::vec, arma::uword
 #include <cassert>   // assert
 #include "pass_bits/problem.hpp"
+#include "pass_bits/helper/stopwatch.hpp"
 
 #if defined(SUPPORT_OPENMP)
 #include <omp.h>
@@ -46,20 +47,8 @@ struct optimise_result
    */
   std::chrono::microseconds duration;
 
-  /**
-   * The total number of times `problem.evaluate` was called per [iteration].
-   */
-  const arma::uword evaluations_per_iteration;
-
-  /**
-   * Initializes [evaluations_per_iteration] to `1`.
-   */
   optimise_result(const arma::uword dimension,
                   const double acceptable_objective_value) noexcept;
-
-  optimise_result(const arma::uword dimension,
-                  const double acceptable_objective_value,
-                  const arma::uword evaluations_per_iteration) noexcept;
 
   /**
    * Returns `true` if the problem was solved.

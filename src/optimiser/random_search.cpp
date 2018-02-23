@@ -1,5 +1,4 @@
 #include "pass_bits/optimiser/random_search.hpp"
-#include "pass_bits/helper/stopwatch.hpp"
 
 pass::optimise_result pass::random_search::optimise(
     const pass::problem &problem)

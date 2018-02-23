@@ -1,7 +1,6 @@
 #include "pass_bits/problem/gtoc1.hpp"
 #include "pass_bits/helper/gtoc1/astro_helpers.hpp"
 #include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
-#include <cassert>
 
 pass::gtoc1::gtoc1()
     : problem({3000, 14, 14, 14, 14, 100, 366, 300},

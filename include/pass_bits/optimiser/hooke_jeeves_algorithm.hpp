@@ -2,26 +2,18 @@
 
 #include "pass_bits/optimiser.hpp"
 
-namespace pass 
+namespace pass
 {
-class hooke_jeeves_algorithm : public optimiser {
- public:
-  /**
-   * Initialized to 0.0. Should be set to `problem.bounds_range() / 2` by the
-   * caller.
-   */
-  double initial_stepsize;
-
-  /**
-   * In iterations without improvement in any direction, divide the stepsize by
-   * this value.
-   *
-   * Initialized to 2.0.
-   */
-  double stepsize_decrease;
-
-  hooke_jeeves_algorithm() noexcept;
-
-  virtual optimise_result optimise(const pass::problem& problem);
+/**
+ * Implements the Pattern Search (Hooke Jeeves) Algorithm. 
+ * (https://en.wikipedia.org/wiki/Pattern_search_(optimization))
+ * The initial stepsize depends on the problem boundarys and 
+ * the stepsize decreases by half if no better solution 
+ * is found.
+ */  
+class hooke_jeeves_algorithm : public optimiser
+{
+public:
+  virtual optimise_result optimise(const pass::problem &problem);
 };
-}  // namespace pass
+} // namespace pass

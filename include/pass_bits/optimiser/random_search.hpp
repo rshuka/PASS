@@ -4,6 +4,10 @@
 
 namespace pass
 {
+/**
+ * Implements the Random Search Algorithm
+ * (https://en.wikipedia.org/wiki/Random_search)
+ */
 class random_search : public optimiser
 {
 public:

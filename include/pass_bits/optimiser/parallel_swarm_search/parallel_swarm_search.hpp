@@ -4,8 +4,8 @@
 
 namespace pass {
 /**
- * Implements the [Standard Particle Swarm Optimisation 2011]
- * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848) algorithm.
+ * Implements the Standard Particle Swarm Optimisation 2011 algorithm
+ * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848)
  */
 class parallel_swarm_search : public optimiser {
  public:
