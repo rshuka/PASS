@@ -94,16 +94,15 @@ alias c++='c++-7'
 
 - Benchmark Problems
   - Ackley Function
-  - Rosenbrock Function
-  - Sphere Function
-  - Sum of Different Powers
+  - De Jong's Function
   - Rastrigin Function
+  - Rosenbrock Function
+  - Styblinski-Tang Function
+  - Sum of Different Powers Function
 
 - Astro Problems
   - [GTOC1 C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
 
-- Parallel Kinematic Machine
-  - Implements robot simulation models described in [Influence of kinematic redundancy on the singularity-free workspace of parallel kinematic machines.](https://link.springer.com/article/10.1007/s11465-012-0321-8)
 
 ## License
 

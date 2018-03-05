@@ -21,10 +21,11 @@ inline std::mt19937_64 &random_number_generator();
 double random_uniform_in_range(double min, double max);
 
 /**
- * Return a randomly and uniformly drawn neighbour of *parameter*, with distance
+ * Return a randomly and uniformly drawn neighbour of *agent*, with distance
  * [*minimal_distance*, *maximal_distance*].
  */
-arma::vec random_neighbour(const arma::vec &parameter,
+arma::vec random_neighbour(const arma::vec &agent,
                            const double minimal_distance,
                            const double maximal_distance);
+
 } // namespace pass

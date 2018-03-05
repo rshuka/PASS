@@ -13,7 +13,7 @@ double pass::random_uniform_in_range(double min, double max)
                                                 max)(random_number_generator());
 }
 
-arma::vec pass::random_neighbour(const arma::vec &parameter,
+arma::vec pass::random_neighbour(const arma::vec &agent,
                                  const double minimal_distance,
                                  const double maximal_distance)
 {
@@ -28,10 +28,10 @@ arma::vec pass::random_neighbour(const arma::vec &parameter,
    *     normal distribution vector).
    *  2. Multiply it with a length, uniformly drawn
    *     from [*minimal_distance*, *maximal_distance*].
-   *  3. Translate its origin by adding *parameter*.
+   *  3. Translate its origin by adding *agent*.
    */
 
-  return parameter +
-         arma::normalise(arma::vec{parameter.n_elem, arma::fill::randn}) *
+  return agent +
+         arma::normalise(arma::vec{agent.n_elem, arma::fill::randn}) *
              pass::random_uniform_in_range(minimal_distance, maximal_distance);
 }

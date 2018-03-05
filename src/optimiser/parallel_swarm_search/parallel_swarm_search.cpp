@@ -21,18 +21,19 @@ pass::optimise_result pass::parallel_swarm_search::optimise(const pass::problem 
   assert(maximal_global_attraction >= 0.0);
 
   pass::stopwatch stopwatch;
+  stopwatch.start();
 
-  pass::optimise_result result(problem.dimension(), acceptable_objective_value);
+  pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
 
   while (result.duration < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved())
   {
     pass::optimise_result sub_result =
         optimise(problem, maximal_duration - result.duration);
-    if (sub_result.objective_value < result.objective_value)
+    if (sub_result.fitness_value < result.fitness_value)
     {
-      result.parameter = sub_result.parameter;
-      result.objective_value = sub_result.objective_value;
+      result.agent = sub_result.agent;
+      result.fitness_value = sub_result.fitness_value;
     }
     result.iterations += sub_result.iterations;
     result.duration = stopwatch.get_elapsed();
@@ -49,7 +50,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   // its own timer anyways.
   pass::stopwatch stopwatch;
 
-  pass::optimise_result result(problem.dimension(), acceptable_objective_value);
+  pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
   pass::particle *global_best = nullptr;
 
   // Instantiate `population_size` particles.
@@ -59,10 +60,10 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   {
     particles.push_back({*this, problem});
 
-    if (particles[n].best_value <= result.objective_value)
+    if (particles[n].best_value <= result.fitness_value)
     {
-      result.parameter = particles[n].best_parameter;
-      result.objective_value = particles[n].best_value;
+      result.agent = particles[n].best_agent;
+      result.fitness_value = particles[n].best_value;
       global_best = &particles[n];
     }
   }
@@ -77,10 +78,10 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       // value.
       if (particle.update(*global_best))
       {
-        if (particle.best_value < result.objective_value)
+        if (particle.best_value < result.fitness_value)
         {
-          result.parameter = particle.best_parameter;
-          result.objective_value = particle.best_value;
+          result.agent = particle.best_agent;
+          result.fitness_value = particle.best_value;
           global_best = &particle;
         }
       }
@@ -94,7 +95,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
                         [](const double sum, const pass::particle &particle) {
                           return sum + particle.best_value;
                         });
-    if (result.objective_value >= stagnationThreshold * averagePerformance)
+    if (result.fitness_value >= stagnationThreshold * averagePerformance)
     {
       break;
     }

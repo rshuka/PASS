@@ -5,7 +5,7 @@
 namespace pass
 {
 /**
- * Implements the Random Search Algorithm
+ * Implements the Random Search algorithm
  * (https://en.wikipedia.org/wiki/Random_search)
  */
 class random_search : public optimiser

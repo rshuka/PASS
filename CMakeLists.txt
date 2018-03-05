@@ -129,7 +129,6 @@ add_library(pass SHARED
   src/config.cpp
 
   # Helper
-  src/helper/geometry.cpp
   src/helper/random.cpp
   src/helper/stopwatch.cpp
   src/helper/gtoc1/astro_functions.cpp
@@ -142,16 +141,13 @@ add_library(pass SHARED
 
   # Optimisation Problems
   src/problem.cpp
+  src/problem/de_jong_function.cpp
   src/problem/ackley_function.cpp
   src/problem/gtoc1.cpp
-  src/problem/parallel_kinematic_machine_3PRPR.cpp
-  src/problem/parallel_kinematic_machine_3PRRR.cpp
-  src/problem/parallel_kinematic_machine_6PRUS.cpp
-  src/problem/parallel_kinematic_machine_6PUPS.cpp
   src/problem/rastrigin_function.cpp
   src/problem/rosenbrock_function.cpp
-  src/problem/sphere_function.cpp
-  src/problem/sum_of_different_powers.cpp
+  src/problem/styblinski_tang_function.cpp
+  src/problem/sum_of_different_powers_function.cpp
 
   # Optimisation algorithms
   src/optimiser.cpp

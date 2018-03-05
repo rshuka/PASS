@@ -3,15 +3,15 @@
 pass::ackley_function::ackley_function(const arma::uword dimension)
     : problem(dimension, -32.768, 32.768) {}
 
-double pass::ackley_function::evaluate(const arma::vec &parameter) const
+double pass::ackley_function::evaluate(const arma::vec &agent) const
 {
-  assert(parameter.n_elem == dimension() &&
-         "`parameter` has incompatible dimension");
+  assert(agent.n_elem == dimension() &&
+         "`agent` has incompatible dimension");
   return -20.0 * std::exp(-0.2 * std::sqrt(1.0 / dimension() *
-                                           arma::sum(parameter % parameter))) -
+                                           arma::sum(agent % agent))) -
          std::exp(1.0 / dimension() *
                   std::accumulate(
-                      parameter.cbegin(), parameter.cend(), 0.0,
+                      agent.cbegin(), agent.cend(), 0.0,
                       [](const double sum, const double element) {
                         return sum + std::cos(2.0 * arma::datum::pi * element);
                       })) +

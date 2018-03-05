@@ -62,16 +62,16 @@ class problem
         problem(const arma::vec &lower_bounds, const arma::vec &upper_bounds);
 
         /**
-         * Evaluates this problem at `parameter`, which must match the dimensions of
+         * Evaluates this problem at `agent`, which must match the dimensions of
          * this problem.
          */
-        virtual double evaluate(const arma::vec &parameter) const = 0;
+        virtual double evaluate(const arma::vec &agent) const = 0;
 
         /**
-         * Draws `count` uniformly distributed random vectors from range
+         * Draws `count` uniformly distributed random agents from range
          * [lower_bounds, upper_bounds].
          */
-        arma::mat random_parameters(const arma::uword count) const;
+        arma::mat random_agents(const arma::uword count) const;
 };
 
 } // namespace pass

@@ -3,7 +3,7 @@
 #include "pass_bits/helper/gtoc1/constants.hpp"
 #include "pass_bits/problem.hpp"
 
-namespace pass 
+namespace pass
 {
 /**
  * `GTOC1` is an 8-dimensional optimization problem issued by the ESA:
@@ -15,8 +15,9 @@ namespace pass
  * impulse gained from a whole maneuver if the spacecraft arrives at the nth
  * planet at the point in time specified by the nth problem parameter.
  */
-class gtoc1 : public problem {
- public:
+class gtoc1 : public problem
+{
+public:
   /**
    * Fly-by sequence of planets. This sequence is 1 element smaller than the
    * problem dimension because the last section always targets the `asteroid`.
@@ -69,6 +70,6 @@ class gtoc1 : public problem {
    */
   gtoc1();
 
-  virtual double evaluate(const arma::vec &parameter) const override;
+  virtual double evaluate(const arma::vec &agent) const override;
 };
-}  // namespace pass
+} // namespace pass

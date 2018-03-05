@@ -12,7 +12,6 @@ arma::uword pass::problem::dimension() const noexcept
 
 pass::problem::problem(const arma::uword dimension, const double lower_bound,
                        const double upper_bound)
-    // initialiser list
     : lower_bounds(arma::vec(dimension).fill(lower_bound)),
       upper_bounds(arma::vec(dimension).fill(upper_bound))
 {
@@ -32,12 +31,10 @@ pass::problem::problem(const arma::vec &lower_bounds,
          "each dimension");
 }
 
-arma::mat pass::problem::random_parameters(const arma::uword count) const
+arma::mat pass::problem::random_agents(const arma::uword count) const
 {
-  // Parameters definition mat(n_rows, n_cols, fill_type)
-  arma::mat parameters{dimension(), count, arma::fill::randu};
-
-  parameters.each_col() %= bounds_range();
-  parameters.each_col() += lower_bounds;
-  return parameters;
+  arma::mat agents{dimension(), count, arma::fill::randu};
+  agents.each_col() %= bounds_range();
+  agents.each_col() += lower_bounds;
+  return agents;
 }

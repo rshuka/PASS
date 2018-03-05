@@ -1,3 +1,15 @@
+//------------------------------------------------------------------------------
+// Licensed under the MIT License (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://opensource.org/licenses/MIT
+//
+// Main developers:
+//   Romeo Shuka <shuka@sra.uni-hannover.de> 
+//   Philipp Schiffmann <schiffmann@sra.uni-hannover.de>
+//------------------------------------------------------------------------------
+
 #pragma once
 
 #define PASS_VERSION_MAJOR 0
@@ -11,9 +23,6 @@
 // Configuration
 #include <pass_bits/config.hpp>
 
-// Mathematical functions
-#include <pass_bits/helper/geometry.hpp>
-
 // Random number generator
 #include <pass_bits/helper/random.hpp>
 
@@ -22,16 +31,12 @@
 
 // Benchmark Optimisation problems
 #include <pass_bits/problem/ackley_function.hpp>
+#include <pass_bits/problem/de_jong_function.hpp>
 #include <pass_bits/problem/rastrigin_function.hpp>
 #include <pass_bits/problem/rosenbrock_function.hpp>
-#include <pass_bits/problem/sphere_function.hpp>
-#include <pass_bits/problem/sum_of_different_powers.hpp>
+#include <pass_bits/problem/styblinski_tang_function.hpp>
+#include <pass_bits/problem/sum_of_different_powers_function.hpp>
 
-// Kinematically Rendundand Machine Optimisation Problems
-#include <pass_bits/problem/parallel_kinematic_machine_3PRPR.hpp>
-#include <pass_bits/problem/parallel_kinematic_machine_3PRRR.hpp>
-#include <pass_bits/problem/parallel_kinematic_machine_6PRUS.hpp>
-#include <pass_bits/problem/parallel_kinematic_machine_6PUPS.hpp>
 
 // Optimisation algorithms
 #include <pass_bits/optimiser.hpp>

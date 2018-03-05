@@ -18,10 +18,10 @@ pass::gtoc1::gtoc1()
       mass(1500.0),
       DVlaunch(2.5) {}
 
-double pass::gtoc1::evaluate(const arma::vec &parameter) const
+double pass::gtoc1::evaluate(const arma::vec &agent) const
 {
-    assert(parameter.n_elem == dimension() &&
-           "`parameter` has incompatible dimension");
+    assert(agent.n_elem == dimension() &&
+           "`agent` has incompatible dimension");
 
     std::array<double, 6> rp{};
     std::array<double, 8> DV{};
@@ -39,12 +39,12 @@ double pass::gtoc1::evaluate(const arma::vec &parameter) const
         double totalTime = 0;
         for (size_t i = 0; i < 7; i++)
         {
-            totalTime += parameter[i];
+            totalTime += agent[i];
             auto result = sequence[i]->ephemeris(totalTime);
             r[i] = result.first;
             v[i] = result.second;
         }
-        totalTime += parameter[7];
+        totalTime += agent[7];
         auto result = destination.ephemeris(totalTime + 2451544.5);
         r[7] = result.first;
         v[7] = result.second;
@@ -62,7 +62,7 @@ double pass::gtoc1::evaluate(const arma::vec &parameter) const
                            : !rev_flag[i];
 
         const auto lambert_solution =
-            lambert(r[i], r[i + 1], parameter[i + 1] * 24 * 60 * 60,
+            lambert(r[i], r[i + 1], agent[i + 1] * 24 * 60 * 60,
                     celestial_body::SUN.mu, longWay);
         current_section_departure_velocity = lambert_solution.departure_velocity;
         current_section_arrival_velocity = lambert_solution.arrival_velocity;

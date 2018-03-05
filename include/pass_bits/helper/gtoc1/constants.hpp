@@ -24,8 +24,8 @@ struct celestial_body
     double penalty_coefficient;
 
     /**
-   * Returns a tuple (position, velocity).
-   */
+     * Returns a tuple (position, velocity).
+     */
     std::pair<std::array<double, 3>, std::array<double, 3>> ephemeris(
         const double mjd2000) const;
 
@@ -44,8 +44,8 @@ struct asteroid
     double mu;
 
     /**
-   * Returns a tuple (position, velocity).
-   */
+     * Returns a tuple (position, velocity).
+     */
     std::pair<std::array<double, 3>, std::array<double, 3>> ephemeris(
         const double jd) const;
 };

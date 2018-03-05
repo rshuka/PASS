@@ -5,7 +5,7 @@
 namespace pass
 {
 /**
- * Implements the Pattern Search (Hooke Jeeves) Algorithm. 
+ * Implements the Pattern Search (Hooke Jeeves) algorithm. 
  * (https://en.wikipedia.org/wiki/Pattern_search_(optimization))
  * The initial stepsize depends on the problem boundarys and 
  * the stepsize decreases by half if no better solution 

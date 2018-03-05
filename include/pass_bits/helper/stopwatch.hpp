@@ -10,14 +10,17 @@ namespace pass
 class stopwatch
 {
 public:
-  stopwatch() noexcept;
+  /**
+   * Creat time of the object.
+   */
+  void start() noexcept;
 
   /**
-   * The time in microseconds since this object was created.
+   * The time in nanoseconds (10^-9) since this object was created.
    */
-  std::chrono::microseconds get_elapsed() const noexcept;
+  std::chrono::nanoseconds get_elapsed() const noexcept;
 
 private:
-  const std::chrono::steady_clock::time_point start_time;
+  std::chrono::steady_clock::time_point start_time;
 };
 } // namespace pass

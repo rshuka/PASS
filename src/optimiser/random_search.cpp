@@ -3,20 +3,22 @@
 pass::optimise_result pass::random_search::optimise(
     const pass::problem &problem)
 {
-  pass::optimise_result result(problem.dimension(), acceptable_objective_value);
+  pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
+
   pass::stopwatch stopwatch;
+  stopwatch.start();
 
   do
   {
     ++result.iterations;
 
-    arma::vec parameter = problem.random_parameters(1);
-    const double objective_value = problem.evaluate(parameter);
+    arma::vec agent = problem.random_agents(1);
+    const double fitness_value = problem.evaluate(agent);
 
-    if (objective_value <= result.objective_value)
+    if (fitness_value <= result.fitness_value)
     {
-      result.parameter = parameter;
-      result.objective_value = objective_value;
+      result.agent = agent;
+      result.fitness_value = fitness_value;
     }
 
   } // Termintation criteria
