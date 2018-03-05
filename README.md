@@ -103,7 +103,6 @@ alias c++='c++-7'
 - Astro Problems
   - [GTOC1 C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
 
-
 ## License
 
 Distributed under [MIT license](http://opensource.org/licenses/MIT).
