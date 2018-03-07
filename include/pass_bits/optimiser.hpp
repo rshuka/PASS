@@ -5,6 +5,7 @@
 #include <chrono>    // std::chrono
 #include <armadillo> // std::arma::vec, arma::uword
 #include <cassert>   // assert
+#include <string>
 
 #if defined(SUPPORT_OPENMP)
 #include <omp.h>
@@ -93,4 +94,13 @@ public:
    */
   virtual optimise_result optimise(const pass::problem &problem) = 0;
 };
+
 } // namespace pass
+
+/**
+ * Overloading the `<<` operator enables the optimise_result to be printed to
+ * the console.
+ *
+ * See: https://docs.microsoft.com/en-us/cpp/standard-library/overloading-the-output-operator-for-your-own-classes
+ */
+std::ostream& operator<<(std::ostream& os, const pass::optimise_result& result);
