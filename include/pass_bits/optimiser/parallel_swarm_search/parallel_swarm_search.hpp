@@ -10,37 +10,44 @@ namespace pass {
 class parallel_swarm_search : public optimiser {
  public:
   /**
-   * The velocity of all particles is initialized with a uniformly distributed
-   * random value from the interval [-initial_velocity, initial_velocity].
+   * The number of particles used during optimisation.
    *
-   * Is initialized to `0.5`.
+   * Is initialized to `40`.
    */
-  double initial_velocity;
+  arma::uword swarm_size;
 
   /**
    * Controls the inertia of the particles:
    *
-   *     new_velocity = old_velocity * maximal_acceleration + attraction_center
-   *
    * Is initialized to `1 / (2 * log(2))`.
    */
-  double maximal_acceleration;
+  double inertia;
 
   /**
    * Particles are pulled towards their personal best found parameter with a
-   * random strength picked from the range [0, maximal_local_attraction].
+   * strength
    *
    * Is initialized to `0.5 + log(2)`.
    */
-  double maximal_local_attraction;
+  double cognitive_acceleration;
 
   /**
-   * Particles are pulled towards the global best found parameter with a random
-   * strength picked from the range [0, maximal_global_attraction].
+   * Particles are pulled towards the global best found parameter with a
+   * strength
    *
    * Is initialized to `0.5 + log(2)`.
    */
-  double maximal_global_attraction;
+  double social_acceleration;
+
+  /**
+   * Probability of a particle to be in the neighbourhood of another particle.
+   * Must be in range `[0, 1]`.
+   *
+   * Is initialized to `1 - (1 - 1/population_size)^3`.
+   * Based on Clerc description (Method 2)
+   * http://clerc.maurice.free.fr/pso/random_topology.pdf
+   */
+  double neighbourhood_probability;
 
   /**
    * Used by the [agile restart mechanism](TODO: citation). The optimization is
@@ -52,14 +59,7 @@ class parallel_swarm_search : public optimiser {
    * dimensional problems and `0.7` for high-dimensional problems according to
    * the paper.
    */
-  double stagnationThreshold;
-
-  /**
-   * The number of particles used during optimisation.
-   *
-   * Is initialized to `40`.
-   */
-  arma::uword population_size;
+  double stagnation_threshold;
 
   parallel_swarm_search() noexcept;
 

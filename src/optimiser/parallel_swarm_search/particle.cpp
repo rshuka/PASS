@@ -6,41 +6,47 @@ pass::particle::particle(const parallel_swarm_search &pso,
     : pso(pso),
       problem(problem),
       position(problem.random_agents(1)),
-      velocity({problem.dimension(), arma::fill::randu}),
+      velocity(arma::vec(problem.dimension())),
       best_agent(position),
       best_value(problem.evaluate(position))
 {
-  velocity.for_each([&pso](double &elem) {
-    elem *= 2 * pso.initial_velocity;
-    elem -= pso.initial_velocity;
-  });
+  for (arma::uword i = 0; i < problem.dimension(); i++) {
+    velocity[i] = random_uniform_in_range(
+        problem.lower_bounds[i] - position[i],
+        problem.upper_bounds[i] - position[i]);
+  }
 }
 
 bool pass::particle::update(const pass::particle &best_neighbour)
 {
-  // p_i^t
-  const arma::vec personal_weight =
-      random_uniform_in_range(0.0, pso.maximal_local_attraction) *
-      (best_agent - position);
+  //p_i
+  const arma::vec weighted_personal_attraction = position +
+      random_uniform_in_range(0.0, pso.cognitive_acceleration) *
+        (best_agent - position);
 
-  // l_i^t
-  const arma::vec neighbour_weight =
-      random_uniform_in_range(0.0, pso.maximal_global_attraction) *
-      (best_neighbour.best_agent - position);
+  // l_i
+  const arma::vec weighted_local_attraction = position +
+      random_uniform_in_range(0.0, pso.social_acceleration) *
+        (best_neighbour.best_agent - position);
 
-  // G_i^t
-  const arma::vec gravity_center = (personal_weight + neighbour_weight) / 3.0;
+  // G
+  arma::vec attraction_center;
 
-  // H_i
-  const arma::vec displaced_gravity_center =
-      random_neighbour(gravity_center, 0.0, arma::norm(gravity_center));
+  // If the best informant is the particle itself, define the gravity center G as the middle of x-p'
+  if (&best_neighbour == this)
+  {
+    attraction_center = 0.5 * (position + weighted_personal_attraction);
+  }
+  else
+  {
+    attraction_center = (position + weighted_personal_attraction + weighted_local_attraction) / 3.0;
+  }
 
-  // ω
-  const double inertia_weight =
-      random_uniform_in_range(0, pso.maximal_acceleration);
+  velocity = pso.inertia * velocity +
+             random_neighbour(attraction_center, 0.0, arma::norm(attraction_center - position)) -
+             position;
 
-  // V_i^{t+1}
-  velocity = inertia_weight * velocity + displaced_gravity_center;
+  // move by applying this new velocity to the current position
   position += velocity;
 
   // Check search space boundary breakouts
@@ -49,12 +55,12 @@ bool pass::particle::update(const pass::particle &best_neighbour)
     if (position(k) < problem.lower_bounds(k))
     {
       position(k) = problem.lower_bounds(k);
-      velocity(k) = 0;
+      velocity(k) *= -0.5;
     }
     else if (position(k) > problem.upper_bounds(k))
     {
       position(k) = problem.upper_bounds(k);
-      velocity(k) = -0;
+      velocity(k) *= -0.5;
     }
   }
 

@@ -7,11 +7,13 @@
 
 pass::parallel_swarm_search::parallel_swarm_search() noexcept
     : optimiser(),
-      initial_velocity(0.5),
-      maximal_acceleration(1.0 / (2.0 * std::log(2.0))),
-      maximal_local_attraction(0.5 + std::log(2.0)),
-      maximal_global_attraction(maximal_local_attraction),
-      population_size(40) {}
+      swarm_size(40),
+      inertia(1.0 / (2.0 * std::log(2.0))),
+      cognitive_acceleration(0.5 + std::log(2.0)),
+      social_acceleration(cognitive_acceleration),
+      neighbourhood_probability(1.0 -
+                                std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)),
+      stagnation_threshold(0.9) {}
 
 pass::optimise_result pass::parallel_swarm_search::optimise(const pass::problem &problem)
 {
@@ -49,14 +51,14 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   // criterion can be extracted from the stopwatch directly, and the caller has
   // its own timer anyways.
   pass::stopwatch stopwatch;
+  stopwatch.start();
 
   pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
-  pass::particle *global_best = nullptr;
 
   // Instantiate `population_size` particles.
   std::vector<particle> particles;
-  particles.reserve(population_size);
-  for (arma::uword n = 0; n < population_size; ++n)
+  particles.reserve(swarm_size);
+  for (arma::uword n = 0; n < swarm_size; ++n)
   {
     particles.push_back({*this, problem});
 
@@ -64,38 +66,62 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       result.agent = particles[n].best_agent;
       result.fitness_value = particles[n].best_value;
-      global_best = &particles[n];
     }
   }
   ++result.iterations;
 
+  arma::umat topology(swarm_size, swarm_size);
+  bool randomize_topology = true;
+
   while (stopwatch.get_elapsed() < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved())
   {
-    for (pass::particle &particle : particles)
+    if (randomize_topology)
     {
+      topology = (arma::mat(swarm_size, swarm_size,
+                            arma::fill::randu) < neighbourhood_probability);
+      // When searching for the best neighbour, we begin with the particles
+      // personal best value; We don't need to visit it twice.
+      topology.diag().fill(0);
+    }
+    randomize_topology = true;
+
+    for (arma::uword n = 0; n < swarm_size; n++)
+    {
+      pass::particle& particle = particles[n];
+
+      pass::particle* best_neighbour = &particle;
+      for (arma::uword i = 0; i < swarm_size; i++)
+      {
+        if (topology(n, i) && particles[i].best_value < best_neighbour->best_value)
+        {
+          best_neighbour = &particles[i];
+        }
+      }
+
       // If `particle.update()` returns `true`, it has found a new personal best
       // value.
-      if (particle.update(*global_best))
+      if (particle.update(*best_neighbour))
       {
         if (particle.best_value < result.fitness_value)
         {
           result.agent = particle.best_agent;
           result.fitness_value = particle.best_value;
-          global_best = &particle;
+          randomize_topology = false;
         }
       }
     }
 
     ++result.iterations;
 
+    continue;
     // Restart criterion
-    const double averagePerformance =
+    const double average_performance =
         std::accumulate(particles.begin(), particles.end(), 0.0,
                         [](const double sum, const pass::particle &particle) {
                           return sum + particle.best_value;
                         });
-    if (result.fitness_value >= stagnationThreshold * averagePerformance)
+    if (result.fitness_value >= stagnation_threshold * average_performance)
     {
       break;
     }
