@@ -34,7 +34,9 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   {
     for (arma::uword row = 0; row < problem.dimension(); ++row)
     {
-      velocities(row, col) = random_uniform_in_range(problem.lower_bounds.at(row) - positions(row, col), problem.upper_bounds.at(row) - positions(row, col));
+      velocities(row, col) = random_uniform_in_range(
+          problem.lower_bounds.at(row) - positions(row, col),
+          problem.upper_bounds.at(row) - positions(row, col));
     }
   }
 
@@ -57,14 +59,13 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     }
   }
   ++result.iterations;
-  result.duration = stopwatch.get_elapsed();
   //end initialisation
 
   arma::umat topology(swarm_size, swarm_size);
   bool randomize_topology = true;
 
   // termination criteria.
-  while (result.duration < maximal_duration &&
+  while (stopwatch.get_elapsed() < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved())
   {
     if (randomize_topology)
@@ -160,7 +161,8 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       }
     }
     ++result.iterations;
-    result.duration = stopwatch.get_elapsed();
   }
+
+  result.duration = stopwatch.get_elapsed();
   return result;
 }
