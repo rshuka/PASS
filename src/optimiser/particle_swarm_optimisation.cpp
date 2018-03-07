@@ -58,13 +58,6 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   }
   ++result.iterations;
   result.duration = stopwatch.get_elapsed();
-
-  // check termination criteria
-  if (result.duration == maximal_duration ||
-      result.iterations == maximal_iterations || result.solved())
-  {
-    return result;
-  }
   //end initialisation
 
   arma::umat topology(swarm_size, swarm_size);
@@ -102,7 +95,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
       }
 
       /**
-       * Compute the new velocity 
+       * Compute the new velocity
        */
 
       //p_i
