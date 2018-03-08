@@ -8,7 +8,7 @@ namespace pass
  * Implements the Standard Particle Swarm Optimisation 2011 algorithm
  * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848)
  * 
- * The initialisation variables are given in
+ * The initialisation variables can be found in
  * (http://clerc.maurice.free.fr/pso/SPSO_descriptions.pdf)
  * 
  */

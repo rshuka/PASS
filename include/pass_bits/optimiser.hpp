@@ -103,4 +103,4 @@ public:
  *
  * See: https://docs.microsoft.com/en-us/cpp/standard-library/overloading-the-output-operator-for-your-own-classes
  */
-std::ostream& operator<<(std::ostream& os, const pass::optimise_result& result);
+std::ostream &operator<<(std::ostream &os, const pass::optimise_result &result);

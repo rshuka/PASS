@@ -15,12 +15,13 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
                                 std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)),
       stagnation_threshold(0.9) {}
 
-pass::optimise_result pass::parallel_swarm_search::optimise(const pass::problem &problem)
+pass::optimise_result pass::parallel_swarm_search::optimise(
+    const pass::problem &problem)
 {
-  assert(initial_velocity >= 0.0);
-  assert(maximal_acceleration >= 0.0);
-  assert(maximal_local_attraction >= 0.0);
-  assert(maximal_global_attraction >= 0.0);
+  assert(inertia >= 0.0);
+  assert(cognitive_acceleration >= 0.0);
+  assert(social_acceleration >= 0.0);
+  assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0);
 
   pass::stopwatch stopwatch;
   stopwatch.start();
@@ -32,11 +33,13 @@ pass::optimise_result pass::parallel_swarm_search::optimise(const pass::problem 
   {
     pass::optimise_result sub_result =
         optimise(problem, maximal_duration - result.duration);
+
     if (sub_result.fitness_value < result.fitness_value)
     {
       result.agent = sub_result.agent;
       result.fitness_value = sub_result.fitness_value;
     }
+
     result.iterations += sub_result.iterations;
     result.duration = stopwatch.get_elapsed();
   }
@@ -55,17 +58,18 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
 
-  // Instantiate `population_size` particles.
+  // Instantiate `swarm size` particles.
   std::vector<particle> particles;
   particles.reserve(swarm_size);
+
   for (arma::uword n = 0; n < swarm_size; ++n)
   {
     particles.push_back({*this, problem});
 
-    if (particles[n].best_value <= result.fitness_value)
+    if (particles[n].personal_best_fitness_value <= result.fitness_value)
     {
-      result.agent = particles[n].best_agent;
-      result.fitness_value = particles[n].best_value;
+      result.agent = particles[n].personal_best_position;
+      result.fitness_value = particles[n].personal_best_fitness_value;
     }
   }
   ++result.iterations;
@@ -88,25 +92,26 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
     for (arma::uword n = 0; n < swarm_size; n++)
     {
-      pass::particle& particle = particles[n];
+      pass::particle &particle = particles[n];
 
-      pass::particle* best_neighbour = &particle;
+      pass::particle *local_best_agent = &particle;
+
       for (arma::uword i = 0; i < swarm_size; i++)
       {
-        if (topology(n, i) && particles[i].best_value < best_neighbour->best_value)
+        if (topology(n, i) && particles[i].personal_best_fitness_value < local_best_agent->personal_best_fitness_value)
         {
-          best_neighbour = &particles[i];
+          local_best_agent = &particles[i];
         }
       }
 
       // If `particle.update()` returns `true`, it has found a new personal best
       // value.
-      if (particle.update(*best_neighbour))
+      if (particle.update(*local_best_agent))
       {
-        if (particle.best_value < result.fitness_value)
+        if (particle.personal_best_fitness_value < result.fitness_value)
         {
-          result.agent = particle.best_agent;
-          result.fitness_value = particle.best_value;
+          result.agent = particle.personal_best_position;
+          result.fitness_value = particle.personal_best_fitness_value;
           randomize_topology = false;
         }
       }
@@ -119,7 +124,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     const double average_performance =
         std::accumulate(particles.begin(), particles.end(), 0.0,
                         [](const double sum, const pass::particle &particle) {
-                          return sum + particle.best_value;
+                          return sum + particle.personal_best_fitness_value;
                         });
     if (result.fitness_value >= stagnation_threshold * average_performance)
     {

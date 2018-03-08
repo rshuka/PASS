@@ -14,11 +14,11 @@ class particle
 public:
   /**
    * Reference to the PSO instance that created this particle. Is used to access
-   * the optimisation configuration. (`initial_velocity`,
-   * `maximal_acceleration`, `maximal_local_attraction`,
-   * `maximal_global_attraction`)
+   * the optimisation configuration. (`inertia`,
+   * `cognitive_acceleration`, `social_acceleration`,
+   * `attraction_center`)
    */
-  const pass::parallel_swarm_search &pso;
+  const pass::parallel_swarm_search &pss;
 
   /**
    * Reference to the problem to optimise. Is used to access the search space
@@ -37,30 +37,30 @@ public:
   arma::vec velocity;
 
   /**
-   * The personal best parameter that this particle ever found.
+   * The personal best position that this particle ever found.
    */
-  arma::vec best_agent;
+  arma::vec personal_best_position;
 
   /**
-   * The objective value of `best_parameter`.
+   * The fitness value of `personal_best_position`.
    */
-  double best_value;
+  double personal_best_fitness_value;
 
   /**
    * Initialises this particle with a random position within the search space of
    * `problem` and immediately evaluates it.
    */
-  particle(const pass::parallel_swarm_search &pso,
+  particle(const pass::parallel_swarm_search &pss,
            const pass::problem &problem);
 
   /**
    * Calculates new velocity and position values for this particle, and
-   * evaluates the new position. If the new position yields a better objective
-   * value, updates `best_parameter` and `best_value` and returns `true`.
+   * evaluates the new position. If the new position yields a better fitness
+   * value, updates `personal_best_position` and `personal_best_fitness_valu` and returns `true`.
    *
-   * `best_neighbour` is used as the best previous position in the
+   * `local_best_agent` is used as the best previous position in the
    * neighbourhood.
    */
-  bool update(const pass::particle &best_neighbour);
+  bool update(const pass::particle &local_best_agent);
 };
 } // namespace pass

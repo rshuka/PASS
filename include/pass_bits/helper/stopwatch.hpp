@@ -11,7 +11,7 @@ class stopwatch
 {
 public:
   /**
-   * Creat time of the object.
+   * Creat time of the object and start it.
    */
   void start() noexcept;
 

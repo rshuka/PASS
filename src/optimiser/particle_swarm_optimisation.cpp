@@ -21,7 +21,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   pass::stopwatch stopwatch;
   stopwatch.start();
-
+  
   // initialise the memory for the result
   pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
 
