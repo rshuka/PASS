@@ -82,9 +82,9 @@ public:
   /**
    * The maximal elapsed time before the optimiser stops.
    *
-   * Initialised to 1 minute.
+   * Initialised maximum time std::chrono::system_clock::duration::max().
    */
-  std::chrono::microseconds maximal_duration;
+  std::chrono::nanoseconds maximal_duration;
 
   optimiser() noexcept;
 

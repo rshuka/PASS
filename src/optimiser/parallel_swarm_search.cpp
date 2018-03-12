@@ -1,8 +1,8 @@
-#include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
+#include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/helper/random.hpp"
 #include <cmath> // std::pow
 
-pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
+pass::parallel_swarm_search::parallel_swarm_search() noexcept
     : optimiser(),
       swarm_size(40),
       inertia(1.0 / (2.0 * std::log(2.0))),
@@ -11,7 +11,7 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
       neighbourhood_probability(1.0 -
                                 std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)) {}
 
-pass::optimise_result pass::particle_swarm_optimisation::optimise(
+pass::optimise_result pass::parallel_swarm_search::optimise(
     const pass::problem &problem)
 {
   assert(inertia >= 0.0);
