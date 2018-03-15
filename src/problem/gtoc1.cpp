@@ -20,101 +20,101 @@ pass::gtoc1::gtoc1()
 
 double pass::gtoc1::evaluate(const arma::vec &agent) const
 {
-    assert(agent.n_elem == dimension() &&
-           "`agent` has incompatible dimension");
+  assert(agent.n_elem == dimension() &&
+         "`agent` has incompatible dimension");
 
-    std::array<double, 6> rp{};
-    std::array<double, 8> DV{};
-    const int n = 8;
+  std::array<double, 6> rp{};
+  std::array<double, 8> DV{};
+  const int n = 8;
 
-    const double g = 9.80665 / 1000.0; // Gravity
+  const double g = 9.80665 / 1000.0; // Gravity
 
-    // r and  v in heliocentric coordinate system
-    // position
-    std::array<std::array<double, 3>, 8> r;
-    // velocity
-    std::array<std::array<double, 3>, 8> v;
+  // r and  v in heliocentric coordinate system
+  // position
+  std::array<std::array<double, 3>, 8> r;
+  // velocity
+  std::array<std::array<double, 3>, 8> v;
 
+  {
+    double totalTime = 0;
+    for (size_t i = 0; i < 7; i++)
     {
-        double totalTime = 0;
-        for (size_t i = 0; i < 7; i++)
-        {
-            totalTime += agent[i];
-            auto result = sequence[i]->ephemeris(totalTime);
-            r[i] = result.first;
-            v[i] = result.second;
-        }
-        totalTime += agent[7];
-        auto result = destination.ephemeris(totalTime + 2451544.5);
-        r[7] = result.first;
-        v[7] = result.second;
+      totalTime += agent[i];
+      auto result = sequence[i]->ephemeris(totalTime);
+      r[i] = result.first;
+      v[i] = result.second;
     }
+    totalTime += agent[7];
+    auto result = destination.ephemeris(totalTime + 2451544.5);
+    r[7] = result.first;
+    v[7] = result.second;
+  }
 
-    std::array<double, 3> current_section_departure_velocity;
-    std::array<double, 3> current_section_arrival_velocity;
-    for (size_t i = 0; i <= n - 2; i++)
+  std::array<double, 3> current_section_departure_velocity;
+  std::array<double, 3> current_section_arrival_velocity;
+  for (size_t i = 0; i <= n - 2; i++)
+  {
+    std::array<double, 3> last_section_arrival_velocity =
+        current_section_arrival_velocity;
+
+    bool longWay = pass::gtoc::cross_product(r[i], r[i + 1])[2] > 0
+                       ? rev_flag[i]
+                       : !rev_flag[i];
+
+    const auto lambert_solution =
+        lambert(r[i], r[i + 1], agent[i + 1] * 24 * 60 * 60,
+                celestial_body::SUN.mu, longWay);
+    current_section_departure_velocity = lambert_solution.departure_velocity;
+    current_section_arrival_velocity = lambert_solution.arrival_velocity;
+
+    if (i == 0)
     {
-        std::array<double, 3> last_section_arrival_velocity =
-            current_section_arrival_velocity;
-
-        bool longWay = pass::gtoc::cross_product(r[i], r[i + 1])[2] > 0
-                           ? rev_flag[i]
-                           : !rev_flag[i];
-
-        const auto lambert_solution =
-            lambert(r[i], r[i + 1], agent[i + 1] * 24 * 60 * 60,
-                    celestial_body::SUN.mu, longWay);
-        current_section_departure_velocity = lambert_solution.departure_velocity;
-        current_section_arrival_velocity = lambert_solution.arrival_velocity;
-
-        if (i == 0)
-        {
-            // Earth launch
-            DV[0] = pass::gtoc::norm(
-                pass::gtoc::sub(current_section_departure_velocity, v[0]));
-        }
-        else
-        {
-            double Vin = pass::gtoc::norm(
-                pass::gtoc::sub(last_section_arrival_velocity, v[i]));
-            double Vout = pass::gtoc::norm(
-                pass::gtoc::sub(current_section_departure_velocity, v[i]));
-
-            // calculation of delta V at pericenter
-            const auto swing_by_solution = pow_swing_by_inv(
-                Vin, Vout,
-                acos(pass::gtoc::dot_product(
-                         pass::gtoc::sub(last_section_arrival_velocity, v[i]),
-                         pass::gtoc::sub(current_section_departure_velocity, v[i])) /
-                     (Vin * Vout)));
-            DV[i] = swing_by_solution.first;
-            rp[i - 1] = swing_by_solution.second;
-            rp[i - 1] *= sequence[i]->mu;
-        }
+      // Earth launch
+      DV[0] = pass::gtoc::norm(
+          pass::gtoc::sub(current_section_departure_velocity, v[0]));
     }
-
-    double DVtot = std::accumulate<double *, double>(std::next(DV.begin()),
-                                                     std::prev(DV.end()), 0);
-
-    // Build Penalty
-    for (size_t i = 0; i < n - 2; i++)
+    else
     {
-        if (rp[i] < sequence[i + 1]->penalty)
-            DVtot += sequence[i + 1]->penalty_coefficient *
-                     fabs(rp[i] - sequence[i + 1]->penalty);
+      double Vin = pass::gtoc::norm(
+          pass::gtoc::sub(last_section_arrival_velocity, v[i]));
+      double Vout = pass::gtoc::norm(
+          pass::gtoc::sub(current_section_departure_velocity, v[i]));
+
+      // calculation of delta V at pericenter
+      const auto swing_by_solution = pow_swing_by_inv(
+          Vin, Vout,
+          acos(pass::gtoc::dot_product(
+                   pass::gtoc::sub(last_section_arrival_velocity, v[i]),
+                   pass::gtoc::sub(current_section_departure_velocity, v[i])) /
+               (Vin * Vout)));
+      DV[i] = swing_by_solution.first;
+      rp[i - 1] = swing_by_solution.second;
+      rp[i - 1] *= sequence[i]->mu;
     }
+  }
 
-    // Launcher Constraint
-    if (DV[0] > DVlaunch)
-        DVtot += (DV[0] - DVlaunch);
+  double DVtot = std::accumulate<double *, double>(std::next(DV.begin()),
+                                                   std::prev(DV.end()), 0);
 
-    // Evaluation of satellite final mass
-    double final_mass = mass * exp(-DVtot / (Isp * g));
+  // Build Penalty
+  for (size_t i = 0; i < n - 2; i++)
+  {
+    if (rp[i] < sequence[i + 1]->penalty)
+      DVtot += sequence[i + 1]->penalty_coefficient *
+               fabs(rp[i] - sequence[i + 1]->penalty);
+  }
 
-    // arrival relative velocity at the asteroid;
-    auto arrival_velocity =
-        pass::gtoc::sub(v[n - 1], current_section_arrival_velocity);
+  // Launcher Constraint
+  if (DV[0] > DVlaunch)
+    DVtot += (DV[0] - DVlaunch);
 
-    return -final_mass *
-           fabs(pass::gtoc::dot_product(arrival_velocity, v[n - 1]));
+  // Evaluation of satellite final mass
+  double final_mass = mass * exp(-DVtot / (Isp * g));
+
+  // arrival relative velocity at the asteroid;
+  auto arrival_velocity =
+      pass::gtoc::sub(v[n - 1], current_section_arrival_velocity);
+
+  return -final_mass *
+         fabs(pass::gtoc::dot_product(arrival_velocity, v[n - 1]));
 }

@@ -13,16 +13,16 @@ pass::optimise_result::optimise_result(
 
 bool pass::optimise_result::solved() const
 {
-    return fitness_value <= acceptable_fitness_value;
+  return fitness_value <= acceptable_fitness_value;
 }
 
 std::ostream &operator<<(std::ostream &os, const pass::optimise_result &result)
 {
-    os << "Fitness Value:           " << result.fitness_value << std::endl;
-    os << "Solved?:                 " << result.solved() << std::endl;
-    os << "Number of Iterations:    " << result.iterations << std::endl;
-    os << "Duration:                " << result.duration.count() * 1e-9 << " seconds\n";
-    return os;
+  os << "Fitness Value:           " << result.fitness_value << std::endl;
+  os << "Solved?:                 " << result.solved() << std::endl;
+  os << "Number of Iterations:    " << result.iterations << std::endl;
+  os << "Duration:                " << result.duration.count() * 1e-9 << " seconds\n";
+  return os;
 }
 
 pass::optimiser::optimiser() noexcept
