@@ -37,6 +37,8 @@
 #include <pass_bits/problem/styblinski_tang_function.hpp>
 #include <pass_bits/problem/sum_of_different_powers_function.hpp>
 
+// evaluation time stall
+#include <pass_bits/helper/evaluation_time_stall.hpp>
 
 // Optimisation algorithms
 #include <pass_bits/optimiser.hpp>

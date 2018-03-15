@@ -129,6 +129,7 @@ add_library(pass SHARED
   src/config.cpp
 
   # Helper
+  src/helper/evaluation_time_stall.cpp
   src/helper/random.cpp
   src/helper/stopwatch.cpp
   src/helper/gtoc1/astro_functions.cpp
