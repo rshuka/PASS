@@ -1,16 +1,9 @@
 #include "pass_bits/helper/random.hpp"
 #include <cassert> // assert
 
-std::mt19937_64 &pass::random_number_generator()
-{
-  static std::mt19937_64 random_number_generator;
-  return random_number_generator;
-}
-
 double pass::random_uniform_in_range(double min, double max)
 {
-  return std::uniform_real_distribution<double>(min,
-                                                max)(random_number_generator());
+  return min + arma::arma_rng::randu<double>() * (max - min);
 }
 
 arma::vec pass::random_neighbour(const arma::vec &agent,
