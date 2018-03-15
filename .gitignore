@@ -53,6 +53,3 @@ nbproject/
 ## CLion
 *.iml
 .idea/
-
-## Visual Studio Code
-*.vscode
