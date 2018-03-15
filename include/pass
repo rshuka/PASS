@@ -6,7 +6,7 @@
 // http://opensource.org/licenses/MIT
 //
 // Main developers:
-//   Romeo Shuka <shuka@sra.uni-hannover.de> 
+//   Romeo Shuka <shuka@sra.uni-hannover.de>
 //   Philipp Schiffmann <schiffmann@sra.uni-hannover.de>
 //------------------------------------------------------------------------------
 
@@ -47,6 +47,7 @@
 
 //GTOC
 #include <pass_bits/problem/gtoc1.hpp>
+#include <pass_bits/problem/messenger_full.hpp>
 #include <pass_bits/helper/gtoc1/astro_functions.hpp>
 #include <pass_bits/helper/gtoc1/astro_helpers.hpp>
 #include <pass_bits/helper/gtoc1/constants.hpp>

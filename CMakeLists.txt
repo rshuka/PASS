@@ -135,7 +135,10 @@ add_library(pass SHARED
   src/helper/gtoc1/astro_helpers.cpp
   src/helper/gtoc1/constants.cpp
   src/helper/gtoc1/lambert.cpp
+  src/helper/gtoc1/mga_dsm.cpp
+  src/helper/gtoc1/Pl_Eph_An.cpp
   src/helper/gtoc1/pow_swing_by_inv.cpp
+  src/helper/gtoc1/propagateKEP.cpp
   src/helper/gtoc1/vector3d_helpers.cpp
   src/helper/gtoc1/zero_finder.cpp
 
@@ -144,6 +147,7 @@ add_library(pass SHARED
   src/problem/de_jong_function.cpp
   src/problem/ackley_function.cpp
   src/problem/gtoc1.cpp
+  src/problem/messenger_full.cpp
   src/problem/rastrigin_function.cpp
   src/problem/rosenbrock_function.cpp
   src/problem/styblinski_tang_function.cpp
