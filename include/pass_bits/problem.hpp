@@ -69,9 +69,19 @@ public:
 
   /**
    * Draws `count` uniformly distributed random agents from range
-   * [lower_bounds, upper_bounds].
+   * [lower_bounds, upper_bounds], stored column-wise.
    */
   arma::mat random_agents(const arma::uword count) const;
+
+  /**
+   * Generates `count` hammersley points with the same dimension as this,
+   * mapped to the problem bounds of this, stored column-wise.
+   *
+   * For a definition of hammersley points, see
+   * http://www.cse.cuhk.edu.hk/~ttwong/papers/udpoint/udpoint.pdf,
+   * equations 1 to 3.
+   */
+  arma::mat hammersley_agents(const arma::uword count) const;
 };
 
 } // namespace pass
