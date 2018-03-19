@@ -218,7 +218,7 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
   arma::mat agents(dimension(), count);
   for (arma::uword k = 0; k < count; k++)
   {
-    agents(0, k) = k / count;
+    agents(0, k) = static_cast<double> (k) / static_cast<double>(count);
     for (arma::uword d = 1; d < agents.n_rows; d++)
     {
       arma::uword p = primes[d - 1];
