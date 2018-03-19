@@ -90,6 +90,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       {
         if (topology(n, i) && personal_best_fitness_values(i) < local_best_fitness_value)
         {
+          // critical region implements
           local_best_fitness_value = personal_best_fitness_values(i);
           local_best_position = personal_best_positions.col(i);
         }
@@ -146,14 +147,15 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
       // evaluate the new position
       const double fitness_value = problem.evaluate(positions.col(n));
-
       if (fitness_value < personal_best_fitness_values(n))
       {
+        // propably critical region - NICHT VERSCHACHTELN!!
         personal_best_positions.col(n) = positions.col(n);
         personal_best_fitness_values(n) = fitness_value;
 
         if (fitness_value < result.fitness_value)
         {
+          // critical region
           result.agent = positions.col(n);
           result.fitness_value = fitness_value;
           randomize_topology = false;
