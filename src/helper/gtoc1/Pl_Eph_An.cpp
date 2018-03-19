@@ -9,7 +9,7 @@
 // ------------------------------------------------------------------------ //
 
 #include "pass_bits/helper/gtoc1/astro_functions.hpp"
-#include "pass_bits/helper/gtoc1/Pl_Eph_An.hpp"
+#include "pass_bits/helper/gtoc1/pl_eph_an.hpp"
 
 void Planet_Ephemerides_Analytical(const double mjd2000,
                                    const int planet,

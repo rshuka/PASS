@@ -283,7 +283,7 @@ void intermediate_block(const std::vector<double> &t, const mgadsmproblem &probl
 
 // FINAL BLOCK
 //
-void final_block(const mgadsmproblem &problem, const std::vector<double *> &r, const std::vector<double *> &v, const double v_sc_pl_in[], std::vector<double> &DV)
+void final_block(const mgadsmproblem &problem, const std::vector<double *> &v, const double v_sc_pl_in[], std::vector<double> &DV)
 {
   //[MR] A bunch of helper variables to simplify the code
   const int n = problem.sequence.size();
@@ -426,7 +426,7 @@ int MGA_DSM(
   inter_pl_in_v[1] = inter_pl_out_v[1];
   inter_pl_in_v[2] = inter_pl_out_v[2];
   // FINAL BLOCK
-  final_block(problem, r, v, inter_pl_in_v,
+  final_block(problem, v, inter_pl_in_v,
               DV);
 
   // **************************************************************************

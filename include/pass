@@ -54,6 +54,9 @@
 #include <pass_bits/helper/gtoc1/astro_helpers.hpp>
 #include <pass_bits/helper/gtoc1/constants.hpp>
 #include <pass_bits/helper/gtoc1/lambert.hpp>
+#include <pass_bits/helper/gtoc1/mga_dsm.hpp>
+#include <pass_bits/helper/gtoc1/pl_eph_an.hpp>
 #include <pass_bits/helper/gtoc1/pow_swing_by_inv.hpp>
+#include <pass_bits/helper/gtoc1/propagate_kep.hpp>
 #include <pass_bits/helper/gtoc1/vector3d_helpers.hpp>
 #include <pass_bits/helper/gtoc1/zero_finder.hpp>

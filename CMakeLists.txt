@@ -137,9 +137,9 @@ add_library(pass SHARED
   src/helper/gtoc1/constants.cpp
   src/helper/gtoc1/lambert.cpp
   src/helper/gtoc1/mga_dsm.cpp
-  src/helper/gtoc1/Pl_Eph_An.cpp
+  src/helper/gtoc1/pl_eph_an.cpp
   src/helper/gtoc1/pow_swing_by_inv.cpp
-  src/helper/gtoc1/propagateKEP.cpp
+  src/helper/gtoc1/propagate_kep.cpp
   src/helper/gtoc1/vector3d_helpers.cpp
   src/helper/gtoc1/zero_finder.cpp
 
