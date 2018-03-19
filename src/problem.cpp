@@ -224,9 +224,8 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
       arma::uword p = primes[d - 1];
       double phi = 0;
 
-      // Calculate Φ_p(k).
+      // Calculate Φ_p(k) - Pseudocode on page 3
       // Compare http://www.cse.cuhk.edu.hk/~ttwong/papers/udpoint/udpoint.pdf,
-      // pseudocode on page 3.
       {
         arma::uword p_temp = p;
         arma::uword k_temp = k;

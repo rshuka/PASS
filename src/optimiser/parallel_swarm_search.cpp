@@ -27,7 +27,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   // Initialise the positions and the velocities
   // Particle data, stored column-wise.
-  arma::mat positions = problem.random_agents(swarm_size);
+  arma::mat positions = problem.hammersley_agents(swarm_size);
   arma::mat velocities(problem.dimension(), swarm_size);
 
   for (arma::uword col = 0; col < swarm_size; ++col)
@@ -91,8 +91,8 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
         if (topology(n, i) && personal_best_fitness_values(i) < local_best_fitness_value)
         {
           // critical region implements
-          local_best_fitness_value = personal_best_fitness_values(i);
-          local_best_position = personal_best_positions.col(i);
+            local_best_fitness_value = personal_best_fitness_values(i);
+            local_best_position = personal_best_positions.col(i);
         }
       }
 

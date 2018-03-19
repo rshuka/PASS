@@ -20,12 +20,10 @@ pass::optimise_result pass::random_search::optimise(
       result.agent = agent;
       result.fitness_value = fitness_value;
     }
-
+    result.duration = stopwatch.get_elapsed();
   } // Termintation criteria
   while (result.duration < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved());
-
-  result.duration = stopwatch.get_elapsed();
 
   return result;
 }
