@@ -3,5 +3,8 @@
     "files.insertFinalNewline": true,
     "C_Cpp.clang_format_style": "Visual Studio",
     "editor.detectIndentation": false,
-    "editor.tabSize": 2
-}
+    "editor.tabSize": 2,
+    "files.associations": {
+      "armadillo": "cpp"
+    }
+  }
