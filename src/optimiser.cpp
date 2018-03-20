@@ -21,8 +21,8 @@ pass::optimiser::optimiser(const std::string name)
 {
   assert(maximal_iterations > 0 &&
          "`maximal_iterations` should be greater than 0");
-  assert(maximal_duration > 0 &&
+  assert(maximal_duration.count() > 0.0 &&
          "`maximal_iterations` should be greater than 0");
-  assert(name != name.empty() &&
+  assert(name.empty() == false &&
          "`name` should should not be empty");
 }

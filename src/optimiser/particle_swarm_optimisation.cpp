@@ -14,10 +14,12 @@ pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
 pass::optimise_result pass::particle_swarm_optimisation::optimise(
     const pass::problem &problem)
 {
-  assert(inertia >= 0.0);
-  assert(cognitive_acceleration >= 0.0);
-  assert(social_acceleration >= 0.0);
-  assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0);
+  assert(inertia >= 0.0 && "'inertia' should be greater or equal than 0.0");
+  assert(cognitive_acceleration >= 0.0 && "'cognitive_acceleration' should be greater or equal than 0.0");
+  assert(social_acceleration >= 0.0 && "'social_acceleration' should be greater or equal than 0.0");
+  assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0 &&
+         "'neighbourhood_probability' should be a value between 0.0 and 1.0");
+  assert(swarm_size > 0 && "Can't generate 0 agents");
 
   // Variables used to analyse the behavior of a particle
   arma::mat verbose(maximal_iterations + 1, 4);
