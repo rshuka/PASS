@@ -12,7 +12,7 @@
 #include "pass_bits/helper/gtoc1/lambert.hpp"
 #include "pass_bits/helper/gtoc1/mga_dsm.hpp"
 #include "pass_bits/helper/gtoc1/pl_eph_an.hpp"
-#include "pass_bits/helper/gtoc1/propagateKEP.hpp"
+#include "pass_bits/helper/gtoc1/propagate_kep.hpp"
 
 // problem types
 const int orbit_insertion = 0;          // Tandem
