@@ -2,7 +2,7 @@
 
 pass::sum_of_different_powers_function::sum_of_different_powers_function(
     const arma::uword dimension)
-    : problem(dimension, -1.0, 1.0) {}
+    : problem(dimension, -1.0, 1.0, "Sum_Of_Different_Powers_Function") {}
 
 double pass::sum_of_different_powers_function::evaluate(
     const arma::vec &agent) const

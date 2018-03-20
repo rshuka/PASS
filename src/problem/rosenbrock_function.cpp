@@ -1,7 +1,7 @@
 #include "pass_bits/problem/rosenbrock_function.hpp"
 
 pass::rosenbrock_function::rosenbrock_function(const arma::uword dimension)
-    : problem(dimension, -2.048, 2.048) {}
+    : problem(dimension, -2.048, 2.048, "Rosenbrock_Function") {}
 
 double pass::rosenbrock_function::evaluate(const arma::vec &agent) const
 {

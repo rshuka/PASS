@@ -1,7 +1,7 @@
 #include "pass_bits/problem/ackley_function.hpp"
 
 pass::ackley_function::ackley_function(const arma::uword dimension)
-    : problem(dimension, -32.768, 32.768) {}
+    : problem(dimension, -32.768, 32.768, "Ackley_Function") {}
 
 double pass::ackley_function::evaluate(const arma::vec &agent) const
 {

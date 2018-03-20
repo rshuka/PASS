@@ -177,17 +177,20 @@ arma::uword pass::problem::dimension() const noexcept
 }
 
 pass::problem::problem(const arma::uword dimension, const double lower_bound,
-                       const double upper_bound)
+                       const double upper_bound, const std::string name)
     : lower_bounds(arma::vec(dimension).fill(lower_bound)),
-      upper_bounds(arma::vec(dimension).fill(upper_bound))
+      upper_bounds(arma::vec(dimension).fill(upper_bound)),
+      name(name)
 {
   assert(lower_bound < upper_bound &&
          "`problem.lower_bounds` must be less than `problem.upper_bounds`");
 }
 
 pass::problem::problem(const arma::vec &lower_bounds,
-                       const arma::vec &upper_bounds)
-    : lower_bounds(lower_bounds), upper_bounds(upper_bounds)
+                       const arma::vec &upper_bounds, const std::string name)
+    : lower_bounds(lower_bounds),
+      upper_bounds(upper_bounds),
+      name(name)
 {
   assert(upper_bounds.n_elem == dimension() &&
          "`problems.lower_bounds` and `problem.upper_bounds` must have the "
@@ -218,7 +221,7 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
   arma::mat agents(dimension(), count);
   for (arma::uword k = 0; k < count; k++)
   {
-    agents(0, k) = static_cast<double> (k) / static_cast<double>(count);
+    agents(0, k) = static_cast<double>(k) / static_cast<double>(count);
     for (arma::uword d = 1; d < agents.n_rows; d++)
     {
       arma::uword p = primes[d - 1];

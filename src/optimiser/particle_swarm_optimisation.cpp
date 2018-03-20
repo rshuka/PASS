@@ -3,7 +3,7 @@
 #include <cmath> // std::pow
 
 pass::particle_swarm_optimisation::particle_swarm_optimisation() noexcept
-    : optimiser(),
+    : optimiser("Particle_Swarm_Optimisation"),
       swarm_size(40),
       inertia(1.0 / (2.0 * std::log(2.0))),
       cognitive_acceleration(0.5 + std::log(2.0)),
@@ -18,6 +18,10 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   assert(cognitive_acceleration >= 0.0);
   assert(social_acceleration >= 0.0);
   assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0);
+
+  // Variables used to analyse the behavior of a particle
+  arma::mat verbose(maximal_iterations + 1, 4);
+  arma::vec best_agent_velocity(problem.dimension());
 
   pass::stopwatch stopwatch;
   stopwatch.start();
@@ -54,11 +58,30 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
     if (fitness_value <= result.fitness_value)
     {
-      result.agent = positions.col(n);
-      result.fitness_value = fitness_value;
+      if (maximal_iterations != std::numeric_limits<arma::uword>::max() && maximal_iterations > 0)
+      {
+        result.agent = positions.col(n);
+        result.fitness_value = fitness_value;
+        best_agent_velocity = velocities.col(n);
+      }
     }
   }
   ++result.iterations;
+
+  /**
+   * +------------+---------------+----------+----------+
+   * | Iterations | Fitness Value | Position | Velocity |
+   * +------------+---------------+----------+----------+
+   * Each Dimension is independent. So, the analysis can be performed
+   * on just one dimension
+   */
+  if (pass::is_verbose)
+  {
+    verbose(result.iterations, 0) = result.iterations;
+    verbose(result.iterations, 1) = result.fitness_value;
+    verbose(result.iterations, 2) = result.agent[0];
+    verbose(result.iterations, 3) = best_agent_velocity[0];
+  }
   //end initialisation
 
   arma::umat topology(swarm_size, swarm_size);
@@ -156,13 +179,39 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
         {
           result.agent = positions.col(n);
           result.fitness_value = fitness_value;
+          best_agent_velocity = velocities.col(n);
           randomize_topology = false;
         }
       }
     }
     ++result.iterations;
+
+    /**
+     * +------------+---------------+----------+----------+
+     * | Iterations | Fitness Value | Position | Velocity |
+     * +------------+---------------+----------+----------+
+     * Each Dimension is independent. So, the analysis can be performed
+     * on just one dimension
+     */
+    if (pass::is_verbose)
+    {
+      verbose(result.iterations, 0) = result.iterations;
+      verbose(result.iterations, 1) = result.fitness_value;
+      verbose(result.iterations, 2) = result.agent[0];
+      verbose(result.iterations, 3) = best_agent_velocity[0];
+    }
+  }
+  result.duration = stopwatch.get_elapsed();
+
+  // Save the file
+  if (pass::is_verbose)
+  {
+    verbose.shed_row(0);
+    verbose.save("Verbose_" + name + "_Problem_" + problem.name + "_Dim_" +
+                     std::to_string(problem.dimension()) +
+                     "_Run_" + std::to_string(pass::number_of_runs),
+                 arma::raw_ascii);
   }
 
-  result.duration = stopwatch.get_elapsed();
   return result;
 }

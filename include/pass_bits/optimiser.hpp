@@ -2,10 +2,12 @@
 
 #include "pass_bits/problem.hpp"
 #include "pass_bits/helper/stopwatch.hpp"
+#include "pass_bits/config.hpp"
+#include <stdexcept> // throw error
 #include <chrono>    // std::chrono
 #include <armadillo> // std::arma::vec, arma::uword
 #include <cassert>   // assert
-#include <string>
+#include <string>    // name
 
 #if defined(SUPPORT_OPENMP)
 #include <omp.h>
@@ -86,7 +88,15 @@ public:
    */
   std::chrono::nanoseconds maximal_duration;
 
-  optimiser() noexcept;
+  /**
+   * Identify every optimiser with its own name
+   */
+  const std::string name;
+
+  /**
+   * Initialises an optimiser with its own name
+   */
+  optimiser(const std::string name);
 
   /**
    * Optimises `problem`, storing the result and performance characteristics of
@@ -96,11 +106,3 @@ public:
 };
 
 } // namespace pass
-
-/**
- * Overloading the `<<` operator enables the optimise_result to be printed to
- * the console.
- *
- * See: https://docs.microsoft.com/en-us/cpp/standard-library/overloading-the-output-operator-for-your-own-classes
- */
-std::ostream &operator<<(std::ostream &os, const pass::optimise_result &result);

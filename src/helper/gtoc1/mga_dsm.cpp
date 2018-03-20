@@ -11,7 +11,7 @@
 #include "pass_bits/helper/gtoc1/astro_functions.hpp"
 #include "pass_bits/helper/gtoc1/lambert.hpp"
 #include "pass_bits/helper/gtoc1/mga_dsm.hpp"
-#include "pass_bits/helper/gtoc1/Pl_Eph_An.hpp"
+#include "pass_bits/helper/gtoc1/pl_eph_an.hpp"
 #include "pass_bits/helper/gtoc1/propagateKEP.hpp"
 
 // problem types
@@ -19,7 +19,6 @@ const int orbit_insertion = 0;          // Tandem
 const int total_DV_orbit_insertion = 1; // Cassini 1
 const int rndv = 2;                     // Rosetta
 const int total_DV_rndv = 3;            // Cassini 2 and Messenger
-const int asteroid_impact = 4;          // gtoc1
 const int time2AUs = 5;                 // SAGAS
 
 // [MR] TODO: exctract these somewhere...

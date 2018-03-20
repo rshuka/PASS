@@ -5,8 +5,8 @@
 namespace pass
 {
 /**
- * The Sum of Different Powers function is unimodal. 
- * 
+ * The Sum of Different Powers function is unimodal.
+ *
  * Its optimal parameter = (0, ..., 0) and optimal function value = 0.
  *
  *      D  ⎛                 ⎞

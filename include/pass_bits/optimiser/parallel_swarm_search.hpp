@@ -7,10 +7,10 @@ namespace pass
 /**
  * Implements the Standard Particle Swarm Optimisation 2011 algorithm
  * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848)
- * 
+ *
  * The initialisation variables can be found in
  * (http://clerc.maurice.free.fr/pso/SPSO_descriptions.pdf)
- * 
+ *
  */
 class parallel_swarm_search : public optimiser
 {
@@ -38,8 +38,8 @@ public:
   double cognitive_acceleration;
 
   /**
-   * Particles are pulled towards the global best found parameter with a 
-   * strength 
+   * Particles are pulled towards the global best found parameter with a
+   * strength
    *
    * Is initialized to `0.5 + log(2)`.
    */

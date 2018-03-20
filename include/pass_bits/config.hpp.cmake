@@ -20,10 +20,13 @@
 
 #endif
 
-namespace pass 
+namespace pass
 {
-  arma::uword threadNumber();
-  arma::uword numberOfThreads();
-  arma::uword nodeRank();
-  arma::uword numberOfNodes();
+  extern bool is_verbose;
+  extern int number_of_runs;
+
+  arma::uword thread_number();
+  arma::uword number_of_threads();
+  arma::uword node_rank();
+  arma::uword number_of_nodes();
 }

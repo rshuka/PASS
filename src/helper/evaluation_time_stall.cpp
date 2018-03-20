@@ -1,7 +1,7 @@
 #include "pass_bits/helper/evaluation_time_stall.hpp"
 
 pass::evaluation_time_stall::evaluation_time_stall(const pass::problem &wrapped_problem)
-    : problem(wrapped_problem.lower_bounds, wrapped_problem.upper_bounds),
+    : problem(wrapped_problem.lower_bounds, wrapped_problem.upper_bounds, wrapped_problem.name),
       wrapped_problem(wrapped_problem),
       repetitions(1) {}
 

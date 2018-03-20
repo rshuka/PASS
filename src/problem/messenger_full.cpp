@@ -3,7 +3,8 @@
 
 pass::messenger_full::messenger_full()
     : problem({1900, 2.5, 0, 0, 100, 100, 100, 100, 100, 100, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 1.1, 1.1, 1.05, 1.05, 1.05, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi},
-              {2300, 4.05, 1, 1, 500, 500, 500, 500, 500, 600, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 6, 6, 6, 6, 6, arma::datum::pi, arma::datum::pi, arma::datum::pi, arma::datum::pi, arma::datum::pi}) {}
+              {2300, 4.05, 1, 1, 500, 500, 500, 500, 500, 600, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 6, 6, 6, 6, 6, arma::datum::pi, arma::datum::pi, arma::datum::pi, arma::datum::pi, arma::datum::pi},
+              "Messenger_Full") {}
 
 double pass::messenger_full::evaluate(const arma::vec &agent) const
 {

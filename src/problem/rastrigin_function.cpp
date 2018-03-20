@@ -1,7 +1,7 @@
 #include "pass_bits/problem/rastrigin_function.hpp"
 
 pass::rastrigin_function::rastrigin_function(const arma::uword dimension)
-    : problem(dimension, -5.12, 5.12) {}
+    : problem(dimension, -5.12, 5.12, "Rastrigin_Function") {}
 
 double pass::rastrigin_function::evaluate(const arma::vec &agent) const
 {

@@ -4,7 +4,8 @@
 
 pass::gtoc1::gtoc1()
     : problem({3000, 14, 14, 14, 14, 100, 366, 300},
-              {10000, 2000, 2000, 2000, 2000, 9000, 9000, 9000}),
+              {10000, 2000, 2000, 2000, 2000, 9000, 9000, 9000},
+              "GTOC1"),
       sequence({{&celestial_body::EARTH, &celestial_body::VENUS,
                  &celestial_body::EARTH, &celestial_body::VENUS,
                  &celestial_body::EARTH, &celestial_body::JUPITER,

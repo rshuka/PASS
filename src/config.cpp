@@ -16,11 +16,20 @@
 namespace pass
 {
 /**
+  * Global variables used for evaluations
+  * @is_verbose: analyse the behaviour of the algorithm
+  *
+  * @number_of_runs: to help saving raw data
+  */
+bool is_verbose(false);
+int number_of_runs(1);
+
+/**
  * Use OpenMP
- * @numberOfThreads: returns the number of the threads
- * @threadNumber: returns which number the thread have
+ * @number_of_threads: returns the number of the threads
+ * @thread_number: returns which number the thread have
  */
-arma::uword numberOfThreads()
+arma::uword number_of_threads()
 {
 #if defined(SUPPORT_OPENMP)
   return omp_get_max_threads();
@@ -29,7 +38,7 @@ arma::uword numberOfThreads()
 #endif
 }
 
-arma::uword threadNumber()
+arma::uword thread_number()
 {
 #if defined(SUPPORT_OPENMP)
   return omp_get_thread_num();
@@ -40,10 +49,10 @@ arma::uword threadNumber()
 
 /**
  * Use MPI
- * @numberOfNodes: returns the number of the nodes
- * @nodeRank: returns which number a.k.a rank the node have
+ * @number_of_nodes: returns the number of the nodes
+ * @node_rank: returns which number a.k.a rank the node have
  */
-arma::uword numberOfNodes()
+arma::uword number_of_nodes()
 {
 #if defined(SUPPORT_MPI)
   int numberOfNodes;
@@ -52,7 +61,7 @@ arma::uword numberOfNodes()
   if (numberOfNodes < 0)
   {
     throw std::runtime_error(
-        "getNumberOfNode: Please check your MPI installation, as we got a "
+        "number_of_nodes: Please check your MPI installation, as we got a "
         "negative number of nodes.");
   }
 
@@ -62,7 +71,7 @@ arma::uword numberOfNodes()
 #endif
 }
 
-arma::uword nodeRank()
+arma::uword node_rank()
 {
 #if defined(SUPPORT_MPI)
   int nodeRank;
@@ -71,7 +80,7 @@ arma::uword nodeRank()
   if (nodeRank < 0)
   {
     throw std::runtime_error(
-        "getNodeRank: Please check your MPI installation, as we got a negative "
+        "node_rank: Please check your MPI installation, as we got a negative "
         "node rank.");
   }
 

@@ -1,7 +1,7 @@
 #include "pass_bits/problem/styblinski_tang_function.hpp"
 
 pass::styblinski_tang_function::styblinski_tang_function(const arma::uword dimension)
-    : problem(dimension, -5.0, 5.0) {}
+    : problem(dimension, -5.0, 5.0, "Styblinski_Tang_Function") {}
 
 double pass::styblinski_tang_function::evaluate(const arma::vec &agent) const
 {

@@ -11,6 +11,11 @@ namespace pass
 class random_search : public optimiser
 {
 public:
+  /**
+   * Initialises the optimiser with its name
+   */
+  random_search() noexcept;
+
   virtual optimise_result optimise(const pass::problem &problem);
 };
 } // namespace pass
