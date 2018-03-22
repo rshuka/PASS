@@ -1,9 +1,23 @@
 #include "pass_bits/helper/random.hpp"
-#include <cassert> // assert
+#include <cassert>   // assert
+#include <random>    // random
+#include <algorithm> // shuffle
 
-double pass::random_uniform_in_range(double min, double max)
+double pass::random_double_uniform_in_range(double min, double max)
 {
   return min + arma::arma_rng::randu<double>() * (max - min);
+}
+
+int pass::random_integer_uniform_in_range(int min, int max)
+{
+  int temp = min + arma::arma_rng::randu<double>() * (max + 1 - min);
+
+  if (temp > max)
+  {
+    temp = max;
+  }
+
+  return temp;
 }
 
 arma::vec pass::random_neighbour(const arma::vec &agent,
@@ -26,5 +40,5 @@ arma::vec pass::random_neighbour(const arma::vec &agent,
 
   return agent +
          arma::normalise(arma::vec{agent.n_elem, arma::fill::randn}) *
-             pass::random_uniform_in_range(minimal_distance, maximal_distance);
+             pass::random_double_uniform_in_range(minimal_distance, maximal_distance);
 }

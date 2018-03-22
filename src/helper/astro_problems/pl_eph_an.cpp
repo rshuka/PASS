@@ -8,8 +8,8 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/astro_functions.hpp"
-#include "pass_bits/helper/gtoc1/pl_eph_an.hpp"
+#include "pass_bits/helper/astro_problems/astro_functions.hpp"
+#include "pass_bits/helper/astro_problems/pl_eph_an.hpp"
 
 void Planet_Ephemerides_Analytical(const double mjd2000,
                                    const int planet,

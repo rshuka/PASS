@@ -1,4 +1,4 @@
-#include "pass_bits/problem/rastrigin_function.hpp"
+#include "pass_bits/problem/optimisation_benchmark/rastrigin_function.hpp"
 
 pass::rastrigin_function::rastrigin_function(const arma::uword dimension)
     : problem(dimension, -5.12, 5.12, "Rastrigin_Function") {}

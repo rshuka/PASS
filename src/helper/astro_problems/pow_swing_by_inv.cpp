@@ -8,7 +8,7 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/pow_swing_by_inv.hpp"
+#include "pass_bits/helper/astro_problems/pow_swing_by_inv.hpp"
 #include <cmath>
 
 void pow_swing_by_inv(const double Vin, const double Vout, const double alpha,

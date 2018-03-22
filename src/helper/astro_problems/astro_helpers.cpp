@@ -1,6 +1,6 @@
-#include "pass_bits/helper/gtoc1/astro_helpers.hpp"
-#include "pass_bits/helper/gtoc1/astro_functions.hpp"
-#include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
+#include "pass_bits/helper/astro_problems/astro_helpers.hpp"
+#include "pass_bits/helper/astro_problems/astro_functions.hpp"
+#include "pass_bits/helper/astro_problems/vector3d_helpers.hpp"
 #include <cmath>
 #include <stdexcept>
 

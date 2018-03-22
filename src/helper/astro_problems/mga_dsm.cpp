@@ -8,11 +8,11 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/astro_functions.hpp"
-#include "pass_bits/helper/gtoc1/lambert.hpp"
-#include "pass_bits/helper/gtoc1/mga_dsm.hpp"
-#include "pass_bits/helper/gtoc1/pl_eph_an.hpp"
-#include "pass_bits/helper/gtoc1/propagate_kep.hpp"
+#include "pass_bits/helper/astro_problems/astro_functions.hpp"
+#include "pass_bits/helper/astro_problems/lambert.hpp"
+#include "pass_bits/helper/astro_problems/mga_dsm.hpp"
+#include "pass_bits/helper/astro_problems/pl_eph_an.hpp"
+#include "pass_bits/helper/astro_problems/propagate_kep.hpp"
 
 // problem types
 const int orbit_insertion = 0;          // Tandem

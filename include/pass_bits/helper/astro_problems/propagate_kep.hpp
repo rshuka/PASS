@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "pass_bits/helper/gtoc1/astro_functions.hpp"
+#include "astro_functions.hpp"
 
 void propagateKEP(const double *, const double *, double, double,
                   double *, double *);

@@ -1,5 +1,5 @@
-#include "pass_bits/problem/messenger_full.hpp"
-#include "pass_bits/helper/gtoc1/mga_dsm.hpp"
+#include "pass_bits/problem/space_mission/messenger_full.hpp"
+#include "pass_bits/helper/astro_problems/mga_dsm.hpp"
 
 pass::messenger_full::messenger_full()
     : problem({1900, 2.5, 0, 0, 100, 100, 100, 100, 100, 100, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 1.1, 1.1, 1.05, 1.05, 1.05, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi, -arma::datum::pi},

@@ -1,4 +1,4 @@
-#include "pass_bits/problem/ackley_function.hpp"
+#include "pass_bits/problem/optimisation_benchmark/ackley_function.hpp"
 
 pass::ackley_function::ackley_function(const arma::uword dimension)
     : problem(dimension, -32.768, 32.768, "Ackley_Function") {}

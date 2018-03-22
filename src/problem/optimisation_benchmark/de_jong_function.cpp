@@ -1,4 +1,4 @@
-#include "pass_bits/problem/de_jong_function.hpp"
+#include "pass_bits/problem/optimisation_benchmark/de_jong_function.hpp"
 
 pass::de_jong_function::de_jong_function(const arma::uword dimension)
     : problem(dimension, -5.12, 5.12, "De_Jong_Function") {}

@@ -88,6 +88,13 @@ public:
    * equations 1 to 3.
    */
   arma::mat hammersley_agents(const arma::uword count) const;
+
+  /**
+   * Draws `count` distributed random agents from range
+   * [lower_bounds, upper_bounds], stored column-wise.
+   * Agens are from type hammersley or random (50%-50%)
+   */
+  arma::mat initialise_agents(const arma::uword count) const;
 };
 
 } // namespace pass

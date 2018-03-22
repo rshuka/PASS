@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pass_bits/helper/gtoc1/constants.hpp"
+#include "pass_bits/helper/astro_problems/constants.hpp"
 #include "pass_bits/problem.hpp"
 
 namespace pass
