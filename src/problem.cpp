@@ -55,8 +55,8 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
   // Calculate hammersley points.
   arma::mat agents(dimension(), count);
 
-  // The first dimension is  in the pure Hammersley particular
-  // A random define which dimension is "The First"
+  // The first dimension is in the pure Hammersley particular
+  // A random number define which dimension is "The First"
   arma::uword random_dimension = pass::random_integer_uniform_in_range(0, agents.n_rows - 1);
 
   for (arma::uword k = 0; k < count; k++)

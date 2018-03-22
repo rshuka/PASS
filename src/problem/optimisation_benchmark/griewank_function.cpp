@@ -11,7 +11,7 @@ double pass::griewank_function::evaluate(const arma::vec &agent) const
   double product = 1.0;
   double sum = 0.0;
 
-  for (arma::uword i = 0; i < agent.n_elem; i++)
+  for (arma::uword i = 0; i < agent.n_elem; ++i)
   {
     sum = sum + agent(i) * agent(i);
     product = product * std::cos(agent(i) / std::sqrt(static_cast<double>(i) + 1.0));

@@ -97,6 +97,7 @@ alias c++='c++-7'
   - Griewank Function
   - Rastrigin Function
   - Rosenbrock Function
+  - Schwefel Function
   - Styblinski-Tang Function
   - Sum of Different Powers Function
 

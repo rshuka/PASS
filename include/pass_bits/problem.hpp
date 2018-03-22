@@ -92,7 +92,7 @@ public:
   /**
    * Draws `count` distributed random agents from range
    * [lower_bounds, upper_bounds], stored column-wise.
-   * Agens are from type hammersley or random (50%-50%)
+   * Agens are from type hammersley or random distributed (50%-50%)
    */
   arma::mat initialise_agents(const arma::uword count) const;
 };

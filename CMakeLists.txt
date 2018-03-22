@@ -152,6 +152,7 @@ add_library(pass SHARED
   src/problem/optimisation_benchmark/griewank_function.cpp
   src/problem/optimisation_benchmark/rastrigin_function.cpp
   src/problem/optimisation_benchmark/rosenbrock_function.cpp
+  src/problem/optimisation_benchmark/schwefel_function.cpp
   src/problem/optimisation_benchmark/styblinski_tang_function.cpp
   src/problem/optimisation_benchmark/sum_of_different_powers_function.cpp
   src/problem/space_mission/gtoc1.cpp
