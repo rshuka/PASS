@@ -5,7 +5,6 @@ PASS is written in C++14 and uses [Armadillo](http://arma.sourceforge.net/) (dev
 ## Prerequirements
 
 - GCC 4.8.1 or later
-- (MacOS) CLANG LLVM 9.0.0 or later
 - CMake 3.2 or later
 - Armadillo C++ 8.200.0 or later
 
@@ -85,14 +84,14 @@ alias c++='c++-7'
 
 ## Implemented Algorithms
 
-- Standard Particle Swarm Optimisation 2011
-- Random Search
 - Hooke Jeeves Algorithm
+- Random Search
 - Parallel Swarm Search (own)
+- Standard Particle Swarm Optimisation 2011
 
 ## Implemented Problems
 
-- Benchmark Problems
+- Optimisation Benchmark Problems
   - Ackley Function
   - De Jong's Function
   - Rastrigin Function
@@ -100,9 +99,9 @@ alias c++='c++-7'
   - Styblinski-Tang Function
   - Sum of Different Powers Function
 
-- Astro Problems
-  - [GTOC1 C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
-  - [Messenger (Full Version) C++ implementation by the ESA](http://www.esa.int/gsp/ACT/inf/projects/gtop/messenger_full.html)
+- Space Mission Problems
+  - [GTOC1](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
+  - [Messenger (Full Version)](http://www.esa.int/gsp/ACT/inf/projects/gtop/messenger_full.html)
 
 ## License
 

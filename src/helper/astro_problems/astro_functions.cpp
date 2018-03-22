@@ -8,7 +8,7 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/astro_functions.hpp"
+#include "pass_bits/helper/astro_problems/astro_functions.hpp"
 #include <iomanip>
 #include <iostream>
 

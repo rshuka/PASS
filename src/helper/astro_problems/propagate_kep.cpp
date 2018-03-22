@@ -11,7 +11,7 @@
 // File: propageteKEP.cpp
 //
 
-#include "pass_bits/helper/gtoc1/propagate_kep.hpp"
+#include "pass_bits/helper/astro_problems/propagate_kep.hpp"
 
 /*
  Origin: MATLAB code programmed by Dario Izzo (ESA/ACT)

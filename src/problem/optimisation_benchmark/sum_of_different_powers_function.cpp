@@ -1,4 +1,4 @@
-#include "pass_bits/problem/sum_of_different_powers_function.hpp"
+#include "pass_bits/problem/optimisation_benchmark/sum_of_different_powers_function.hpp"
 
 pass::sum_of_different_powers_function::sum_of_different_powers_function(
     const arma::uword dimension)

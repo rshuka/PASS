@@ -8,7 +8,7 @@
 // Copyright (c) 2004-2007 European Space Agency                            //
 // ------------------------------------------------------------------------ //
 
-#include "pass_bits/helper/gtoc1/zero_finder.hpp"
+#include "pass_bits/helper/astro_problems/zero_finder.hpp"
 #include <math.h>
 #include <valarray>
 #include <vector>

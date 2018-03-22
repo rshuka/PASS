@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 #!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
 if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.3.0_1/bin/g++-7")
+#set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.3.0_1/bin/g++-7")
 endif()
 
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
@@ -130,29 +130,31 @@ add_library(pass SHARED
 
   # Helper
   src/helper/evaluation_time_stall.cpp
+  src/helper/prime_numbers.cpp
   src/helper/random.cpp
   src/helper/stopwatch.cpp
-  src/helper/gtoc1/astro_functions.cpp
-  src/helper/gtoc1/astro_helpers.cpp
-  src/helper/gtoc1/constants.cpp
-  src/helper/gtoc1/lambert.cpp
-  src/helper/gtoc1/mga_dsm.cpp
-  src/helper/gtoc1/pl_eph_an.cpp
-  src/helper/gtoc1/pow_swing_by_inv.cpp
-  src/helper/gtoc1/propagate_kep.cpp
-  src/helper/gtoc1/vector3d_helpers.cpp
-  src/helper/gtoc1/zero_finder.cpp
+  src/helper/astro_problems/astro_functions.cpp
+  src/helper/astro_problems/astro_helpers.cpp
+  src/helper/astro_problems/constants.cpp
+  src/helper/astro_problems/lambert.cpp
+  src/helper/astro_problems/mga_dsm.cpp
+  src/helper/astro_problems/pl_eph_an.cpp
+  src/helper/astro_problems/pow_swing_by_inv.cpp
+  src/helper/astro_problems/propagate_kep.cpp
+  src/helper/astro_problems/vector3d_helpers.cpp
+  src/helper/astro_problems/zero_finder.cpp
+
 
   # Optimisation Problems
   src/problem.cpp
-  src/problem/de_jong_function.cpp
-  src/problem/ackley_function.cpp
-  src/problem/gtoc1.cpp
-  src/problem/messenger_full.cpp
-  src/problem/rastrigin_function.cpp
-  src/problem/rosenbrock_function.cpp
-  src/problem/styblinski_tang_function.cpp
-  src/problem/sum_of_different_powers_function.cpp
+  src/problem/optimisation_benchmark/de_jong_function.cpp
+  src/problem/optimisation_benchmark/ackley_function.cpp
+  src/problem/optimisation_benchmark/rastrigin_function.cpp
+  src/problem/optimisation_benchmark/rosenbrock_function.cpp
+  src/problem/optimisation_benchmark/styblinski_tang_function.cpp
+  src/problem/optimisation_benchmark/sum_of_different_powers_function.cpp
+  src/problem/space_mission/gtoc1.cpp
+  src/problem/space_mission/messenger_full.cpp
 
   # Optimisation algorithms
   src/optimiser.cpp

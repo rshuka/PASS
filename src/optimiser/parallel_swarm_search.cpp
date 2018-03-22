@@ -40,7 +40,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   {
     for (arma::uword row = 0; row < problem.dimension(); ++row)
     {
-      velocities(row, col) = random_uniform_in_range(
+      velocities(row, col) = random_double_uniform_in_range(
           problem.lower_bounds.at(row) - positions(row, col),
           problem.upper_bounds.at(row) - positions(row, col));
     }
@@ -132,12 +132,12 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
       //p_i
       const arma::vec weighted_personal_attraction = positions.col(n) +
-                                                     random_uniform_in_range(0.0, cognitive_acceleration) *
+                                                     random_double_uniform_in_range(0.0, cognitive_acceleration) *
                                                          (personal_best_positions.col(n) - positions.col(n));
 
       // l_i
       const arma::vec weighted_local_attraction = positions.col(n) +
-                                                  random_uniform_in_range(0.0, social_acceleration) *
+                                                  random_double_uniform_in_range(0.0, social_acceleration) *
                                                       (local_best_position - positions.col(n));
 
       // G

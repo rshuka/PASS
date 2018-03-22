@@ -1,4 +1,4 @@
-#include "pass_bits/helper/gtoc1/vector3d_helpers.hpp"
+#include "pass_bits/helper/astro_problems/vector3d_helpers.hpp"
 #include <cmath>
 
 std::array<double, 3> pass::gtoc::cross_product(std::array<double, 3> v1,

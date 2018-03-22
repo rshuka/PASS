@@ -57,7 +57,7 @@
            iter=number of iteration made by the newton solver (usually 6)
 */
 
-#include "pass_bits/helper/gtoc1/lambert.hpp"
+#include "pass_bits/helper/astro_problems/lambert.hpp"
 #include <cmath>
 #include <iostream>
 
