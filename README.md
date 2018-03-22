@@ -94,6 +94,7 @@ alias c++='c++-7'
 - Optimisation Benchmark Problems
   - Ackley Function
   - De Jong's Function
+  - Griewank Function
   - Rastrigin Function
   - Rosenbrock Function
   - Styblinski-Tang Function
