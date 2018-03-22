@@ -35,6 +35,7 @@
 // Benchmark Optimisation problems
 #include <pass_bits/problem/optimisation_benchmark/ackley_function.hpp>
 #include <pass_bits/problem/optimisation_benchmark/de_jong_function.hpp>
+#include <pass_bits/problem/optimisation_benchmark/griewank_function.hpp>
 #include <pass_bits/problem/optimisation_benchmark/rastrigin_function.hpp>
 #include <pass_bits/problem/optimisation_benchmark/rosenbrock_function.hpp>
 #include <pass_bits/problem/optimisation_benchmark/styblinski_tang_function.hpp>

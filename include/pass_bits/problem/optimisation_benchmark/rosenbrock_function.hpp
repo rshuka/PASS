@@ -5,20 +5,20 @@
 namespace pass
 {
 /**
- * The Rosenbrock function, also referred to as the Valley or Banana function, 
- * is a popular test problem for gradient-based optimization algorithms. 
- * The function is unimodal, and the global minimum lies in a narrow, parabolic 
- * valley. However, even though this valley is easy to find, convergence to the 
- * minimum is difficult (Picheny et al., 2012). 
+ * The Rosenbrock function, also referred to as the Valley or Banana function,
+ * is a popular test problem for gradient-based optimization algorithms.
+ * The function is unimodal, and the global minimum lies in a narrow, parabolic
+ * valley. However, even though this valley is easy to find, convergence to the
+ * minimum is difficult (Picheny et al., 2012).
  * It is named after Howard H. Rosenbrock and was first published 1960 in "An automatic
  * method for finding the greatest or least value of a function. The Computer
- * Journal". 
- * 
+ * Journal".
+ *
  * Its optimal parameter = (1, ..., 1) and optimal function value = 0.
  *
- *         ⎛      ⎛                     ⎞     ⎛          ⎞   ⎞
- *     D-1 ⎜      ⎜                     ⎟^2   ⎜          ⎟^2 ⎟
- *      ∑  ⎜100 * ⎜ p(i + 1) - (p(i))^2 ⎟   + ⎜ p(i) - 1 ⎟   ⎟
+ *         ⎛      ⎛                     ⎞²    ⎛          ⎞²  ⎞
+ *     D-1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
+ *      ∑  ⎜100 * ⎜ p(i + 1) - (p(i))²  ⎟   + ⎜ p(i) - 1 ⎟   ⎟
  *     i=1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
  *         ⎝      ⎝                     ⎠     ⎝          ⎠   ⎠
  */

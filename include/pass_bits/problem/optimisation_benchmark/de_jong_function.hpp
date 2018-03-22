@@ -5,13 +5,13 @@
 namespace pass
 {
 /**
- * So called first function of De Jong’s is one of the simplest 
- * test benchmark. Function is continuous, convex and unimodal. 
- * 
+ * So called first function of De Jong’s is one of the simplest
+ * test benchmark. Function is continuous, convex and unimodal.
+ *
  * Its optimal parameter = (0, ..., 0) and optimal function value = 0.
  *
  *      D
- *      Σ (p(i)^2)
+ *      Σ (p(i)²)
  *     i=1
  */
 class de_jong_function : public problem

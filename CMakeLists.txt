@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 #!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
 if(APPLE)
-#set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.3.0_1/bin/g++-7")
+set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/7.3.0_1/bin/g++-7")
 endif()
 
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
@@ -147,8 +147,9 @@ add_library(pass SHARED
 
   # Optimisation Problems
   src/problem.cpp
-  src/problem/optimisation_benchmark/de_jong_function.cpp
   src/problem/optimisation_benchmark/ackley_function.cpp
+  src/problem/optimisation_benchmark/de_jong_function.cpp
+  src/problem/optimisation_benchmark/griewank_function.cpp
   src/problem/optimisation_benchmark/rastrigin_function.cpp
   src/problem/optimisation_benchmark/rosenbrock_function.cpp
   src/problem/optimisation_benchmark/styblinski_tang_function.cpp
