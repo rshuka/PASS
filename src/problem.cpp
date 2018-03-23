@@ -69,7 +69,7 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
       {
         continue;
       }
-      arma::uword p = pass::prime_numbers[pass::random_integer_uniform_in_range(0, pass::prime_numbers.size() - 1)];
+      arma::uword p = pass::prime_numbers[pass::random_integer_uniform_in_range(0, agents.n_rows - 1)];
       double phi = 0;
 
       // Calculate Φ_p(k) - Pseudocode on page 3
