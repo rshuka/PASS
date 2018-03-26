@@ -13,10 +13,10 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
   pass::stopwatch stopwatch;
   stopwatch.start();
 
-  pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
+  pass::optimise_result result(problem, acceptable_fitness_value);
 
-  result.agent = problem.random_agents(1);
-  result.fitness_value = problem.evaluate(result.agent);
+  result.normalised_agent = problem.normalised_random_agents(1);
+  result.fitness_value = problem.evaluate_normalised(result.normalised_agent);
   ++result.iterations;
 
   /**
@@ -32,7 +32,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.agent[0];
+      verbose(result.iterations, 2) = result.normalised_agent[0];
     }
     else
     {
@@ -41,13 +41,12 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     }
   }
 
-  // get the initial stepsize from the dimension with the biggest boundary
-  double stepsize = arma::max(problem.bounds_range()) / 2;
+  double stepsize = 0.5;
 
   while (result.duration < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved())
   {
-    arma::vec best_neighbour = result.agent;
+    arma::vec best_neighbour = result.normalised_agent;
     double neighbour_fitness_value = result.fitness_value;
 
     for (arma::uword n = 0; n < problem.dimension(); ++n)
@@ -56,20 +55,20 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
 
       for (double step : directions)
       {
-        arma::vec agent = result.agent;
+        arma::vec agent = result.normalised_agent;
         agent(n) += step;
 
         // place into the boundaries
-        if (agent(n) < problem.lower_bounds(n))
+        if (agent(n) < 0)
         {
-          agent(n) = problem.lower_bounds(n);
+          agent(n) = 0;
         }
-        else if (agent(n) > problem.upper_bounds(n))
+        else if (agent(n) > 1)
         {
-          agent(n) = problem.upper_bounds(n);
+          agent(n) = 1;
         }
 
-        double fitness_value = problem.evaluate(agent);
+        double fitness_value = problem.evaluate_normalised(agent);
 
         if (fitness_value < neighbour_fitness_value)
         {
@@ -86,7 +85,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     }
     else
     {
-      result.agent = best_neighbour;
+      result.normalised_agent = best_neighbour;
       result.fitness_value = neighbour_fitness_value;
     }
 
@@ -103,7 +102,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.agent[0];
+      verbose(result.iterations, 2) = result.normalised_agent[0];
     }
 
     result.duration = stopwatch.get_elapsed();

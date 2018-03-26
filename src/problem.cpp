@@ -36,16 +36,18 @@ pass::problem::problem(const arma::vec &lower_bounds,
          "each dimension");
 }
 
-arma::mat pass::problem::random_agents(const arma::uword count) const
+double pass::problem::evaluate_normalised(const arma::vec &agent) const
 {
-  assert(count >= 1 && "Can't generate 0 agents");
-  arma::mat agents{dimension(), count, arma::fill::randu};
-  agents.each_col() %= bounds_range();
-  agents.each_col() += lower_bounds;
-  return agents;
+  return evaluate(agent % bounds_range() + lower_bounds);
 }
 
-arma::mat pass::problem::hammersley_agents(const arma::uword count) const
+arma::mat pass::problem::normalised_random_agents(const arma::uword count) const
+{
+  assert(count >= 1 && "Can't generate 0 agents");
+  return arma::mat{dimension(), count, arma::fill::randu};
+}
+
+arma::mat pass::problem::normalised_hammersley_agents(const arma::uword count) const
 {
   assert(count >= 1 && "Can't generate 0 agents");
   assert(dimension() + 1 <= pass::prime_numbers.size() &&
@@ -89,20 +91,17 @@ arma::mat pass::problem::hammersley_agents(const arma::uword count) const
     }
   }
 
-  // Map points to problem bounds.
-  agents.each_col() %= bounds_range();
-  agents.each_col() += lower_bounds;
   return agents;
 }
 
-arma::mat pass::problem::initialise_agents(const arma::uword count) const
+arma::mat pass::problem::initialise_normalised_agents(const arma::uword count) const
 {
   if (arma::randu() <= 0.5)
   {
-    return hammersley_agents(count);
+    return normalised_hammersley_agents(count);
   }
   else
   {
-    return random_agents(count);
+    return normalised_random_agents(count);
   }
 }

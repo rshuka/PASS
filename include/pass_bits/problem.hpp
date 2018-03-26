@@ -74,27 +74,34 @@ public:
   virtual double evaluate(const arma::vec &agent) const = 0;
 
   /**
-   * Draws `count` uniformly distributed random agents from range
-   * [lower_bounds, upper_bounds], stored column-wise.
+   * Evaluates this problem at `agent`, which must be a normalized vector (all
+   * values must be in range [0, 1]). `agent` is mapped to the problem
+   * boundaries before evaluation.
    */
-  arma::mat random_agents(const arma::uword count) const;
+  double evaluate_normalised(const arma::vec &agent) const;
 
   /**
-   * Generates `count` hammersley points with the same dimension as this,
-   * mapped to the problem bounds of this, stored column-wise.
+   * Draws `count` uniformly distributed random agents from range [0, 1], stored
+   * column-wise.
+   */
+  arma::mat normalised_random_agents(const arma::uword count) const;
+
+  /**
+   * Generates `count` hammersley points with the same dimension as this, stored
+   * column-wise.
    *
    * For a definition of hammersley points, see
    * http://www.cse.cuhk.edu.hk/~ttwong/papers/udpoint/udpoint.pdf,
    * equations 1 to 3.
    */
-  arma::mat hammersley_agents(const arma::uword count) const;
+  arma::mat normalised_hammersley_agents(const arma::uword count) const;
 
   /**
-   * Draws `count` distributed random agents from range
-   * [lower_bounds, upper_bounds], stored column-wise.
+   * Draws `count` distributed random agents from range [0, 1], stored
+   * column-wise.
    * Agens are from type hammersley or random distributed (50%-50%)
    */
-  arma::mat initialise_agents(const arma::uword count) const;
+  arma::mat initialise_normalised_agents(const arma::uword count) const;
 };
 
 } // namespace pass

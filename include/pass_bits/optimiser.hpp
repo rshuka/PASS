@@ -26,9 +26,11 @@ struct optimise_result
 {
   /**
    * The best found parameter that was evaluated to `fitness_value`. Is initialised to
-   * NaN in all dimensions.
+   * NaN in all dimensions. This vector is mapped to the range [0, 1] in all dimensions.
+   * To access the agent in problem search space coordinates, use
+   * `optimise_result::agent()`.
    */
-  arma::vec agent;
+  arma::vec normalised_agent;
 
   /**
    * The best found objective value. Is initialised to + infinity.
@@ -41,6 +43,11 @@ struct optimise_result
   const double acceptable_fitness_value;
 
   /**
+   * The problem that was optimised.
+   */
+  const pass::problem &problem;
+
+  /**
    * The number of iterations executed by the optimiser.
    */
   arma::uword iterations;
@@ -50,13 +57,18 @@ struct optimise_result
    */
   std::chrono::nanoseconds duration;
 
-  optimise_result(const arma::uword dimension,
+  optimise_result(const pass::problem &problem,
                   const double acceptable_fitness_value) noexcept;
 
   /**
    * Returns `true` if the problem was solved.
    */
   bool solved() const;
+
+  /**
+   * Returns `normalised_agent`, but mapped to the search space of `problem`.
+   */
+  arma::vec agent() const;
 };
 
 /**

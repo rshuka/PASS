@@ -29,11 +29,11 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   stopwatch.start();
 
   // initialise the memory for the result
-  pass::optimise_result result(problem.dimension(), acceptable_fitness_value);
+  pass::optimise_result result(problem, acceptable_fitness_value);
 
   // Initialise the positions and the velocities
   // Particle data, stored column-wise.
-  arma::mat positions = problem.hammersley_agents(swarm_size);
+  arma::mat positions = problem.normalised_hammersley_agents(swarm_size);
   arma::mat velocities(problem.dimension(), swarm_size);
 
   for (arma::uword col = 0; col < swarm_size; ++col)
@@ -41,8 +41,8 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     for (arma::uword row = 0; row < problem.dimension(); ++row)
     {
       velocities(row, col) = random_double_uniform_in_range(
-          problem.lower_bounds.at(row) - positions(row, col),
-          problem.upper_bounds.at(row) - positions(row, col));
+          0.0 - positions(row, col),
+          1.0 - positions(row, col));
     }
   }
 
@@ -55,12 +55,12 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   // Begin with the previous best set to this initial position
   for (arma::uword n = 0; n < swarm_size; ++n)
   {
-    const double fitness_value = problem.evaluate(positions.col(n));
+    const double fitness_value = problem.evaluate_normalised(positions.col(n));
     personal_best_fitness_values(n) = fitness_value;
 
     if (fitness_value <= result.fitness_value)
     {
-      result.agent = positions.col(n);
+      result.normalised_agent = positions.col(n);
       best_agent_velocity = velocities.col(n);
       result.fitness_value = fitness_value;
     }
@@ -80,7 +80,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.agent[0];
+      verbose(result.iterations, 2) = result.normalised_agent[0];
       verbose(result.iterations, 3) = best_agent_velocity[0];
     }
     else
@@ -163,20 +163,20 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       // stay inside the bounds
       for (arma::uword k = 0; k < problem.dimension(); ++k)
       {
-        if (positions(k, n) < problem.lower_bounds(k))
+        if (positions(k, n) < 0)
         {
-          positions(k, n) = problem.lower_bounds(k);
+          positions(k, n) = 0;
           velocities(k, n) = -0.5 * velocities(k, n);
         }
-        else if (positions(k, n) > problem.upper_bounds(k))
+        else if (positions(k, n) > 1)
         {
-          positions(k, n) = problem.upper_bounds(k);
+          positions(k, n) = 1;
           velocities(k, n) = -0.5 * velocities(k, n);
         }
       }
 
       // evaluate the new position
-      const double fitness_value = problem.evaluate(positions.col(n));
+      const double fitness_value = problem.evaluate_normalised(positions.col(n));
       if (fitness_value < personal_best_fitness_values(n))
       {
         // propably critical region - NICHT VERSCHACHTELN!!
@@ -186,7 +186,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
         if (fitness_value < result.fitness_value)
         {
           // critical region
-          result.agent = positions.col(n);
+          result.normalised_agent = positions.col(n);
           best_agent_velocity = velocities.col(n);
           result.fitness_value = fitness_value;
           randomize_topology = false;
@@ -206,7 +206,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.agent[0];
+      verbose(result.iterations, 2) = result.normalised_agent[0];
       verbose(result.iterations, 3) = best_agent_velocity[0];
     }
   }
