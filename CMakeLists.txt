@@ -138,6 +138,7 @@ add_library(pass SHARED
   src/helper/astro_problems/constants.cpp
   src/helper/astro_problems/lambert.cpp
   src/helper/astro_problems/mga_dsm.cpp
+  src/helper/astro_problems/mga.cpp
   src/helper/astro_problems/pl_eph_an.cpp
   src/helper/astro_problems/pow_swing_by_inv.cpp
   src/helper/astro_problems/propagate_kep.cpp
@@ -155,6 +156,7 @@ add_library(pass SHARED
   src/problem/optimisation_benchmark/schwefel_function.cpp
   src/problem/optimisation_benchmark/styblinski_tang_function.cpp
   src/problem/optimisation_benchmark/sum_of_different_powers_function.cpp
+  src/problem/space_mission/cassini1.cpp
   src/problem/space_mission/gtoc1.cpp
   src/problem/space_mission/messenger_full.cpp
   src/problem/space_mission/rosetta.cpp

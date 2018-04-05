@@ -51,6 +51,7 @@
 #include <pass_bits/optimiser/random_search.hpp>
 
 //Astro Problems
+#include <pass_bits/problem/space_mission/cassini1.hpp>
 #include <pass_bits/problem/space_mission/gtoc1.hpp>
 #include <pass_bits/problem/space_mission/messenger_full.hpp>
 #include <pass_bits/problem/space_mission/rosetta.hpp>
@@ -59,6 +60,7 @@
 #include <pass_bits/helper/astro_problems/constants.hpp>
 #include <pass_bits/helper/astro_problems/lambert.hpp>
 #include <pass_bits/helper/astro_problems/mga_dsm.hpp>
+#include <pass_bits/helper/astro_problems/mga.hpp>
 #include <pass_bits/helper/astro_problems/pl_eph_an.hpp>
 #include <pass_bits/helper/astro_problems/pow_swing_by_inv.hpp>
 #include <pass_bits/helper/astro_problems/propagate_kep.hpp>

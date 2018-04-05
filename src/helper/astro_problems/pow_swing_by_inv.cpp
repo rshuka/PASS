@@ -11,8 +11,8 @@
 #include "pass_bits/helper/astro_problems/pow_swing_by_inv.hpp"
 #include <cmath>
 
-void pow_swing_by_inv(const double Vin, const double Vout, const double alpha,
-                      double &DV, double &rp)
+void pass::pow_swing_by_inv(const double Vin, const double Vout, const double alpha,
+                            double &DV, double &rp)
 {
   const int maxiter = 30;
   int i = 0;

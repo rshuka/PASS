@@ -11,13 +11,7 @@
 #pragma once
 
 #include <vector>
-
-struct customobject
-{
-  double keplerian[6];
-  double epoch;
-  double mu;
-};
+#include "mga.hpp"
 
 struct mgadsmproblem
 {
