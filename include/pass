@@ -53,6 +53,7 @@
 //Astro Problems
 #include <pass_bits/problem/space_mission/gtoc1.hpp>
 #include <pass_bits/problem/space_mission/messenger_full.hpp>
+#include <pass_bits/problem/space_mission/rosetta.hpp>
 #include <pass_bits/helper/astro_problems/astro_functions.hpp>
 #include <pass_bits/helper/astro_problems/astro_helpers.hpp>
 #include <pass_bits/helper/astro_problems/constants.hpp>

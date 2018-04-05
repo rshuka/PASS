@@ -157,6 +157,7 @@ add_library(pass SHARED
   src/problem/optimisation_benchmark/sum_of_different_powers_function.cpp
   src/problem/space_mission/gtoc1.cpp
   src/problem/space_mission/messenger_full.cpp
+  src/problem/space_mission/rosetta.cpp
 
   # Optimisation algorithms
   src/optimiser.cpp
