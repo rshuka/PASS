@@ -14,13 +14,6 @@
 #include "pass_bits/helper/astro_problems/pl_eph_an.hpp"
 #include "pass_bits/helper/astro_problems/propagate_kep.hpp"
 
-// problem types
-const int orbit_insertion = 0;          // Tandem
-const int total_DV_orbit_insertion = 1; // Cassini 1
-const int rndv = 2;                     // Rosetta
-const int total_DV_rndv = 3;            // Cassini 2 and Messenger
-const int time2AUs = 5;                 // SAGAS
-
 // [MR] TODO: exctract these somewhere...
 const double MU[9] = {
     1.32712428e11,      // SUN                                  = 0
