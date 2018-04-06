@@ -41,7 +41,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     }
   }
 
-  double stepsize = 0.5;
+  double stepsize = 1.0;
 
   while (result.duration < maximal_duration &&
          result.iterations < maximal_iterations && !result.solved())

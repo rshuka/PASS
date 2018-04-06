@@ -10,9 +10,9 @@ namespace pass
  * Its optimal parameter = (420.9687, ..., 420.9687) and optimal function value = 0.
  * In this implementation for the optimal parameter the function value = 5.42627e-10.
  *
- *                 D ⎛                        ⎞
- *  418.9829 * D - ∑ ⎜ p(i) * sin(√ ||p(i)||) ⎟
- *                i=1⎝                        ⎠
+ *                          D ⎛                        ⎞
+ *  418.9828872724338 * D - ∑ ⎜ p(i) * sin(√ ||p(i)||) ⎟
+ *                         i=1⎝                        ⎠
  */
 class schwefel_function : public problem
 {
