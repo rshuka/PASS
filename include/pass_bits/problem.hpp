@@ -1,14 +1,12 @@
 #pragma once
 
+#include "pass_bits/config.hpp"
 #include <algorithm>
 #include <armadillo>
 #include <cassert>
 #include <cmath>
 #include <vector>
 #include <string>
-#if defined(SUPPORT_OPENMP)
-#include <omp.h>
-#endif
 
 #if defined(SUPPORT_MPI)
 #include <mpi.h>
@@ -78,7 +76,7 @@ public:
    * values must be in range [0, 1]). `agent` is mapped to the problem
    * boundaries before evaluation.
    */
-  double evaluate_normalised(const arma::vec &agent) const;
+  double evaluate_normalised(const arma::vec &normalised_agent) const;
 
   /**
    * Draws `count` uniformly distributed random agents from range [0, 1], stored

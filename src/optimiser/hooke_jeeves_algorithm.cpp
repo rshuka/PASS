@@ -32,7 +32,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent().at(0);
     }
     else
     {
@@ -102,7 +102,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent().at(0);
     }
 
     result.duration = stopwatch.get_elapsed();
@@ -111,7 +111,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
   if (pass::is_verbose)
   {
     verbose.shed_row(0);
-    verbose.save("Verbose_" + name + "_Problem_" + problem.name + "_Dim_" +
+    verbose.save("Verbose_Optimiser_" + name + "_Problem_" + problem.name + "_Dim_" +
                      std::to_string(problem.dimension()) +
                      "_Run_" + std::to_string(pass::number_of_runs),
                  arma::raw_ascii);

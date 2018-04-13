@@ -2,6 +2,7 @@
 
 #include <armadillo> // arma::vec
 #include <vector>    // vector
+
 namespace pass
 {
 /**

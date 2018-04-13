@@ -25,8 +25,8 @@ namespace pass
   extern bool is_verbose;
   extern int number_of_runs;
 
-  arma::uword thread_number();
-  arma::uword number_of_threads();
-  arma::uword node_rank();
-  arma::uword number_of_nodes();
+  int thread_number();
+  int number_of_threads();
+  int node_rank();
+  int number_of_nodes();
 }

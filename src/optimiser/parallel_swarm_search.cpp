@@ -28,13 +28,29 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   pass::stopwatch stopwatch;
   stopwatch.start();
 
-  // initialise the memory for the result
+  // Variables needed
   pass::optimise_result result(problem, acceptable_fitness_value);
+
+  arma::mat positions;
+  arma::mat velocities(problem.dimension(), swarm_size);
+
+  arma::mat personal_best_positions;
+  arma::rowvec personal_best_fitness_values(swarm_size);
+
+  arma::umat topology(swarm_size, swarm_size);
+
+  arma::vec local_best_position;
+  double local_best_fitness_value;
+
+  arma::vec attraction_center;
+  arma::vec weighted_personal_attraction;
+  arma::vec weighted_local_attraction;
+
+  double fitness_value;
 
   // Initialise the positions and the velocities
   // Particle data, stored column-wise.
-  arma::mat positions = problem.normalised_hammersley_agents(swarm_size);
-  arma::mat velocities(problem.dimension(), swarm_size);
+  positions = problem.normalised_hammersley_agents(swarm_size);
 
   for (arma::uword col = 0; col < swarm_size; ++col)
   {
@@ -46,16 +62,14 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     }
   }
 
-  // Memory containing the previous/personal best and its fitness value
-  arma::mat personal_best_positions = positions;
-  arma::rowvec personal_best_fitness_values(swarm_size);
+  personal_best_positions = positions;
 
   // Evaluate the initial positions.
   // Compute the fitness.
   // Begin with the previous best set to this initial position
   for (arma::uword n = 0; n < swarm_size; ++n)
   {
-    const double fitness_value = problem.evaluate_normalised(positions.col(n));
+    fitness_value = problem.evaluate_normalised(positions.col(n));
     personal_best_fitness_values(n) = fitness_value;
 
     if (fitness_value <= result.fitness_value)
@@ -80,7 +94,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent().at(0);
       verbose(result.iterations, 3) = best_agent_velocity[0];
     }
     else
@@ -91,7 +105,6 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   }
   //end initialisation
 
-  arma::umat topology(swarm_size, swarm_size);
   bool randomize_topology = true;
 
   // termination criteria.
@@ -108,40 +121,43 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     }
     randomize_topology = true;
 
+#if defined(SUPPORT_OPENMP)
+#pragma omp parallel for proc_bind(spread) num_threads(pass::number_of_threads()) private(local_best_position, local_best_fitness_value, attraction_center, weighted_personal_attraction, weighted_local_attraction, fitness_value) schedule(static)
+#endif
+
     // iterate over the particles
     for (arma::uword n = 0; n < swarm_size; ++n)
     {
       // l_i^t
-      arma::vec local_best_position = personal_best_positions.col(n);
-      double local_best_fitness_value = personal_best_fitness_values(n);
+      local_best_position = personal_best_positions.col(n);
+      local_best_fitness_value = personal_best_fitness_values(n);
 
       // check the topology to identify with which particle you communicate
       for (arma::uword i = 0; i < swarm_size; i++)
       {
         if (topology(n, i) && personal_best_fitness_values(i) < local_best_fitness_value)
         {
-          // critical region implements
           local_best_fitness_value = personal_best_fitness_values(i);
           local_best_position = personal_best_positions.col(i);
         }
       }
 
-      /**
-       * Compute the new velocity
-       */
-
+        /**
+         * Compute the new velocity
+         * If OpenMP is activated, make sure the random numbers are thread safe
+         */
+#if defined(SUPPORT_OPENMP)
+      arma::arma_rng::set_seed_random();
+#endif
       //p_i
-      const arma::vec weighted_personal_attraction = positions.col(n) +
-                                                     random_double_uniform_in_range(0.0, cognitive_acceleration) *
-                                                         (personal_best_positions.col(n) - positions.col(n));
+      weighted_personal_attraction = positions.col(n) +
+                                     random_double_uniform_in_range(0.0, cognitive_acceleration) *
+                                         (personal_best_positions.col(n) - positions.col(n));
 
       // l_i
-      const arma::vec weighted_local_attraction = positions.col(n) +
-                                                  random_double_uniform_in_range(0.0, social_acceleration) *
-                                                      (local_best_position - positions.col(n));
-
-      // G
-      arma::vec attraction_center;
+      weighted_local_attraction = positions.col(n) +
+                                  random_double_uniform_in_range(0.0, social_acceleration) *
+                                      (local_best_position - positions.col(n));
 
       // If the best informant is the particle itself, define the gravity center G as the middle of x-p'
       if (personal_best_fitness_values(n) == local_best_fitness_value)
@@ -176,20 +192,25 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       }
 
       // evaluate the new position
-      const double fitness_value = problem.evaluate_normalised(positions.col(n));
+      fitness_value = problem.evaluate_normalised(positions.col(n));
       if (fitness_value < personal_best_fitness_values(n))
       {
-        // propably critical region - NICHT VERSCHACHTELN!!
         personal_best_positions.col(n) = positions.col(n);
         personal_best_fitness_values(n) = fitness_value;
 
         if (fitness_value < result.fitness_value)
         {
-          // critical region
-          result.normalised_agent = positions.col(n);
-          best_agent_velocity = velocities.col(n);
-          result.fitness_value = fitness_value;
-          randomize_topology = false;
+#if defined(SUPPORT_OPENMP)
+#pragma omp critical
+          {
+#endif
+            result.normalised_agent = positions.col(n);
+            best_agent_velocity = velocities.col(n);
+            result.fitness_value = fitness_value;
+            randomize_topology = false;
+#if defined(SUPPORT_OPENMP)
+          }
+#endif
         }
       }
     }
@@ -206,7 +227,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent().at(0);
       verbose(result.iterations, 3) = best_agent_velocity[0];
     }
   }
@@ -216,7 +237,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   if (pass::is_verbose)
   {
     verbose.shed_row(0);
-    verbose.save("Verbose_" + name + "_Problem_" + problem.name + "_Dim_" +
+    verbose.save("Verbose_Optimiser_" + name + "_Problem_" + problem.name + "_Dim_" +
                      std::to_string(problem.dimension()) +
                      "_Run_" + std::to_string(pass::number_of_runs),
                  arma::raw_ascii);

@@ -36,9 +36,9 @@ pass::problem::problem(const arma::vec &lower_bounds,
          "each dimension");
 }
 
-double pass::problem::evaluate_normalised(const arma::vec &agent) const
+double pass::problem::evaluate_normalised(const arma::vec &normalised_agent) const
 {
-  return evaluate(agent % bounds_range() + lower_bounds);
+  return evaluate(normalised_agent % bounds_range() + lower_bounds);
 }
 
 arma::mat pass::problem::normalised_random_agents(const arma::uword count) const

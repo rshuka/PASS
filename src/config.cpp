@@ -29,7 +29,7 @@ int number_of_runs(1);
  * @number_of_threads: returns the number of the threads
  * @thread_number: returns which number the thread have
  */
-arma::uword number_of_threads()
+int number_of_threads()
 {
 #if defined(SUPPORT_OPENMP)
   return omp_get_max_threads();
@@ -38,7 +38,7 @@ arma::uword number_of_threads()
 #endif
 }
 
-arma::uword thread_number()
+int thread_number()
 {
 #if defined(SUPPORT_OPENMP)
   return omp_get_thread_num();
@@ -52,7 +52,7 @@ arma::uword thread_number()
  * @number_of_nodes: returns the number of the nodes
  * @node_rank: returns which number a.k.a rank the node have
  */
-arma::uword number_of_nodes()
+int number_of_nodes()
 {
 #if defined(SUPPORT_MPI)
   int numberOfNodes;
@@ -71,7 +71,7 @@ arma::uword number_of_nodes()
 #endif
 }
 
-arma::uword node_rank()
+int node_rank()
 {
 #if defined(SUPPORT_MPI)
   int nodeRank;

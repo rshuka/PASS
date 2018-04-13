@@ -104,6 +104,8 @@ alias c++='c++-7'
 - Space Mission Problems
   - [GTOC1](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
   - [Messenger (Full Version)](http://www.esa.int/gsp/ACT/inf/projects/gtop/messenger_full.html)
+  - [Cassini1](http://www.esa.int/gsp/ACT/inf/projects/gtop/cassini1.html)
+  - [Rosetta](http://www.esa.int/gsp/ACT/inf/projects/gtop/rosetta.html)
 
 ## License
 
