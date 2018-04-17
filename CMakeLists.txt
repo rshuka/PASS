@@ -18,7 +18,7 @@ project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX)
 
 
 # Adding additional support
-option(SUPPORT_SIMD "Add SSE2, SSE3, SSE4, AVX, etc. support" OFF)
+option(SUPPORT_SIMD "Add SSE2, SSE3, SSE4, AVX, etc. support" ON)
 option(SUPPORT_OPENMP "Add OpenMP support" ON)
 option(SUPPORT_MPI "Add MPI support" OFF)
 
@@ -181,7 +181,7 @@ else()
 endif()
 
 message(STATUS "- Using level 2 code optimisation.")
-target_compile_options(pass PRIVATE -O2)
+target_compile_options(pass PRIVATE -O3)
 
 # Show all the warnings
 target_compile_options(pass PRIVATE "-Wall")

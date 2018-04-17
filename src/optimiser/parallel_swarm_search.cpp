@@ -122,98 +122,104 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     randomize_topology = true;
 
 #if defined(SUPPORT_OPENMP)
-#pragma omp parallel for proc_bind(spread) num_threads(pass::number_of_threads()) private(local_best_position, local_best_fitness_value, attraction_center, weighted_personal_attraction, weighted_local_attraction, fitness_value) schedule(static)
+// ab hier benutze mehrere Threads
+#pragma omp parallel proc_bind(close) num_threads(pass::number_of_threads())
+    { //parallel region start
+#pragma omp for private(local_best_position, local_best_fitness_value, attraction_center, weighted_personal_attraction, weighted_local_attraction, fitness_value) firstprivate(topology) schedule(static)
 #endif
 
-    // iterate over the particles
-    for (arma::uword n = 0; n < swarm_size; ++n)
-    {
-      // l_i^t
-      local_best_position = personal_best_positions.col(n);
-      local_best_fitness_value = personal_best_fitness_values(n);
-
-      // check the topology to identify with which particle you communicate
-      for (arma::uword i = 0; i < swarm_size; i++)
+      // iterate over the particles
+      for (arma::uword n = 0; n < swarm_size; ++n)
       {
-        if (topology(n, i) && personal_best_fitness_values(i) < local_best_fitness_value)
-        {
-          local_best_fitness_value = personal_best_fitness_values(i);
-          local_best_position = personal_best_positions.col(i);
-        }
-      }
+        // l_i^t
+        local_best_position = personal_best_positions.col(n);
+        local_best_fitness_value = personal_best_fitness_values(n);
 
-        /**
-         * Compute the new velocity
-         * If OpenMP is activated, make sure the random numbers are thread safe
-         */
+        // check the topology to identify with which particle you communicate
+        for (arma::uword i = 0; i < swarm_size; i++)
+        {
+          if (topology(n, i) && personal_best_fitness_values(i) < local_best_fitness_value)
+          {
+            local_best_fitness_value = personal_best_fitness_values(i);
+            local_best_position = personal_best_positions.col(i);
+          }
+        }
+
+          /**
+           * Compute the new velocity
+           * If OpenMP is activated, make sure the random numbers are thread safe
+           */
 #if defined(SUPPORT_OPENMP)
-      arma::arma_rng::set_seed_random();
+        arma::arma_rng::set_seed_random();
 #endif
-      //p_i
-      weighted_personal_attraction = positions.col(n) +
-                                     random_double_uniform_in_range(0.0, cognitive_acceleration) *
-                                         (personal_best_positions.col(n) - positions.col(n));
+        //p_i
+        weighted_personal_attraction = positions.col(n) +
+                                       random_double_uniform_in_range(0.0, cognitive_acceleration) *
+                                           (personal_best_positions.col(n) - positions.col(n));
 
-      // l_i
-      weighted_local_attraction = positions.col(n) +
-                                  random_double_uniform_in_range(0.0, social_acceleration) *
-                                      (local_best_position - positions.col(n));
+        // l_i
+        weighted_local_attraction = positions.col(n) +
+                                    random_double_uniform_in_range(0.0, social_acceleration) *
+                                        (local_best_position - positions.col(n));
 
-      // If the best informant is the particle itself, define the gravity center G as the middle of x-p'
-      if (personal_best_fitness_values(n) == local_best_fitness_value)
-      {
-        attraction_center = 0.5 * (positions.col(n) + weighted_personal_attraction);
-      }
-      else
-      {
-        attraction_center = (positions.col(n) + weighted_personal_attraction + weighted_local_attraction) / 3.0;
-      }
-
-      velocities.col(n) = inertia * velocities.col(n) +
-                          random_neighbour(attraction_center, 0.0, arma::norm(attraction_center - positions.col(n))) -
-                          positions.col(n);
-
-      // move by applying this new velocity to the current position
-      positions.col(n) = positions.col(n) + velocities.col(n);
-
-      // stay inside the bounds
-      for (arma::uword k = 0; k < problem.dimension(); ++k)
-      {
-        if (positions(k, n) < 0)
+        // If the best informant is the particle itself, define the gravity center G as the middle of x-p'
+        if (personal_best_fitness_values(n) == local_best_fitness_value)
         {
-          positions(k, n) = 0;
-          velocities(k, n) = -0.5 * velocities(k, n);
+          attraction_center = 0.5 * (positions.col(n) + weighted_personal_attraction);
         }
-        else if (positions(k, n) > 1)
+        else
         {
-          positions(k, n) = 1;
-          velocities(k, n) = -0.5 * velocities(k, n);
+          attraction_center = (positions.col(n) + weighted_personal_attraction + weighted_local_attraction) / 3.0;
         }
-      }
 
-      // evaluate the new position
-      fitness_value = problem.evaluate_normalised(positions.col(n));
-      if (fitness_value < personal_best_fitness_values(n))
-      {
-        personal_best_positions.col(n) = positions.col(n);
-        personal_best_fitness_values(n) = fitness_value;
+        velocities.col(n) = inertia * velocities.col(n) +
+                            random_neighbour(attraction_center, 0.0, arma::norm(attraction_center - positions.col(n))) -
+                            positions.col(n);
 
-        if (fitness_value < result.fitness_value)
+        // move by applying this new velocity to the current position
+        positions.col(n) = positions.col(n) + velocities.col(n);
+
+        // stay inside the bounds
+        for (arma::uword k = 0; k < problem.dimension(); ++k)
         {
+          if (positions(k, n) < 0)
+          {
+            positions(k, n) = 0;
+            velocities(k, n) = -0.5 * velocities(k, n);
+          }
+          else if (positions(k, n) > 1)
+          {
+            positions(k, n) = 1;
+            velocities(k, n) = -0.5 * velocities(k, n);
+          }
+        }
+
+        // evaluate the new position
+        fitness_value = problem.evaluate_normalised(positions.col(n));
+        if (fitness_value < personal_best_fitness_values(n))
+        {
+          personal_best_positions.col(n) = positions.col(n);
+          personal_best_fitness_values(n) = fitness_value;
+
+          if (fitness_value < result.fitness_value)
+          {
 #if defined(SUPPORT_OPENMP)
 #pragma omp critical
-          {
+            { // critical region start
 #endif
-            result.normalised_agent = positions.col(n);
-            best_agent_velocity = velocities.col(n);
-            result.fitness_value = fitness_value;
-            randomize_topology = false;
+              result.normalised_agent = positions.col(n);
+              best_agent_velocity = velocities.col(n);
+              result.fitness_value = fitness_value;
+              randomize_topology = false;
 #if defined(SUPPORT_OPENMP)
-          }
+            } // crititcal region end
 #endif
+          }
         }
       }
-    }
+#if defined(SUPPORT_OPENMP)
+    } //parallel region end
+#endif
     ++result.iterations;
 
     /**
