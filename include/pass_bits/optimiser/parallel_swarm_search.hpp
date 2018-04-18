@@ -55,6 +55,14 @@ public:
    */
   double neighbourhood_probability;
 
+  /**
+   * The number of threads if openMP is enabled
+   *
+   * Is initialized to maximum available threads
+   */
+
+  int number_threads;
+
   parallel_swarm_search() noexcept;
 
   virtual optimise_result optimise(const pass::problem &problem);

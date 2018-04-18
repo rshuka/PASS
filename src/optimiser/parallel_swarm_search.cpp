@@ -9,7 +9,8 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
       cognitive_acceleration(0.5 + std::log(2.0)),
       social_acceleration(cognitive_acceleration),
       neighbourhood_probability(1.0 -
-                                std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)) {}
+                                std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)),
+      number_threads(pass::number_of_threads()) {}
 
 pass::optimise_result pass::parallel_swarm_search::optimise(
     const pass::problem &problem)
@@ -20,6 +21,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0 &&
          "'neighbourhood_probability' should be a value between 0.0 and 1.0");
   assert(swarm_size > 0 && "Can't generate 0 agents");
+  assert(number_threads > 0 && "The number of threads should be greater than 0");
 
   // Variables used to analyse the behavior of a particle
   arma::mat verbose(maximal_iterations + 1, 4);
@@ -122,8 +124,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     randomize_topology = true;
 
 #if defined(SUPPORT_OPENMP)
-// ab hier benutze mehrere Threads
-#pragma omp parallel proc_bind(close) num_threads(pass::number_of_threads())
+#pragma omp parallel proc_bind(close) num_threads(number_threads)
     { //parallel region start
 #pragma omp for private(local_best_position, local_best_fitness_value, attraction_center, weighted_personal_attraction, weighted_local_attraction, fitness_value) firstprivate(topology) schedule(static)
 #endif

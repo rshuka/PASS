@@ -23,6 +23,9 @@
 // Configuration
 #include <pass_bits/config.hpp>
 
+// Analyser
+#include <pass_bits/analyser/evaluation_time.hpp>
+
 // Helper
 #include <pass_bits/helper/random.hpp>
 #include <pass_bits/helper/evaluation_time_stall.hpp>

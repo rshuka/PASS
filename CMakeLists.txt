@@ -128,6 +128,9 @@ add_library(pass SHARED
   # Configuration
   src/config.cpp
 
+  # Analyser
+  src/analyser/evaluation_time.cpp
+
   # Helper
   src/helper/evaluation_time_stall.cpp
   src/helper/prime_numbers.cpp
