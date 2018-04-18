@@ -183,7 +183,7 @@ else()
   message(STATUS "  - Use 'cmake ... -DSUPPORT_SIMD=ON' to add this.")
 endif()
 
-message(STATUS "- Using level 2 code optimisation.")
+message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
 # Show all the warnings

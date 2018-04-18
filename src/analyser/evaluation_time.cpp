@@ -1,6 +1,6 @@
-#include "pass_bits/analyser/problem_time.hpp"
+#include "pass_bits/analyser/evaluation_time.hpp"
 #include <chrono> // assert
-#include <thread>
+#include <thread> // sleep_for
 
 double pass::evaluation_time(const pass::problem &problem)
 {
@@ -26,5 +26,5 @@ double pass::evaluation_time(const pass::problem &problem)
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
-  return arma::mean(times);
+  return arma::median(times);
 }
