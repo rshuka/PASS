@@ -14,6 +14,7 @@ pass::optimise_result pass::random_search::optimise(
   do
   {
     ++result.iterations;
+    ++result.evaluations;
 
     arma::vec agent = problem.normalised_random_agents(1);
     const double fitness_value = problem.evaluate_normalised(agent);

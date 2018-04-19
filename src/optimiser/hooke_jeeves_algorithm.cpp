@@ -18,6 +18,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
   result.normalised_agent = problem.normalised_random_agents(1);
   result.fitness_value = problem.evaluate_normalised(result.normalised_agent);
   ++result.iterations;
+  ++result.evaluations;
 
   /**
     * +------------+---------------+----------+
@@ -69,6 +70,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
         }
 
         double fitness_value = problem.evaluate_normalised(agent);
+        ++result.evaluations;
 
         if (fitness_value < neighbour_fitness_value)
         {

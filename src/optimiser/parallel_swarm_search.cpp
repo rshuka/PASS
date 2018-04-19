@@ -238,6 +238,8 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
       verbose(result.iterations, 3) = best_agent_velocity[0];
     }
   }
+
+  result.evaluations = result.iterations * swarm_size;
   result.duration = stopwatch.get_elapsed();
 
   // Save the file

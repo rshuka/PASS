@@ -53,6 +53,11 @@ struct optimise_result
   arma::uword iterations;
 
   /**
+   * The total number of times `problem.evaluate` was called.
+   */
+  arma::uword evaluations;
+
+  /**
    * Total time in nanoseconds (10^-9) the optimiser took to find `objective_value`.
    */
   std::chrono::nanoseconds duration;

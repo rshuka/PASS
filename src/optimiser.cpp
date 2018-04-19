@@ -7,6 +7,7 @@ pass::optimise_result::optimise_result(const pass::problem &problem, const doubl
       acceptable_fitness_value(acceptable_fitness_value),
       problem(problem),
       iterations(0),
+      evaluations(0),
       duration(std::chrono::nanoseconds(0)) {}
 
 bool pass::optimise_result::solved() const

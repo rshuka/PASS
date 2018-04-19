@@ -56,6 +56,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   for (arma::uword n = 0; n < swarm_size; ++n)
   {
     const double fitness_value = problem.evaluate_normalised(positions.col(n));
+    ++result.evaluations;
     personal_best_fitness_values(n) = fitness_value;
 
     if (fitness_value <= result.fitness_value)
@@ -171,6 +172,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
       // evaluate the new position
       const double fitness_value = problem.evaluate_normalised(positions.col(n));
+      ++result.evaluations;
 
       if (fitness_value < personal_best_fitness_values(n))
       {
@@ -184,6 +186,12 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
           best_agent_velocity = velocities.col(n);
           randomize_topology = false;
         }
+      }
+
+      // If one particle find the solution, exit the loop
+      if (result.solved())
+      {
+        break;
       }
     }
     ++result.iterations;
