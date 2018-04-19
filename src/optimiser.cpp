@@ -8,7 +8,7 @@ pass::optimise_result::optimise_result(const pass::problem &problem, const doubl
       problem(problem),
       iterations(0),
       evaluations(0),
-      duration(std::chrono::nanoseconds(0)) {}
+      duration(std::chrono::microseconds(0)) {}
 
 bool pass::optimise_result::solved() const
 {

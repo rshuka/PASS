@@ -6,23 +6,21 @@ double pass::evaluation_time(const pass::problem &problem)
 {
   arma::vec particle(problem.dimension(), arma::fill::randu);
   arma::vec times(1000);
-  std::chrono::high_resolution_clock::time_point t1, t2;
+  std::chrono::high_resolution_clock::time_point start, end;
 
   int runs = 0;
-  int count = 0;
 
   while (runs < 5000)
   {
-    t1 = std::chrono::high_resolution_clock::now();
+    start = std::chrono::high_resolution_clock::now();
     problem.evaluate_normalised(particle);
-    t2 = std::chrono::high_resolution_clock::now();
+    end = std::chrono::high_resolution_clock::now();
 
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
-    times[count] = duration;
+    times[runs % 1000] = duration;
+    ++runs;
 
-    count = (count + 1) % 1000;
-    runs++;
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 

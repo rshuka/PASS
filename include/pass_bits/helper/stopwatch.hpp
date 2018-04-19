@@ -16,9 +16,9 @@ public:
   void start() noexcept;
 
   /**
-   * The time in nanoseconds (10^-9) since this object was created.
+   * The time in microseconds (10^-6) since this object was created.
    */
-  std::chrono::nanoseconds get_elapsed() const noexcept;
+  std::chrono::microseconds get_elapsed() const noexcept;
 
 private:
   std::chrono::steady_clock::time_point start_time;
