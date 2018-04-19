@@ -10,7 +10,7 @@ double pass::evaluation_time(const pass::problem &problem)
 
   int runs = 0;
 
-  while (runs < 5000)
+  while (runs < 2000)
   {
     start = std::chrono::high_resolution_clock::now();
     problem.evaluate_normalised(particle);
@@ -21,7 +21,7 @@ double pass::evaluation_time(const pass::problem &problem)
     times[runs % 1000] = duration;
     ++runs;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
   return arma::median(times);

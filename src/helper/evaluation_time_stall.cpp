@@ -1,4 +1,5 @@
 #include "pass_bits/helper/evaluation_time_stall.hpp"
+#include <thread> // sleep_for
 
 pass::evaluation_time_stall::evaluation_time_stall(const pass::problem &wrapped_problem)
     : problem(wrapped_problem.lower_bounds, wrapped_problem.upper_bounds, wrapped_problem.name),
@@ -13,6 +14,7 @@ double pass::evaluation_time_stall::evaluate(const arma::vec &agent) const
   for (arma::uword n = 0; n < repetitions; n++)
   {
     objective_value = wrapped_problem.evaluate(agent);
+    std::this_thread::sleep_for(std::chrono::microseconds(10));
   }
   return objective_value;
 }
