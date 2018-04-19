@@ -58,9 +58,9 @@ struct optimise_result
   arma::uword evaluations;
 
   /**
-   * Total time in nanoseconds (10^-9) the optimiser took to find `objective_value`.
+   * Total time in microseconds (10^-6) the optimiser took to find `objective_value`.
    */
-  std::chrono::nanoseconds duration;
+  std::chrono::microseconds duration;
 
   optimise_result(const pass::problem &problem,
                   const double acceptable_fitness_value) noexcept;
@@ -103,7 +103,7 @@ public:
    *
    * Initialised maximum time std::chrono::system_clock::duration::max().
    */
-  std::chrono::nanoseconds maximal_duration;
+  std::chrono::microseconds maximal_duration;
 
   /**
    * Identify every optimiser with its own name
