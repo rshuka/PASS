@@ -14,7 +14,6 @@ double pass::evaluation_time_stall::evaluate(const arma::vec &agent) const
   for (arma::uword n = 0; n < repetitions; n++)
   {
     objective_value = wrapped_problem.evaluate(agent);
-    std::this_thread::sleep_for(std::chrono::microseconds(10));
   }
   return objective_value;
 }

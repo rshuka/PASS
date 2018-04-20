@@ -20,8 +20,6 @@ double pass::evaluation_time(const pass::problem &problem)
 
     times[runs % 1000] = duration;
     ++runs;
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
   return arma::median(times);
