@@ -58,6 +58,12 @@ find_package(Armadillo QUIET)
 include_directories(${ARMADILLO_INCLUDE_DIR})
 message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version ${ARMADILLO_VERSION_STRING}, minimum required is ${REQUIRED_ARMADILLO_VERSION}).")
 
+# pagmo2 dependencies
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+if (NOT Eigen3_FOUND)
+  message("Eigen3 not found")
+endif()
+
 # Support MPI
 if (SUPPORT_MPI)
   message(STATUS "")
@@ -200,6 +206,8 @@ target_include_directories(pass PUBLIC
 
 target_include_directories(pass SYSTEM PUBLIC ${ARMADILLO_INCLUDE_DIR})
 target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
+
+target_link_libraries (pass PUBLIC Eigen3::Eigen)
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})

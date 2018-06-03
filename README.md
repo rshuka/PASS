@@ -82,6 +82,11 @@ alias g++='g++-7'
 alias c++='c++-7'
 ```
 
+## Pagmo2 dependencies
+
+This branch contains wrappers for [pagmo2](https://esa.github.io/pagmo2).
+Follow their installation instructions, and include the Eigen3 support. (`cmake -DPAGMO_WITH_EIGEN3=ON`)
+
 ## Implemented Algorithms
 
 - Hooke Jeeves Algorithm
