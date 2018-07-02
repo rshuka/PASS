@@ -26,9 +26,11 @@
 // Analyser
 #include <pass_bits/analyser/evaluation_time.hpp>
 
+// pagmo2
+#include <pass_bits/pagmo2_bindings.hpp>
+
 // Helper
 #include <pass_bits/helper/random.hpp>
-#include <pass_bits/helper/pagmo2/problem_adapter.hpp>
 #include <pass_bits/helper/evaluation_time_stall.hpp>
 #include <pass_bits/helper/stopwatch.hpp>
 #include <pass_bits/helper/prime_numbers.hpp>
@@ -49,7 +51,6 @@
 
 // Optimisation algorithms
 #include <pass_bits/optimiser.hpp>
-#include <pass_bits/optimiser/cmaes.hpp>
 #include <pass_bits/optimiser/parallel_swarm_search.hpp>
 #include <pass_bits/optimiser/particle_swarm_optimisation.hpp>
 #include <pass_bits/optimiser/hooke_jeeves_algorithm.hpp>
