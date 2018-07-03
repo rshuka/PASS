@@ -112,7 +112,7 @@ pass::pagmo2::differential_evolution::differential_evolution() noexcept
 pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm() const
 {
   return pagmo::algorithm{pagmo::de{
-    // gen: number of generations.
+    // gen: number of generations. (default value: 1)
     1,
     // F: weight coefficient (dafault value is 0.8)
     0.8,
@@ -127,4 +127,28 @@ pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm() const
     // Use -infinity because we have our own termination criteria check
     -std::numeric_limits<double>::infinity()
   }};
+}
+
+// ----------------------------------------------
+// simple genetic algorithm
+// ----------------------------------------------
+
+pass::pagmo2::simple_genetic_algorithm::simple_genetic_algorithm() noexcept
+    : algorithm_adapter("simple_genetic_algorithm") {}
+
+pagmo::algorithm pass::pagmo2::simple_genetic_algorithm::get_algorithm() const
+{
+  return pagmo::algorithm{pagmo::sga{}};
+}
+
+// ----------------------------------------------
+// artifical bee colony
+// ----------------------------------------------
+
+pass::pagmo2::artifical_bee_colony::artifical_bee_colony() noexcept
+    : algorithm_adapter("artifical_bee_colony") {}
+
+pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm() const
+{
+  return pagmo::algorithm{pagmo::bee_colony{}};
 }

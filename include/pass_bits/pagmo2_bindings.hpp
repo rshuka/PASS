@@ -114,8 +114,7 @@ protected:
 // ----------------------------------------------
 
 /**
- * Wrapper for the differential evolution optimiser from the pagmo2 library:
- * https://esa.github.io/pagmo2/docs/cpp/algorithms/cmaes.html
+ * https://esa.github.io/pagmo2/docs/cpp/algorithms/de.html
  */
 class differential_evolution : public algorithm_adapter
 {
@@ -124,6 +123,44 @@ public:
    * Initialises the optimiser with its name.
    */
   differential_evolution() noexcept;
+
+protected:
+  virtual pagmo::algorithm get_algorithm() const;
+};
+
+// ----------------------------------------------
+// simple genetic algorithm
+// ----------------------------------------------
+
+/**
+ * https://esa.github.io/pagmo2/docs/cpp/algorithms/sga.html
+ */
+class simple_genetic_algorithm : public algorithm_adapter
+{
+public:
+  /**
+   * Initialises the optimiser with its name.
+   */
+  simple_genetic_algorithm() noexcept;
+
+protected:
+  virtual pagmo::algorithm get_algorithm() const;
+};
+
+// ----------------------------------------------
+// artifical bee colony
+// ----------------------------------------------
+
+/**
+ * https://esa.github.io/pagmo2/docs/cpp/algorithms/bee_colony.html
+ */
+class artifical_bee_colony : public algorithm_adapter
+{
+public:
+  /**
+   * Initialises the optimiser with its name.
+   */
+  artifical_bee_colony() noexcept;
 
 protected:
   virtual pagmo::algorithm get_algorithm() const;
