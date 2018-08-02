@@ -12,3 +12,7 @@ Optimiserungsverfahren lassen sich zunächst einmal einteilen in exakte Optimier
   - Differential Evolution (DE)
   - Simple Genetic Algorithm
   - Artificial Bee Colony (ABC)
+
+### Trajektorenbasierte Optimierungsverfahren
+
+Trajektorenbasierte Optimierungsverfahren starten mit einem zufällig gewählten Agent und verfeinern die Lösung indem die aktuell gefundene Lösung mit einer besseren in der Nachbarschaft gefundene Lösung ersetzt wird.

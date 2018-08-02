@@ -1,63 +1,38 @@
-# Artificial Bee Colony
+# Compass Search
 
-pagmo2 implementiert exakt die Version des artifical bee colony Optimierers aus [https://abc.erciyes.edu.tr/pub/NevImpOfABC.pdf](), Algorithm 2. ABC ist ein populationsbasiertes Optimierungsverfahren für single-objective unconstrained Optimierungsprobleme.
-
-Der Algorithmus kann über zwei Parameter konfiguriert werden: Die Populationsgröße (`SN`), und die Anzahl an Fehlversuchen (`limit`), bevor ein Agent von "beschäftigt" auf "erkunden" wechselt. Er arbeitet nach folgendem Schema:
-
-    Erzeuge eine Population mit SN Agenten
-    Für jeden Agenten:
-        Initialisiere Agent
-    Bis maximale Anzahl Evaluationen erreicht ist:
-        Falls Agenten existieren mit Fehlversuchszähler ≥ limit:
-            Wähle einen einzigen Agenten mit größtem Fehlversuchszähler als Kundschafter
-        Für jeden Agenten außer dem Kundschafter:
-            // 1. Employed Bees Phase
-            Aktualisiere Agent
-        Speichere die beste bisher gefundene Lösung
-        Falls ein Kundschafter existiert:
-            // 2. Scout Bees Phase
-            Re-initialisiere den Kundschafter
-        Wiederhole SN mal:
-            // 3. Onlooker Bees Phase
-            Wähle einen zufälligen Agenten m mit Wahrscheinlichkeit p_m
-            Aktualisiere Agent m
-        Abspeichern der besten bisher gefundenen Lösung
-
+Der Algorithmus wurde 2003 vorgestellt [https://epubs.siam.org/doi/pdf/10.1137/S003614450242889]. Compass Search ist einer der ersten Beispielen weche auf Direct Search [Cit Hooke Jeeves] basieren und auf einem Computer implementiert wurden um einem Optimierungsproblem zu lösen.
 
 ## Initialisierung
 
-Wird ein Agent (re-)initialisiert, wird ihm eine gleichverteilt zufällige Position innerhalb der Problemgrenzen zugewiesen, und sein Fehlversuchzähler wird auf 0 gesetzt.
+1. `k` ist der Index für die Iterationen
+2. `x_k ∈ R^n` is das k-te element
+3. `x_0` ist der erster Agent
+4. `D⊕` ist das Koordinaten System. Die Vektoren sind positiv und negativ.
+    `D⊕ = {e_1,e_2,...,e_n,−e_1,−e_2,...,−e_n}`
+5. `∆_k` Schrittlänge Parameter welcher die Länge des Schrittes kontrolliert. Bei der Initialisierung muss `∆_0` definiert werden. Als empfohlener Wert wird `∆_0 = 0.3` genommen. Bedingung: `∆_0` muss größer als der Toleranzwert sein.
+6. `∆_tol > 0` Ein Toleranzwert für die Konvergenz des Problems
 
-## Aktualisierung eines Agenten
+## Pseudo Code
 
-Die Aktualisierung eines Agenten läuft in den folgenden Schritten ab:
-1. Sei die aktuelle Position des Agenten `x_m`.
-2. Wähle eine zufällige Dimension _d_.
-3. Wähle einen zufälligen anderen Agenten; seine Position sei `x_k`.
-4. Wähle ein zufälliges ϕ∈[-1, 1].
-5. Berechne eine neue Position `v_m`, indem ϕ * (`x_m_d` - `x_k_d`) zum Wert in Dimension _d_ der aktuellen Position `x_m` addiert wird.
-6. Ist f(`v_m`) < f(`x_m`), bewege den Agenten nach `v_m` und setze seinen Fehlversuchszähler auf 0; sonst erhöhe seinen Fehlversuchszähler um 1.
+Für jede Iteration `K = 1, 2, ...` wiederhole die Schritte bis das Optimum gefunden wird.
+```{r, tidy=FALSE, eval=FALSE, highlight=FALSE }
 
-## Wahl eines zufälligen Agenten
+Schritt 1: Lass `D⊕` den Satz von Koordinatenrichtungen sein {±e_i |i = 1,...,n}, wo e_i die i-te Koordinate in R^n ist
 
-Die Wahrscheinlichkeit `p_m`, mit der Agent `x_m` während der _onlooker bees_ Phase ausgewählt wird, beträgt
+Schritt 2: Wenn eine d_k ∈ D⊕ existiert welche f(x_k + ∆_kd_k) < f(x_k), dann mach folgendes    -> wenn ein neues besseres Lösung gefunden wird
+          - Setze x_k+1 = x_k + ∆_kd_k (Iteration wechseln)
+          - Setze ∆_k+1 = ∆_k (keine Änderung des Schrittlängen Parameters)
 
-                     ⎛ SN         ⎞-1
-    p_m = fit(x_m) * ⎜ ∑  fit(x_i)⎟
-                     ⎝i=1         ⎠
+Schritt 3: Sonst,f(x_k + ∆_kd) ≥ f(x_k) für alle d ∈ D⊕, dann nache folgendes                   -> wenn keine bessere Lösung gefunden wird
+          - Setze x_k+1 = x_k (keine Iteration wechseln)
+          - Setze ∆_k+1 = 1/2 * ∆_k (Änderung des Schrittlängen Parameters)
+          - Wenn ∆_k+1 < ∆_tol, dann abbrechen.
 
-wobei
-
-               ⎧ 1 / (1+f(x_m)) , falls f(x_m) ≥ 0
-    fit(x_m) = ⎨
-               ⎩ 1 + |f(x_m)|   , falls f(x_m) < 0
-
-Dieser Fitnesswert hat im Gegensatz zum objective value `f` die nützliche Eigenschaft, dass stets `fit(x_m)` ≥ 1 gilt.
+```
 
 ## Zusammenfassung
 
-Die erste Phase _employed bees_ weist Ähnlichkeiten zum PSO auf: Jeder Agent bewegt sich auf genau einen zufälligen anderen Agenten zu. Anders als beim PSO bewegen sich ABC Agenten jedoch nur in einer einzigen Dimension; außerdem bleiben sie stehen, anstatt zu einer Position mit einem schlechteren objective value zu wechseln.
-
-Die zweite Phase _scout bees_ implementiert ein Neustart-Kriterium, das dann einsetzt, wenn sich ein Agent für mindestens `limit` Evaluationen nicht bewegt hat. Damit soll der _exploration_-Aspekt der Optimierung gewährleistet werden. Pro Iteration kann nur ein einzier Agent neu gestartet werden.
-
-Die dritte Phase _onlooker bees_ dient dazu, eine gute _exploitation_ zu erreichen, indem diejenigen Agenten die meisten Evaluationen erhalten, die global betrachtet an den besten bisher gefundenen Positionen stehen. Da in dieser Phase noch einmal `SN` Evaluationen durchgeführt werden, ist die Population quasi 2 * `SN` groß, wobei nur die Hälfte dieser Population mit einem Gedächtnis versehen ist.
+Ganz am Anfang wird ein zufälliges Punk in den Suchraum gewählt. Als erstes Schritt werden alle Nachbarn in jeder Richtung bestimmt. Dieser Nachbarn werden geprüft und wenn einer der Nachbarn eine bessere Lösung liefert, wird dieser gewählt und von vorne angefangen. Wenn eine bessere Lösung gefunden wird, wird die Schrittlänge nicht geändert.
+Wird keine bessere Lösung gefunden, dann wird die Schrittlänge halbiert und nochmal alle Nachbarn geprüfuft.
+Das passiert bis die Schrittlänge einem vordefinierten Minimum erreicht hat. Dieser Minimum muss kleiner als der Anfangswert sein.
+Wenn die gewünsche Lösung schon vorher gefunden wird, wird auch abgebrochen.
