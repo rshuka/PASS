@@ -2,6 +2,8 @@
 
 Der Algorithmus wurde 2003 vorgestellt [https://epubs.siam.org/doi/pdf/10.1137/S003614450242889]. Compass Search ist einer der ersten Beispielen weche auf Direct Search [Cit Hooke Jeeves] basieren und auf einem Computer implementiert wurden um einem Optimierungsproblem zu lösen.
 
+![alt text](https://esa.github.io/pagmo2/_images/compass_search.png "Compass Search")
+
 ## Initialisierung
 
 1. `k` ist der Index für die Iterationen
