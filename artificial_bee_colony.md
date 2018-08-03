@@ -1,6 +1,6 @@
 # Artificial Bee Colony
 
-pagmo2 implementiert exakt die Version des artifical bee colony Optimierers aus [https://abc.erciyes.edu.tr/pub/NevImpOfABC.pdf](), Algorithm 2. ABC ist ein populationsbasiertes Optimierungsverfahren für single-objective unconstrained Optimierungsprobleme.
+pagmo2 implementiert exakt die Version des artifical bee colony Optimierers aus [https://abc.erciyes.edu.tr/pub/NevImpOfABC.pdf], Algorithm 2. ABC ist ein populationsbasiertes Optimierungsverfahren für single-objective unconstrained Optimierungsprobleme.
 
 Der Algorithmus kann über zwei Parameter konfiguriert werden: Die Populationsgröße (`SN`), und die Anzahl an Fehlversuchen (`limit`), bevor ein Agent von "beschäftigt" auf "erkunden" wechselt. Er arbeitet nach folgendem Schema:
 
