@@ -38,7 +38,8 @@ public:
   pagmo::vector_double fitness(const pagmo::vector_double &agent) const;
 
   /**
-   * Returns a (lower_bounds, upper_bounds) tuple.
+   * Returns a (lower_bounds, upper_bounds) tuple. Since PASS optimisers work
+   * on a normalised search space, the bounds in all directions are [0, 1].
    */
   std::pair<pagmo::vector_double, pagmo::vector_double> get_bounds() const;
 };
@@ -81,8 +82,11 @@ protected:
   /**
    * Constructs a pagmo algorithm with the default values, except that this
    * method circumvents the pagmo termination criteria because we have our own.
+   *
+   * Passes in the problem, if an optimiser configuration depends on the problem
+   * values (e.g. dimension).
    */
-  virtual pagmo::algorithm get_algorithm() const = 0;
+  virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const = 0;
 };
 
 // ----------------------------------------------
@@ -106,7 +110,7 @@ public:
   cmaes() noexcept;
 
 protected:
-  virtual pagmo::algorithm get_algorithm() const;
+  virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -125,7 +129,7 @@ public:
   differential_evolution() noexcept;
 
 protected:
-  virtual pagmo::algorithm get_algorithm() const;
+  virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -144,7 +148,7 @@ public:
   simple_genetic_algorithm() noexcept;
 
 protected:
-  virtual pagmo::algorithm get_algorithm() const;
+  virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -163,7 +167,36 @@ public:
   artifical_bee_colony() noexcept;
 
 protected:
-  virtual pagmo::algorithm get_algorithm() const;
+  virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
+};
+
+// ----------------------------------------------
+// compass search
+// ----------------------------------------------
+
+/**
+ * https://esa.github.io/pagmo2/docs/cpp/algorithms/compass_search.html
+ */
+class compass_search : public algorithm_adapter
+{
+public:
+  /**
+   * ∆_0 = 0.3
+   */
+  static const double initial_step_size;
+
+  /**
+   * ∆_tol = 0.01
+   */
+  static const double step_size_tolerance;
+
+  /**
+   * Initialises the optimiser with its name.
+   */
+  compass_search() noexcept;
+
+protected:
+  virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
 };
 } // namespace pagmo2
 } // namespace pass
