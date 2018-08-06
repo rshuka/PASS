@@ -172,4 +172,31 @@ pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem
         // stop_range: stop range (default is 0.01)
         step_size_tolerance}};
 }
+
+// ----------------------------------------------
+// simulated annealing
+// ----------------------------------------------
+
+pass::pagmo2::simulated_annealing::simulated_annealing() noexcept
+    : algorithm_adapter("simulated_annealing") {}
+
+pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::problem &) const
+{
+    return pagmo::algorithm{pagmo::simulated_annealing{
+        // Ts: starting temperature (default is 10.0)
+
+        // Tf: final temperature (default is 0.1)
+
+        // n_T_adj: number of temperature adjustments in the annealing schedule
+        // (default is 10)
+
+        // n_range_adj: number of adjustments of the search range performed at a
+        // constant temperature (default is 1)
+
+        // bin_size: number of mutations that are used to compute the acceptance
+        // rate (default is 20)
+
+        // start_range: starting range for mutating the decision vector
+        // (default is 1)
+    }};
 }

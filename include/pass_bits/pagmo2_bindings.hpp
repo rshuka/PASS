@@ -198,5 +198,24 @@ public:
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
 };
+
+// ----------------------------------------------
+// simulated annealing
+// ----------------------------------------------
+
+/**
+ * https://esa.github.io/pagmo2/docs/cpp/algorithms/simulated_annealing.html
+ */
+class simulated_annealing : public algorithm_adapter
+{
+public:
+  /**
+   * Initialises the optimiser with its name.
+   */
+  simulated_annealing() noexcept;
+
+protected:
+  virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
+};
 } // namespace pagmo2
 } // namespace pass
