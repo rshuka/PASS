@@ -10,7 +10,7 @@ Name|Beschreibung|Vorgeschlagener Wert in [1]|Vorgeschlagener Wert in [2]
 ----|------------|---------------------------|---------------------------
 _Ts_|Starttemperatur|10|-
 _Tf_|finale Temperatur|0.1|-
-_N\_A_|Die Temperatur _T_ wird in dieser Anzahl Schritten von _Ts_ auf _Tf_ abgesenkt.|10|-
+_N\_A_|Die Temperatur _T_ wird in dieser Anzahl Schritten von _Ts_ auf _Tf_ abgesenkt.|10|Anstelle der Parameter _Tf_ und _N\_A_ erwartet [2] direkt _r\_T_ als Parameter und empfiehlt einen Wert von 0.85.
 _N\_T_|Die Anzahl an Suchintervalländerungen pro Temperaturschritt _N\_A_.|1|max(100, 5 * n)
 _N\_S_|Anzahl an Evaluationen pro _N\_T_.|20|20
 _Vs_|Initiale (sowie maximale) Distanz, die sich die Suchposition in einem Schritt bewegen darf.|1|-
