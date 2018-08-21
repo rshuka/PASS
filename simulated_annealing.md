@@ -1,12 +1,14 @@
 # Simulated Annealing
 
-Die in pagmo2 implementierte Version [1] (von 2017) von Simulated Annealing basiert auf einer Veröffentlichung von Corana [2] von 1987.
+Die in pagmo2 implementierte Version [1] (von 2017) von Simulated Annealing basiert auf einer Veröffentlichung von Corana [2] von 1987, wo er von den Autoren folgendermaßen beschrieben wird:
+
+> [SA] proved to be more reliable than [the Nelder and Mead simplex method and a version of Adaptive Random Search], being always able to find the optimum, or at least a point very close to it. It is quite costly in term of function evaluations, but its cost can be predicted in advance, depending only slightly on the starting point.
 
 ## Initialisierung
 
-Diese Implementierung von SA in [1] kann über folgende Parameter konfiguriert werden:
+Die Implementierung von SA in [1] kann über folgende Parameter konfiguriert werden:
 
-Name|Beschreibung|Vorgeschlagener Wert in [1]|Vorgeschlagener Wert in [2]
+Name|Beschreibung|Standardwert in [1]|Vorgeschlagener Wert in [2]
 ----|------------|---------------------------|---------------------------
 _Ts_|Starttemperatur|10|-
 _Tf_|finale Temperatur|0.1|-
@@ -34,7 +36,7 @@ Wiederhole N_A mal:
         x' = (x_1, ..., x_{h-1}, r, x_{h+1}, ..., x_n)
         Wenn f(x') <= f(x_opt):
           x_opt = x'
-        Wenn f(x') <= f(x), oder mit Wahrscheinlichkeit p = exp(-|f(x) - f(x')| / T):
+        Wenn f(x') <= f(x), oder außerdem mit Wahrscheinlichkeit p = exp(-|f(x) - f(x')| / T):
           x = x'
           n_d = n_d + 1
     Wiederhole für jede Dimension d = 1, ..., n:
