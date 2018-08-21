@@ -17,47 +17,47 @@ _MCN_|Iterationsanzahl|1
 ## Pseudocode
 
 ```
-let f : ℝ^n -> ℝ be the optimisation function, lb ∈ ℝ^n its lower bounds, ub ∈ ℝ^n its upper bounds.
+let f : ℝ^n → ℝ be the optimisation function, lb ∈ ℝ^n its lower bounds, ub ∈ ℝ^n its upper bounds.
 num_eval = 0
 for s = 1, ..., SN:
-  X(s) <- random solution by Eq. 1
-  trial(s) <- 0
-  num_eval <- num_eval + 1
+  X(s) ← random solution by Eq. 1
+  trial(s) ← 0
+  num_eval ← num_eval + 1
 repeat MCN times:
   // Employed bees phase
-  mi <- {s : trial(s) = max(trial)}
+  mi ← {s : trial(s) = max(trial)}
   for s = 1, ..., SN:
     if trial(s) < limit or s != mi:
-      x' <- a new solution produced by Eq. 2
-      num_eval <- num_eval + 1
+      x' ← a new solution produced by Eq. 2
+      num_eval ← num_eval + 1
       if f(x') < f(X(s)):
-        X(s) <- x'
-        trial(s) <- 0
+        X(s) ← x'
+        trial(s) ← 0
       else:
-        trial(s) <- trial(s) + 1
+        trial(s) ← trial(s) + 1
   Memorize the best solution found so far.
   // Scout bee phase
-  if trial(mi) >= limit:
-    X(mi) <- random solution by Eq. 1
-    f_mi <- f(X(mi))
-    num_eval <- num_eval + 1
-    trial(mi) <- 0
+  if trial(mi) ≥ limit:
+    X(mi) ← random solution by Eq. 1
+    f_mi ← f(X(mi))
+    num_eval ← num_eval + 1
+    trial(mi) ← 0
   Calculate probability values p_i for the solutions using fitness values by Eqs. 3 and 4
   // Onlooker bees phase
-  s <- 1
-  t <- 1
-  while t <= SN:
-    r <- rand(0, 1)
+  s ← 1
+  t ← 1
+  while t ≤ SN:
+    r ← rand(0, 1)
     if r < p(s)
-      t <- t + 1
-      x' <- a new solution produced by Eq. 2
-      num_eval <- num_eval + 1
+      t ← t + 1
+      x' ← a new solution produced by Eq. 2
+      num_eval ← num_eval + 1
       if f(x') < f(X(s)):
-        X(s) <- x'
-        trial(s) <- 0
+        X(s) ← x'
+        trial(s) ← 0
       else:
-        trial(s) <- trial(s) + 1
-    s <- (s mod SN) + 1
+        trial(s) ← trial(s) + 1
+    s ← (s mod SN) + 1
   Memorize the best solution found so far.
 ```
 

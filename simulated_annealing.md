@@ -20,7 +20,7 @@ _Vs_|Initiale (sowie maximale) Distanz, die sich die Suchposition in einem Schri
 ## Pseudocode
 
 ```
-Sei f : ℝ^n -> ℝ die zu minimierende Funktion, lb ∈ ℝ^n die unteren Grenzen, rb ∈ ℝ^n die oberen Grenzen des Definitionsbereichs.
+Sei f : ℝ^n → ℝ die zu minimierende Funktion, lb ∈ ℝ^n die unteren Grenzen, rb ∈ ℝ^n die oberen Grenzen des Definitionsbereichs.
 Sei x_opt ∈ ℝ^n ein zufälliger Punkt innerhalb der Funktionsgrenzen
 Sei v ∈ ℝ^n = (Vs, ..., Vs)
 // [1] erwartet als Parameter N_A und berechnet daraus r_T; [2] erwartet als Parameter r_T und benutzt N_A überhaupt nicht, sondern prüft ein benutzerdefiniertes Abbruchkriterium
@@ -34,9 +34,9 @@ Wiederhole N_A mal:
         // [2] benutzt hier eine Schleife und wirft so lange neue Zufallszahlen, bis diese in den Grenzen lb_d und ub_d liegen.
         Wähle eine gleichverteilte Zufallszahl r aus Intervall [max(x_d - v_d, lb_d), min(x_d + v_d, ub_d)]
         x' = (x_1, ..., x_{h-1}, r, x_{h+1}, ..., x_n)
-        Wenn f(x') <= f(x_opt):
+        Wenn f(x') ≤ f(x_opt):
           x_opt = x'
-        Wenn f(x') <= f(x), oder außerdem mit Wahrscheinlichkeit p = exp(-|f(x) - f(x')| / T):
+        Wenn f(x') ≤ f(x), oder außerdem mit Wahrscheinlichkeit p = exp(-|f(x) - f(x')| / T):
           x = x'
           n_d = n_d + 1
     Wiederhole für jede Dimension d = 1, ..., n:
