@@ -54,7 +54,7 @@ Wiederhole N_A mal:
 
 SA ist ein nicht populationsbasierter Optimierungsalgorithmus, der von einem einzigen Punkt ausgehend diesen Punkt jeweils in einer einzigen Dimension verschiebt. Hat dieser Punkt einen besseren Funktionswert, wird dieser als neuer Ausgangspunkt übernommen. Hat der neue Punkt einen schlechteren Funktionswert, wird er dennoch mit einer gewissen Wahrscheinlichkeit angenommen.
 
-Zentrales Element des Algorithmus ist die aktuelle Temperatur _T_. Je größer der Wert dieser Variablen ist, um so höher ist die Wahrscheinlichkeit, dass ein solcher uphill move durchgeführt wird. Die Temperatur startet auf einem hohen Wert und wird schrittweise abgesenkt. Das soll verhindern, dass der Optimierer in einem lokalen Minimum stecken bleibt.
+Zentrales Element des Algorithmus ist die aktuelle Temperatur _T_. Je größer der Wert dieser Variablen ist, um so höher ist die Wahrscheinlichkeit, dass ein solcher uphill move durchgeführt wird. Die Temperatur startet auf einem hohen Wert und wird schrittweise abgesenkt. Das soll verhindern, dass der Optimierer schon früh in einem lokalen Minimum stecken bleibt.
 
 Ein weiterer wichtiger Aspekt ist die dimensionsweise separat abgespeicherte Schrittweite _v_. Neue Punkte werden in einer maximalen Reichweite von _v_ zum aktuellen Punkt gesucht. _v_ wird regelmäßig so angepasst, dass etwa 50% der Funktionsevaluationen akzeptiert werden (wobei sowohl bessere Funktionswerte als auch uphill moves mitgezählt werden).
 

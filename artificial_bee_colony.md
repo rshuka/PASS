@@ -8,16 +8,17 @@ ABC wurde erstmals 2005 _(laut eigener Aussage auf der offiziellen Webseite; abe
 
 pagmo2 [3] implementiert exakt die Version des artifical bee colony Optimierers aus [2], Algorithm 2. Der Algorithmus kann über folgende Parameter konfiguriert werden.
 
-Name|Beschreibung|Standardwert in [3]
-----|------------|-------------------
-_SN_|Populationsgröße|-
-_limit_|Anzahl an Fehlversuchen, bevor ein Agent von "beschäftigt" auf "erkunden" wechselt|20
-_MCN_|Iterationsanzahl|1
+Name|Beschreibung|Standardwert in [3]|in PASS benutzter Wert
+----|------------|-------------------|----------------------
+_SN_|Populationsgröße|-|?
+_limit_|Hat ein Agent nach _limit_ Versuchen keinen Parameter mit einem besseren objective value gefunden, wechselt er von "beschäftigt" auf "erkunden"|20|?
+_MCN_|Iterationsanzahl|1|?
 
 ## Pseudocode
 
 ```
-let f : ℝ^n → ℝ be the optimisation function, lb ∈ ℝ^n its lower bounds, ub ∈ ℝ^n its upper bounds.
+let f(x) : ℝ^n → ℝ be the optimisation function, with lb_i ≤ x_i ≤ ub_i for i = 1, ..., n.
+let X ∈ ℝ^{n×SN} = SN uniformly distributed random agents inside the problem boundaries.
 num_eval = 0
 for s = 1, ..., SN:
   X(s) ← random solution by Eq. 1
