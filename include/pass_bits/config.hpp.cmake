@@ -24,6 +24,7 @@ namespace pass
 {
   extern bool is_verbose;
   extern int number_of_runs;
+  extern double precision;
 
   int thread_number();
   int number_of_threads();

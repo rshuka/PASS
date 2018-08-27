@@ -20,9 +20,12 @@ namespace pass
   * @is_verbose: analyse the behaviour of the algorithm
   *
   * @number_of_runs: to help saving raw data
+  *
+  * @precision: the precision to stop algorithms and set restart
   */
 bool is_verbose(false);
 int number_of_runs(1);
+double precision(1e-06);
 
 /**
  * Use OpenMP

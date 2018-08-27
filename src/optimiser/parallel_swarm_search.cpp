@@ -30,6 +30,9 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   pass::stopwatch stopwatch;
   stopwatch.start();
 
+  // Restart variabel
+  arma::uword same_value = 0;
+
   // Variables needed
   pass::optimise_result result(problem, acceptable_fitness_value);
 
@@ -50,9 +53,18 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   double fitness_value;
 
+restart: // Restart point
+
   // Initialise the positions and the velocities
   // Particle data, stored column-wise.
-  positions = problem.normalised_hammersley_agents(swarm_size);
+  if (result.iterations == 0)
+  {
+    positions = problem.normalised_hammersley_agents(swarm_size);
+  }
+  else
+  {
+    positions = problem.initialise_normalised_agents(swarm_size);
+  }
 
   for (arma::uword col = 0; col < swarm_size; ++col)
   {
@@ -146,7 +158,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
           }
         }
 
-          /**
+        /**
            * Compute the new velocity
            * If OpenMP is activated, make sure the random numbers are thread safe
            */
@@ -202,26 +214,42 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
           personal_best_positions.col(n) = positions.col(n);
           personal_best_fitness_values(n) = fitness_value;
 
-          if (fitness_value < result.fitness_value)
-          {
 #if defined(SUPPORT_OPENMP)
 #pragma omp critical
-            { // critical region start
+          { // critical region start
 #endif
+            if (result.fitness_value - fitness_value > pass::precision)
+            {
               result.normalised_agent = positions.col(n);
               best_agent_velocity = velocities.col(n);
               result.fitness_value = fitness_value;
               randomize_topology = false;
+              same_value = 0;
+            }
+            else
+            {
+              same_value++;
+            }
 #if defined(SUPPORT_OPENMP)
-            } // crititcal region end
+          } // crititcal region end
 #endif
-          }
         }
       }
 #if defined(SUPPORT_OPENMP)
     } //parallel region end
 #endif
     ++result.iterations;
+
+    /**
+     * Restart the algorithm
+     * If the algorithm does not found a better fitness value within 3000 iterations, it restarts.
+     * Precision for a better fitness value is 1-e06
+     * If it is restarted then choose random through hammersley or random initialisation
+     */
+    if (same_value > 3000)
+    {
+      goto restart;
+    }
 
     /**
      * +------------+---------------+----------+----------+
