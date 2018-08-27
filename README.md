@@ -102,10 +102,10 @@ alias c++='c++-7'
   - Sum of Different Powers Function
 
 - Space Mission Problems
-  - [GTOC1](http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html)
-  - [Messenger (Full Version)](http://www.esa.int/gsp/ACT/inf/projects/gtop/messenger_full.html)
-  - [Cassini1](http://www.esa.int/gsp/ACT/inf/projects/gtop/cassini1.html)
-  - [Rosetta](http://www.esa.int/gsp/ACT/inf/projects/gtop/rosetta.html)
+  - [GTOC1](https://www.esa.int/gsp/ACT/projects/gtop/gtoc1.html)
+  - [Messenger (Full Version)](https://www.esa.int/gsp/ACT/projects/gtop/messenger_full.html)
+  - [Cassini1](https://www.esa.int/gsp/ACT/projects/gtop/cassini1.html)
+  - [Rosetta](https://www.esa.int/gsp/ACT/projects/gtop/rosetta.html)
 
 ## License
 
