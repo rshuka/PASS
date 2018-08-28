@@ -246,8 +246,9 @@ restart: // Restart point
      * Precision for a better fitness value is 1-e06
      * If it is restarted then choose random through hammersley or random initialisation
      */
-    if (same_value > 3000)
+    if (same_value >= 3000)
     {
+      same_value = 0;
       goto restart;
     }
 
