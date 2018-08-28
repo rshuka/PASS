@@ -6,15 +6,15 @@ Differential Evolution wurde 1997 in [1] vorgestellt.
 
 Die Implementierung von SA in [2] kann über folgende Parameter konfiguriert werden:
 
-Name|Beschreibung|Standardwert in [2]|Vorgeschlagener Wert in [3]
-----|------------|---------------------------|---------------------------
-_NP_|Populationsgröße|-|min(10 * number of parameters, 40)
-_gen_|number of generations|1|
-_F_|weight coefficient|0.8|0.8; "It has been found recently that selecting F from the interval [0.5, 1.0] randomly for each generation or for each difference vector, a technique called dither, improves convergence behaviour significantly, especially for noisy objective functions."
-_CR_|crossover probability|0.9|0.9 für nicht separierbare Funktionen, 0.2 für separierbare Funktionen
-_variant_|mutation variant|`rand/1/exp`|
-_ftol_|von pagmo2 definiertes Abbruchkriterium: Die Optimierung wird beendet, falls die Differenz zwischen dem besten und dem schlechtesten objective value kleiner ist als _ftol_.|1e-6|-
-_xtol_|von pagmo2 definiertes Abbruchkriterium: Die Optimierung wird beendet, falls die Distanz zwischen dem besten und dem schlechtesten Agenten kleiner ist als _xtol_.|1e-6|-
+Name|Beschreibung|Standardwert in [2]|Vorgeschlagener Wert in [3]|in PASS benutzter Wert
+----|------------|-------------------|---------------------------|----------------------
+_NP_|Populationsgröße|-|min(10 * number of parameters, 40)|min(10 * number of parameters, 40)
+_gen_|number of generations|1|-|?
+_F_|weight coefficient|0.8|0.8; "It has been found recently that selecting F from the interval [0.5, 1.0] randomly for each generation or for each difference vector, a technique called dither, improves convergence behaviour significantly, especially for noisy objective functions."|0.8
+_CR_|crossover probability|0.9|0.9 für nicht separierbare Funktionen, 0.2 für separierbare Funktionen|0.9
+_variant_|mutation variant|`DE/rand/1/exp`|"We mostly use `DE/rand/1/..`. or `DE/best/1/...`. The crossover method is not so important although Ken Price claims that binomial is never worse than exponential."|?
+_ftol_|von pagmo2 definiertes Abbruchkriterium: Die Optimierung wird beendet, falls die Differenz zwischen dem besten und dem schlechtesten objective value kleiner ist als _ftol_.|1e-6|-|0
+_xtol_|von pagmo2 definiertes Abbruchkriterium: Die Optimierung wird beendet, falls die Distanz zwischen dem besten und dem schlechtesten Agenten kleiner ist als _xtol_.|1e-6|-|0
 
 Der pagmo2 Quellcode enthält Kommentare zu einigen _variant_-Werten:
 
@@ -28,7 +28,7 @@ Der pagmo2 Quellcode enthält Kommentare zu einigen _variant_-Werten:
   is another powerful variant worth trying
 * `DE/rand/2/exp`
   seems to be a robust optimizer for many functions
-* ...: Essentially same strategies but BINOMIAL CROSSOVER
+* `.../bin`: Essentially same strategies but BINOMIAL CROSSOVER
 
 ## Pseudocode
 

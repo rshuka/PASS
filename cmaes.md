@@ -89,12 +89,14 @@ repeat gen times:
       C = (C + C^T) * 1/2
       if eigen decomposition of C is successful:
         B = eigen vectors of C
-            ⎛√(max(1e-20, 1st eigen value of C))  0                 0                   ⎞
-        D = ⎜               0                     ⋱                 0                   ⎟
-            ⎝               0                     0  √(max(1e-20, nth eigen value of C))⎠
-                       ⎛1 / D_{1,1}  0      0      ⎞
-        invsqrtC = B * ⎜    0        ⋱      0      ⎟ * B^T
-                       ⎝    0        0  1 / D_{n,n}⎠
+
+            ⎛√(max(1e-20, 1st eigen value of C))                    0                   ⎞
+        D = ⎜                                     ⋱                                     ⎟
+            ⎝               0                        √(max(1e-20, nth eigen value of C))⎠
+
+                       ⎛1 / D_{1,1}         0      ⎞
+        invsqrtC = B * ⎜             ⋱             ⎟ * B^T
+                       ⎝    0           1 / D_{n,n}⎠
 ```
 
 [2]: https://esa.github.io/pagmo2/docs/cpp/algorithms/cmaes.html
