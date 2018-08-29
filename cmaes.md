@@ -15,7 +15,6 @@ _cμ_|learning rate for the rank- μ update of the covariance matrix|2 * (μ_eff
 _σ0_|initial step-size
 _ftol_|stopping criteria on the x tolerance|1e-6
 _xtol_|stopping criteria on the f tolerance|1e-6
-_force_bounds_|when true the box bounds are enforced. The fitness will never be called outside the bounds but the covariance matrix adaptation mechanism will worsen|false
 
 ## Pseudocode
 
@@ -52,13 +51,6 @@ repeat gen times:
     terminate
   if |f(worst agent in pop) - f(best agent in pop)| < ftol:
     terminate
-  // We fix the bounds. Note that this screws up the whole covariance matrix machinery and worsen performances considerably.
-  if force_bounds:
-    for each index (i,j) in newpop:
-      if newpop_{i,j} < lb_i:
-        newpop_{i,j} = lb_i
-      else if newpop_{i,j} > ub_i:
-        newpop_{i,j} = ub_i
   pop = newpop
   counteval = counteval + lam
   // 4 - We extract the elite from this generation.
