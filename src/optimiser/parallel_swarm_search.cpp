@@ -24,8 +24,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   assert(number_threads > 0 && "The number of threads should be greater than 0");
 
   // Variables used to analyse the behavior of a particle
-  arma::mat verbose(maximal_iterations + 1, 4);
-  arma::vec best_agent_velocity(problem.dimension());
+  arma::mat verbose(maximal_iterations + 1, 3);
 
   pass::stopwatch stopwatch;
   stopwatch.start();
@@ -89,18 +88,18 @@ restart: // Restart point
     if (fitness_value <= result.fitness_value)
     {
       result.normalised_agent = positions.col(n);
-      best_agent_velocity = velocities.col(n);
       result.fitness_value = fitness_value;
     }
   }
   ++result.iterations;
 
   /**
-   * +------------+---------------+----------+----------+
-   * | Iterations | Fitness Value | Position | Velocity |
-   * +------------+---------------+----------+----------+
+   * +------------+---------------+----------+
+   * | Iterations | Fitness Value | Position |
+   * +------------+---------------+----------+
    * Each Dimension is independent. So, the analysis can be performed
    * on just one dimension
+   * NOT VALID FOR Velocity
    */
   if (pass::is_verbose)
   {
@@ -109,7 +108,6 @@ restart: // Restart point
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
       verbose(result.iterations, 2) = result.normalised_agent[0];
-      verbose(result.iterations, 3) = best_agent_velocity[0];
     }
     else
     {
@@ -221,7 +219,6 @@ restart: // Restart point
             if (result.fitness_value - fitness_value > pass::precision)
             {
               result.normalised_agent = positions.col(n);
-              best_agent_velocity = velocities.col(n);
               result.fitness_value = fitness_value;
               randomize_topology = false;
               same_value = 0;
@@ -253,18 +250,18 @@ restart: // Restart point
     }
 
     /**
-     * +------------+---------------+----------+----------+
-     * | Iterations | Fitness Value | Position | Velocity |
-     * +------------+---------------+----------+----------+
+     * +------------+---------------+----------+
+     * | Iterations | Fitness Value | Position |
+     * +------------+---------------+----------+
      * Each Dimension is independent. So, the analysis can be performed
      * on just one dimension
+     * NOT VALID FOR Velocity
      */
     if (pass::is_verbose)
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
       verbose(result.iterations, 2) = result.normalised_agent[0];
-      verbose(result.iterations, 3) = best_agent_velocity[0];
     }
   }
 
