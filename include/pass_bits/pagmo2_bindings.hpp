@@ -68,11 +68,12 @@ public:
    * termination criterion that the pagmo optimisers support is the number of
    * problem evaluations.
    *
-   * If this number is not divisible by the number of evaluations per iteration
-   * of this optimiser, it will perform additional evaluations up to the next
-   * full iteration.
+   * An optimiser will try to perform this many evaluations during a call to
+   * `optimise()`. If this number is not divisible by the number of evaluations
+   * per iteration of this optimiser, it will perform additional evaluations up
+   * to the next full iteration.
    */
-  arma::uword maximal_evaluations;
+  arma::uword minimal_evaluations;
 
   /**
    * Initialises the optimiser with its name.
@@ -96,7 +97,7 @@ protected:
 
   /**
    * Returns the number of iterations this optimiser will perform, based on
-   * `maximal_evaluations`.
+   * `minimal_evaluations`.
    */
   virtual arma::uword calculate_iterations(const pass::problem &) const = 0;
 

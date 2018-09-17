@@ -102,8 +102,8 @@ pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &problem
 
 arma::uword pass::pagmo2::cmaes::calculate_iterations(const pass::problem &problem) const
 {
-    return maximal_evaluations / calculate_population_size(problem) +
-           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    return minimal_evaluations / calculate_population_size(problem) +
+           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &) const
@@ -139,8 +139,8 @@ pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm(const pass:
 
 arma::uword pass::pagmo2::differential_evolution::calculate_iterations(const pass::problem &problem) const
 {
-    return maximal_evaluations / calculate_population_size(problem) +
-           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    return minimal_evaluations / calculate_population_size(problem) +
+           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::differential_evolution::calculate_population_size(const pass::problem &) const
@@ -162,8 +162,8 @@ pagmo::algorithm pass::pagmo2::simple_genetic_algorithm::get_algorithm(const pas
 
 arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_iterations(const pass::problem &problem) const
 {
-    return maximal_evaluations / calculate_population_size(problem) +
-           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    return minimal_evaluations / calculate_population_size(problem) +
+           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_population_size(const pass::problem &) const
@@ -185,8 +185,8 @@ pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm(const pass::p
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_iterations(const pass::problem &problem) const
 {
-    return maximal_evaluations / calculate_population_size(problem) +
-           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    return minimal_evaluations / calculate_population_size(problem) +
+           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_population_size(const pass::problem &) const
@@ -208,7 +208,7 @@ pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem
 {
     return pagmo::algorithm{pagmo::compass_search{
         // max_fevals: maximum number of fitness evaluations
-        static_cast<unsigned>(maximal_evaluations),
+        static_cast<unsigned>(minimal_evaluations),
         // start_range: start range (default is 0.1)
         initial_step_size,
         // stop_range: stop range (default is 0.01)
@@ -217,7 +217,7 @@ pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem
 
 arma::uword pass::pagmo2::compass_search::calculate_iterations(const pass::problem &problem) const
 {
-    return maximal_evaluations / (2 * problem.dimension());
+    return minimal_evaluations / (2 * problem.dimension());
 }
 
 arma::uword pass::pagmo2::compass_search::calculate_population_size(const pass::problem &) const
@@ -256,8 +256,8 @@ pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::pr
 arma::uword pass::pagmo2::simulated_annealing::calculate_iterations(const pass::problem &problem) const
 {
     arma::uword evaluations_per_iteration = 20 * std::max<arma::uword>(100, 5 * problem.dimension()) * problem.dimension();
-    return result = maximal_evaluations / evaluations_per_iteration +
-                    (maximal_evaluations % evaluations_per_iteration ? 1 : 0);
+    return result = minimal_evaluations / evaluations_per_iteration +
+                    (minimal_evaluations % evaluations_per_iteration ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::simulated_annealing::calculate_population_size(const pass::problem &) const
