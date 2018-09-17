@@ -62,10 +62,17 @@ class algorithm_adapter : public optimiser
 {
 public:
   /**
-   * Must be at least 5 or pagmo will throw an exception. Is initialized to 0
-   * because you probably want to use a higher number than that.
+   * Not all pagmo optimisers make exactly one `problem.evaluate()` call per
+   * agent per iteration; some make more calls per iteration, and simulated
+   * annealing doesn't even work in "iterations". Therefore, the only
+   * termination criterion that the pagmo optimisers support is the number of
+   * problem evaluations.
+   *
+   * If this number is not divisible by the number of evaluations per iteration
+   * of this optimiser, it will perform additional evaluations up to the next
+   * full iteration.
    */
-  arma::uword population_size;
+  arma::uword maximal_evaluations;
 
   /**
    * Initialises the optimiser with its name.
@@ -74,10 +81,6 @@ public:
 
   /**
    * Obtains an algorithm object from `get_algorithm()`.
-   * Repeatedly lets the pagmo algorithm evolve the population a single
-   * iteration. Increasing the number of evolutions per iteration would probably
-   * speed up the algorithm, but it would also increase the delay between
-   * reaching a termination criteria and actually stopping.
    */
   virtual optimise_result optimise(const pass::problem &problem);
 
@@ -90,6 +93,14 @@ protected:
    * values (e.g. dimension).
    */
   virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const = 0;
+
+  /**
+   * Returns the number of iterations this optimiser will perform, based on
+   * `maximal_evaluations`.
+   */
+  virtual arma::uword calculate_iterations(const pass::problem &) const = 0;
+
+  virtual arma::uword calculate_population_size(const pass::problem &) const = 0;
 };
 
 // ----------------------------------------------
@@ -114,6 +125,8 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -133,6 +146,8 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -152,6 +167,8 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -171,6 +188,8 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -200,6 +219,8 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 
 // ----------------------------------------------
@@ -219,6 +240,12 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
+
+  /**
+   * Returns the `N_A` algorithm parameter.
+   */
+  virtual arma::uword calculate_iterations(const pass::problem &) const;
+  virtual arma::uword calculate_population_size(const pass::problem &) const;
 };
 } // namespace pagmo2
 } // namespace pass

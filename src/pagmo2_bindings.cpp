@@ -37,32 +37,31 @@ std::pair<pagmo::vector_double, pagmo::vector_double> pass::pagmo2::problem_adap
 // ----------------------------------------------
 
 pass::pagmo2::algorithm_adapter::algorithm_adapter(const std::string &name) noexcept
-    : optimiser(name),
-      population_size(0) {}
+    : optimiser(name) {}
 
 pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
     const pass::problem &problem)
 {
+    assert(acceptable_fitness_value != -std::numeric_limits<double>::infinity() &&
+           "The pagmo optimisers don't respect the `acceptable_fitness_value` termination criterion");
+    assert(maximal_duration != std::chrono::system_clock::duration::max().count() > 0 &&
+           "The pagmo optimisers don't respect the `maximal_duration` termination criterion");
+
     pass::stopwatch stopwatch;
     stopwatch.start();
 
     pass::pagmo2::problem_adapter adapter{problem};
     pagmo::problem pagmo_problem{adapter};
-    pagmo::population population{pagmo_problem, population_size};
+    pagmo::population population{pagmo_problem, calculate_population_size(problem)};
     pagmo::algorithm algorithm = get_algorithm(problem);
 
     pass::optimise_result result{problem, acceptable_fitness_value};
-
-    do
-    {
-        population = algorithm.evolve(population);
-        result.normalised_agent = population.champion_x();
-        result.fitness_value = population.champion_f()[0];
-        result.duration = stopwatch.get_elapsed();
-        result.iterations++;
-        result.evaluations = pagmo_problem.get_fevals();
-    } while (result.duration < maximal_duration &&
-             result.iterations < maximal_iterations && !result.solved());
+    population = algorithm.evolve(population);
+    result.normalised_agent = population.champion_x();
+    result.fitness_value = population.champion_f()[0];
+    result.duration = stopwatch.get_elapsed();
+    result.iterations = calculate_iterations(problem);
+    result.evaluations = pagmo_problem.get_fevals();
 
     return result;
 }
@@ -74,11 +73,11 @@ pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
 pass::pagmo2::cmaes::cmaes() noexcept
     : algorithm_adapter("CMAES") {}
 
-pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &problem) const
 {
     return pagmo::algorithm{pagmo::cmaes{
         // gen: number of generations (default value: 1)
-        1,
+        static_cast<unsigned>(calculate_iterations(problem)),
         // cc: backward time horizon for the evolution path (default value: -1)
         -1,
         // cs: makes partly up for the small variance loss in case the indicator is
@@ -98,6 +97,17 @@ pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &) const
         // xtol: stopping criteria on the f tolerance (default is 1e-6)
         // Use -infinity because we have our own termination criteria check
         -std::numeric_limits<double>::infinity()}};
+}
+
+arma::uword pass::pagmo2::cmaes::calculate_iterations(const pass::problem &problem) const
+{
+    return maximal_evaluations / calculate_population_size(problem) +
+           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+}
+
+arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &) const
+{
+    return 5;
 }
 
 // ----------------------------------------------
@@ -126,6 +136,17 @@ pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm(const pass:
         -std::numeric_limits<double>::infinity()}};
 }
 
+arma::uword pass::pagmo2::differential_evolution::calculate_iterations(const pass::problem &problem) const
+{
+    return maximal_evaluations / calculate_population_size(problem) +
+           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+}
+
+arma::uword pass::pagmo2::differential_evolution::calculate_population_size(const pass::problem &) const
+{
+    return 5;
+}
+
 // ----------------------------------------------
 // simple genetic algorithm
 // ----------------------------------------------
@@ -136,6 +157,17 @@ pass::pagmo2::simple_genetic_algorithm::simple_genetic_algorithm() noexcept
 pagmo::algorithm pass::pagmo2::simple_genetic_algorithm::get_algorithm(const pass::problem &) const
 {
     return pagmo::algorithm{pagmo::sga{}};
+}
+
+arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_iterations(const pass::problem &problem) const
+{
+    return maximal_evaluations / calculate_population_size(problem) +
+           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+}
+
+arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_population_size(const pass::problem &) const
+{
+    return 5;
 }
 
 // ----------------------------------------------
@@ -150,6 +182,17 @@ pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm(const pass::p
     return pagmo::algorithm{pagmo::bee_colony{}};
 }
 
+arma::uword pass::pagmo2::artifical_bee_colony::calculate_iterations(const pass::problem &problem) const
+{
+    return maximal_evaluations / calculate_population_size(problem) +
+           (maximal_evaluations % calculate_population_size(problem) ? 1 : 0);
+}
+
+arma::uword pass::pagmo2::artifical_bee_colony::calculate_population_size(const pass::problem &) const
+{
+    return 5;
+}
+
 // ----------------------------------------------
 // compass search
 // ----------------------------------------------
@@ -160,15 +203,25 @@ const double pass::pagmo2::compass_search::step_size_tolerance = 0.01;
 pass::pagmo2::compass_search::compass_search() noexcept
     : algorithm_adapter("compass_search") {}
 
-pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem &problem) const
+pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem &) const
 {
     return pagmo::algorithm{pagmo::compass_search{
         // max_fevals: maximum number of fitness evaluations
-        static_cast<unsigned int>(maximal_iterations * problem.dimension() * 2),
+        static_cast<unsigned>(maximal_evaluations),
         // start_range: start range (default is 0.1)
         initial_step_size,
         // stop_range: stop range (default is 0.01)
         step_size_tolerance}};
+}
+
+arma::uword pass::pagmo2::compass_search::calculate_iterations(const pass::problem &problem) const
+{
+    return maximal_evaluations / (2 * problem.dimension());
+}
+
+arma::uword pass::pagmo2::compass_search::calculate_population_size(const pass::problem &) const
+{
+    return 1;
 }
 
 // ----------------------------------------------
@@ -197,4 +250,14 @@ pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::pr
         // start_range: starting range for mutating the decision vector
         // (default is 1)
     }};
+}
+
+arma::uword pass::pagmo2::simulated_annealing::calculate_iterations(const pass::problem &) const
+{
+    return 28;
+}
+
+arma::uword pass::pagmo2::simulated_annealing::calculate_population_size(const pass::problem &) const
+{
+    return 1;
 }
