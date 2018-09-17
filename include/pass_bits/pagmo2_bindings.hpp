@@ -240,10 +240,6 @@ public:
 
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &problem) const;
-
-  /**
-   * Returns the `N_A` algorithm parameter.
-   */
   virtual arma::uword calculate_iterations(const pass::problem &) const;
   virtual arma::uword calculate_population_size(const pass::problem &) const;
 };

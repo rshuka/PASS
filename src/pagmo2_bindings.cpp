@@ -1,4 +1,5 @@
 #include "pass_bits/pagmo2_bindings.hpp"
+#include <algorithm>
 #include <stdexcept>
 
 // ----------------------------------------------
@@ -61,7 +62,7 @@ pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
     result.fitness_value = population.champion_f()[0];
     result.duration = stopwatch.get_elapsed();
     result.iterations = calculate_iterations(problem);
-    result.evaluations = pagmo_problem.get_fevals();
+    result.evaluations = population.get_problem().get_fevals();
 
     return result;
 }
@@ -231,30 +232,32 @@ arma::uword pass::pagmo2::compass_search::calculate_population_size(const pass::
 pass::pagmo2::simulated_annealing::simulated_annealing() noexcept
     : algorithm_adapter("simulated_annealing") {}
 
-pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::problem &problem) const
 {
     return pagmo::algorithm{pagmo::simulated_annealing{
         // Ts: starting temperature (default is 10.0)
-
+        10.0,
         // Tf: final temperature (default is 0.1)
-
+        0.1,
         // n_T_adj: number of temperature adjustments in the annealing schedule
         // (default is 10)
-
+        static_cast<unsigned>(calculate_iterations(problem)),
         // n_range_adj: number of adjustments of the search range performed at a
         // constant temperature (default is 1)
-
+        std::max<unsigned>(100, 5 * problem.dimension()),
         // bin_size: number of mutations that are used to compute the acceptance
         // rate (default is 20)
-
+        20,
         // start_range: starting range for mutating the decision vector
         // (default is 1)
-    }};
+        1.0}};
 }
 
-arma::uword pass::pagmo2::simulated_annealing::calculate_iterations(const pass::problem &) const
+arma::uword pass::pagmo2::simulated_annealing::calculate_iterations(const pass::problem &problem) const
 {
-    return 28;
+    arma::uword evaluations_per_iteration = 20 * std::max<arma::uword>(100, 5 * problem.dimension()) * problem.dimension();
+    return result = maximal_evaluations / evaluations_per_iteration +
+                    (maximal_evaluations % evaluations_per_iteration ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::simulated_annealing::calculate_population_size(const pass::problem &) const
