@@ -34,6 +34,9 @@ public:
    * constraints, which would also be returned from this method call. Because
    * PASS doesn't contain any problems that use these constraints, the result
    * will always have length 1, which is the fitness value.
+   *
+   * `agent` may be outside the boundaries, in that case this method always
+   * returns positive infinity.
    */
   pagmo::vector_double fitness(const pagmo::vector_double &agent) const;
 

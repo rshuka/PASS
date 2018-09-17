@@ -18,7 +18,12 @@ pass::pagmo2::problem_adapter::problem_adapter(const pass::problem &wrapped_prob
 
 pagmo::vector_double pass::pagmo2::problem_adapter::fitness(const pagmo::vector_double &agent) const
 {
-    return pagmo::vector_double{wrapped_problem->evaluate_normalised({agent})};
+    arma::vec v = {agent};
+    if (arma::any(v < 0) || arma::any(v > 1))
+    {
+        return {std::numeric_limits<double>::infinity()};
+    }
+    return pagmo::vector_double{wrapped_problem->evaluate_normalised(v)};
 }
 
 std::pair<pagmo::vector_double, pagmo::vector_double> pass::pagmo2::problem_adapter::get_bounds() const
@@ -92,14 +97,7 @@ pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &) const
         -std::numeric_limits<double>::infinity(),
         // xtol: stopping criteria on the f tolerance (default is 1e-6)
         // Use -infinity because we have our own termination criteria check
-        -std::numeric_limits<double>::infinity(),
-        // memory: when true the adapted parameters are not reset between successive
-        // calls to the evolve method (default value: false)
-        true,
-        // force_bounds: when true the box bounds are enforced. The fitness will
-        // never be called outside the bounds but the covariance matrix adaptation
-        // mechanism will worsen (default value: false)
-        true}};
+        -std::numeric_limits<double>::infinity()}};
 }
 
 // ----------------------------------------------
