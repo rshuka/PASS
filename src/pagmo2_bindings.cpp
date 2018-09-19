@@ -217,7 +217,7 @@ pagmo::algorithm pass::pagmo2::compass_search::get_algorithm(const pass::problem
         // start_range: start range (default is 0.1)
         initial_step_size,
         // stop_range: stop range (default is 0.01)
-        step_size_tolerance}};
+        0}};
 }
 
 arma::uword pass::pagmo2::compass_search::calculate_iterations(const pass::problem &problem) const
