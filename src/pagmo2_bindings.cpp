@@ -1,6 +1,7 @@
 #include "pass_bits/pagmo2_bindings.hpp"
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
 
 // ----------------------------------------------
 // problem adapter
@@ -106,9 +107,9 @@ arma::uword pass::pagmo2::cmaes::calculate_iterations(const pass::problem &probl
            (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
 }
 
-arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &) const
+arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &problem) const
 {
-    return 5;
+    return 4 + 3 * static_cast<arma::uword>(log(problem.dimension()));
 }
 
 // ----------------------------------------------
