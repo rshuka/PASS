@@ -4,30 +4,32 @@
 
 Die Implementierung von SA in [2] kann über folgende Parameter konfiguriert werden:
 
-Name|Beschreibung|Standardwert in [2]
-----|------------|-------------------
-_lam_|Populationsgröße|-
-_gen_|number of generations.|1
-_cc_|backward time horizon for the evolution path|(4 + μ_eff / n) / (n + 4 + 2 * μ_eff / n)
-_cs_|makes partly up for the small variance loss in case the indicator is zero|(μ_eff + 2) / (n + μ_eff + 5)
-_c1_|learning rate for the rank-one update of the covariance matrix|2 / ((n + 1.3)^2 + μ_eff)
-_cμ_|learning rate for the rank- μ update of the covariance matrix|2 * (μ_eff - 2 + 1 / μ_eff) / ((n + 2)^2 + μ_eff)
-_σ0_|initial step-size
-_ftol_|stopping criteria on the x tolerance|1e-6
-_xtol_|stopping criteria on the f tolerance|1e-6
+Name|Beschreibung|Standardwert in [2]|empfohlener Wert in [3] (Standardwerte auf S. 100, Table 2)|in PASS verwendeter Wert
+----|------------|-------------------|-----------------------------------------------------------|----------------
+λ|Populationsgröße|-|4+⌊3ln(n)⌋|4+⌊3ln(n)⌋
+_gen_|number of generations.|1|-|⌈λ / evaluations⌉
+_cc_|backward time horizon for the evolution path|(4 + μ_eff / n) / (n + 4 + 2 * μ_eff / n)|4 / (n + 4)|(4 + μ_eff / n) / (n + 4 + 2 * μ_eff / n)
+_cσ_|makes partly up for the small variance loss in case the indicator is zero|(μ_eff + 2) / (n + μ_eff + 5)|(μ_eff + 2) / (n + μ_eff + 3)|(μ_eff + 2) / (n + μ_eff + 5)
+_c1_|learning rate for the rank-one update of the covariance matrix|2 / ((n + 1.3)^2 + μ_eff)|-|2 / ((n + 1.3)^2 + μ_eff)
+_cμ_|learning rate for the rank- μ update of the covariance matrix|2 * (μ_eff - 2 + 1 / μ_eff) / ((n + 2)^2 + μ_eff)|-|2 * (μ_eff - 2 + 1 / μ_eff) / ((n + 2)^2 + μ_eff)
+_σ0_|initial step-size|0.5|-|0.5
+
+_[3] gibt keine Wert für c1 und cμ an, sondern stattdessen μ_cov, c_cov Parameter, aus denen c1 und cμ berechnet werden._
 
 ## Pseudocode
 
+Alternativ siehe [3] S. 98, Fig. 7.
+
 ```
 let f(x) : ℝ^n → ℝ be the optimisation function, with lb_i ≤ x_i ≤ ub_i for i = 1, ..., n.
-let pop ∈ ℝ^{n×lam} = lam uniformly distributed random agents inside the problem boundaries.
+let pop ∈ ℝ^{n×λ} = λ uniformly distributed random agents inside the problem boundaries.
 
 mean ∈ ℝ^n = agent in pop with best objective value
-μ = ⌊lam / 2⌋
+μ = ⌊λ / 2⌋
 weights ∈ ℝ^μ = (log(μ + 0.5), ..., log(μ + 0.5)) - (log(1), ..., log(μ))
 weights = weights * (1 / ∑weights)
 μ_eff = 1 / ||weights||^2
-damps = 1 + 2 * max(0, √((μ_eff - 1) / (n + 1)) - 1) + cs
+damps = 1 + 2 * max(0, √((μ_eff - 1) / (n + 1)) - 1) + cσ
 χ_n = √n * (1 - 1 / (4 * n) + 1 / (21 * n^2))
 σ = σ0
 B ∈ ℝ^{n×n} = identity matrix
@@ -44,15 +46,11 @@ counteval = 0
 eigeneval = 0
 
 repeat gen times:
-  newpop ∈ ℝ^{n×lam} = lam normal distributed random agents inside the problem boundaries.
+  newpop ∈ ℝ^{n×λ} = λ normal distributed random agents inside the problem boundaries.
   for each row r in newpop:
     r = σ * B * D * r + mean
-  if ||σ * B * D * (last row of newpop)|| < xtol:
-    terminate
-  if |f(worst agent in pop) - f(best agent in pop)| < ftol:
-    terminate
   pop = newpop
-  counteval = counteval + lam
+  counteval = counteval + λ
   // 4 - We extract the elite from this generation.
   elite ∈ ℝ^{n×μ} = (best agend in pop, 2nd best agent in pop, ..., μth best agent in pop)
   // 5 - Compute the new mean of the elite storing the old one
@@ -61,8 +59,8 @@ repeat gen times:
   mean = ∑ (row i of elite) * weights_i
         i=1
   // 6 - Update evolution paths
-  ps = (1 - cs) * ps + √(cs * (2 - cs) * μ_eff) * invsqrtC * (mean - meanold) / σ
-         ⎧1 , if (||p||^2 / n / (1 - (1 - cs)^(2. * counteval / lam))) < (2 + 4 / (n + 1))
+  ps = (1 - cσ) * ps + √(cσ * (2 - cσ) * μ_eff) * invsqrtC * (mean - meanold) / σ
+         ⎧1 , if (||p||^2 / n / (1 - (1 - cσ)^(2. * counteval / λ))) < (2 + 4 / (n + 1))
   hsig = ⎨
          ⎩0 , else
   pc = (1 - cc) * pc + hsig * √(cc * (2 - cc) * μ_eff) * (mean - meanold) / σ
@@ -74,9 +72,9 @@ repeat gen times:
   C = C / σ^2
   C = (1 - c1 - cμ) * C_old + cμ * C + c1 * ((pc * pc^T) + (1 - hsig) * cc * (2 - cc) * C_old)
   // 8 - Adapt σ
-  σ = σ * exp(min(0.6, (cs / damps) * (||ps|| / χ_n - 1)))
+  σ = σ * exp(min(0.6, (cσ / damps) * (||ps|| / χ_n - 1)))
   // 9 - Perform eigen-decomposition of C
-  if counteval - eigeneval > lam / (c1 + cμ) / n / 10:
+  if counteval - eigeneval > λ / (c1 + cμ) / n / 10:
       eigeneval = counteval
       C = (C + C^T) * 1/2
       if eigen decomposition of C is successful:
@@ -92,3 +90,5 @@ repeat gen times:
 ```
 
 [2]: https://esa.github.io/pagmo2/docs/cpp/algorithms/cmaes.html
+[3]: https://link.springer.com/chapter/10.1007/3-540-32494-1_4
+[4]: https://dl.acm.org/citation.cfm?id=1108843
