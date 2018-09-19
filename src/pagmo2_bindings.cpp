@@ -119,11 +119,11 @@ arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &
 pass::pagmo2::differential_evolution::differential_evolution() noexcept
     : algorithm_adapter("differential_evolution") {}
 
-pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::differential_evolution::get_algorithm(const pass::problem &problem) const
 {
     return pagmo::algorithm{pagmo::de{
         // gen: number of generations. (default value: 1)
-        1,
+        static_cast<unsigned>(calculate_iterations(problem)),
         // F: weight coefficient (dafault value is 0.8)
         0.8,
         // CR: crossover probability (dafault value is 0.9)
@@ -156,9 +156,11 @@ arma::uword pass::pagmo2::differential_evolution::calculate_population_size(cons
 pass::pagmo2::simple_genetic_algorithm::simple_genetic_algorithm() noexcept
     : algorithm_adapter("simple_genetic_algorithm") {}
 
-pagmo::algorithm pass::pagmo2::simple_genetic_algorithm::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::simple_genetic_algorithm::get_algorithm(const pass::problem &problem) const
 {
-    return pagmo::algorithm{pagmo::sga{}};
+    return pagmo::algorithm{pagmo::sga{
+        // gen:
+        static_cast<unsigned>(calculate_iterations(problem))}};
 }
 
 arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_iterations(const pass::problem &problem) const
@@ -179,9 +181,11 @@ arma::uword pass::pagmo2::simple_genetic_algorithm::calculate_population_size(co
 pass::pagmo2::artifical_bee_colony::artifical_bee_colony() noexcept
     : algorithm_adapter("artifical_bee_colony") {}
 
-pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm(const pass::problem &problem) const
 {
-    return pagmo::algorithm{pagmo::bee_colony{}};
+    return pagmo::algorithm{pagmo::bee_colony{
+        // gen:
+        static_cast<unsigned>(calculate_iterations(problem))}};
 }
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_iterations(const pass::problem &problem) const
