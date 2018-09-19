@@ -190,8 +190,9 @@ pagmo::algorithm pass::pagmo2::artifical_bee_colony::get_algorithm(const pass::p
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_iterations(const pass::problem &problem) const
 {
-    return minimal_evaluations / calculate_population_size(problem) +
-           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    arma::uword evaluations_per_iteration = 2 * calculate_population_size(problem);
+    return minimal_evaluations / evaluations_per_iteration +
+           (minimal_evaluations % evaluations_per_iteration ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_population_size(const pass::problem &) const
