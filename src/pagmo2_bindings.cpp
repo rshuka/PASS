@@ -256,8 +256,8 @@ pagmo::algorithm pass::pagmo2::simulated_annealing::get_algorithm(const pass::pr
 arma::uword pass::pagmo2::simulated_annealing::calculate_iterations(const pass::problem &problem) const
 {
     arma::uword evaluations_per_iteration = 20 * std::max<arma::uword>(100, 5 * problem.dimension()) * problem.dimension();
-    return result = minimal_evaluations / evaluations_per_iteration +
-                    (minimal_evaluations % evaluations_per_iteration ? 1 : 0);
+    return minimal_evaluations / evaluations_per_iteration +
+           (minimal_evaluations % evaluations_per_iteration ? 1 : 0);
 }
 
 arma::uword pass::pagmo2::simulated_annealing::calculate_population_size(const pass::problem &) const
