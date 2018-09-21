@@ -29,6 +29,7 @@
 // Helper
 #include <pass_bits/helper/random.hpp>
 #include <pass_bits/helper/evaluation_time_stall.hpp>
+#include <pass_bits/helper/search_space_constraint.hpp>
 #include <pass_bits/helper/stopwatch.hpp>
 #include <pass_bits/helper/prime_numbers.hpp>
 

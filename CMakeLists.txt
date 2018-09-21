@@ -136,6 +136,7 @@ add_library(pass SHARED
   src/helper/prime_numbers.cpp
   src/helper/random.cpp
   src/helper/stopwatch.cpp
+  src/helper/search_space_constraint.cpp
   src/helper/astro_problems/astro_functions.cpp
   src/helper/astro_problems/astro_helpers.cpp
   src/helper/astro_problems/constants.cpp
