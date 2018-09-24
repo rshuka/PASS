@@ -5,18 +5,18 @@
 arma::vec constrain_lower_bounds(const arma::vec &lower_bounds, const arma::vec &upper_bounds,
                                  arma::uword segment, arma::uword total_segments)
 {
-  double segment_width = std::abs(upper_bounds[0] - lower_bounds[0]) / total_segments;
+  arma::vec segment_width = (upper_bounds - lower_bounds) / arma::vec(lower_bounds.n_elem).fill(total_segments);
   arma::vec result = lower_bounds;
-  result[0] = lower_bounds[0] + (segment - 1) * segment_width;
+  result = lower_bounds + (segment - 1) * segment_width;
   return result;
 }
 
 arma::vec constrain_upper_bounds(const arma::vec &lower_bounds, const arma::vec &upper_bounds,
                                  arma::uword segment, arma::uword total_segments)
 {
-  double segment_width = std::abs(upper_bounds[0] - lower_bounds[0]) / total_segments;
+  arma::vec segment_width = (upper_bounds - lower_bounds) / arma::vec(lower_bounds.n_elem).fill(total_segments);
   arma::vec result = upper_bounds;
-  result[0] = lower_bounds[0] + segment * segment_width;
+  result = lower_bounds + segment * segment_width;
   return result;
 }
 
