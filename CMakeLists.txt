@@ -129,7 +129,7 @@ add_library(pass SHARED
   src/config.cpp
 
   # Analyser
-  src/analyser/evaluation_time.cpp
+  src/analyser/problem_evaluation_time.cpp
 
   # Helper
   src/helper/evaluation_time_stall.cpp

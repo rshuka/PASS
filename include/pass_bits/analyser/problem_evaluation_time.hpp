@@ -12,6 +12,6 @@ namespace pass
  * the same process will always be something new, so, it is not required to get the same result always!
  *
  */
-double evaluation_time(const pass::problem &problem);
+double problem_evaluation_time(const pass::problem &problem);
 
 } // namespace pass

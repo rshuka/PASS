@@ -1,7 +1,7 @@
-#include "pass_bits/analyser/evaluation_time.hpp"
+#include "pass_bits/analyser/problem_evaluation_time.hpp"
 #include <chrono> // assert
 
-double pass::evaluation_time(const pass::problem &problem)
+double pass::problem_evaluation_time(const pass::problem &problem)
 {
   arma::vec particle(problem.dimension(), arma::fill::randu);
   arma::vec times(100);
