@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 #!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
 if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/8.1.0/bin/g++-8")
+set(CMAKE_CXX_COMPILER "/usr/local/Cellar/gcc/8.2.0/bin/g++-8")
 endif()
 
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
