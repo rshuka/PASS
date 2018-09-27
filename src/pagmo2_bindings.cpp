@@ -44,6 +44,8 @@ pass::pagmo2::algorithm_adapter::algorithm_adapter(const std::string &name) noex
 pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
     const pass::problem &problem)
 {
+    assert(maximal_iterations == std::numeric_limits<arma::uword>::max() &&
+           "The pagmo optimisers don't respect the `maximal_iterations` termination criterion");
     assert(acceptable_fitness_value == -std::numeric_limits<double>::infinity() &&
            "The pagmo optimisers don't respect the `acceptable_fitness_value` termination criterion");
     assert(maximal_duration == std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::duration::max()) &&
