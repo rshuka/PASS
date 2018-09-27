@@ -77,11 +77,52 @@ pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
 pass::pagmo2::cmaes::cmaes() noexcept
     : algorithm_adapter("CMAES") {}
 
-pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &problem) const
+pass::optimise_result pass::pagmo2::cmaes::optimise(
+    const pass::problem &problem)
+{
+    assert(maximal_iterations == std::numeric_limits<arma::uword>::max() &&
+           "The pagmo optimisers don't respect the `maximal_iterations` termination criterion");
+    assert(maximal_duration == std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::duration::max()) &&
+           "The pagmo optimisers don't respect the `maximal_duration` termination criterion");
+
+    pass::stopwatch stopwatch;
+    stopwatch.start();
+
+    pass::pagmo2::problem_adapter adapter{problem};
+    pagmo::problem pagmo_problem{adapter};
+    pagmo::population population{pagmo_problem, calculate_population_size(problem)};
+    pagmo::algorithm algorithm = get_algorithm(problem);
+
+    pass::optimise_result result{problem, acceptable_fitness_value};
+    do
+    {
+        population = algorithm.evolve(population);
+        double fitness_value = population.champion_f()[0];
+        // The pagmo2 documentation says:
+        // > Since at each generation all newly generated individuals sampled
+        // > from the adapted distribution are reinserted into the population,
+        // > CMA-ES may not preserve the best individual (not elitist). As a
+        // > consequence the plot of the population best fitness may not be
+        // > perfectly monotonically decreasing.
+        // Therefore, we only update our own `result` object if the fitness
+        // value actually improved.
+        if (fitness_value < result.fitness_value)
+        {
+            result.normalised_agent = population.champion_x();
+            result.fitness_value = fitness_value;
+        }
+        result.iterations++;
+        result.evaluations = population.get_problem().get_fevals();
+    } while (result.evaluations < minimal_evaluations && !result.solved());
+    result.duration = stopwatch.get_elapsed();
+    return result;
+}
+
+pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &) const
 {
     return pagmo::algorithm{pagmo::cmaes{
         // gen: number of generations (default value: 1)
-        static_cast<unsigned>(calculate_iterations(problem)),
+        1,
         // cc: backward time horizon for the evolution path (default value: -1)
         -1,
         // cs: makes partly up for the small variance loss in case the indicator is
@@ -100,13 +141,15 @@ pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &problem
         -std::numeric_limits<double>::infinity(),
         // xtol: stopping criteria on the f tolerance (default is 1e-6)
         // Use -infinity because we have our own termination criteria check
-        -std::numeric_limits<double>::infinity()}};
+        -std::numeric_limits<double>::infinity(),
+        // memory: when true the adapted parameters are not reset between
+        // successive calls to the evolve method (default value: false)
+        true}};
 }
 
-arma::uword pass::pagmo2::cmaes::calculate_iterations(const pass::problem &problem) const
+arma::uword pass::pagmo2::cmaes::calculate_iterations(const pass::problem &) const
 {
-    return minimal_evaluations / calculate_population_size(problem) +
-           (minimal_evaluations % calculate_population_size(problem) ? 1 : 0);
+    throw std::logic_error("This method is never used");
 }
 
 arma::uword pass::pagmo2::cmaes::calculate_population_size(const pass::problem &problem) const

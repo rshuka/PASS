@@ -124,6 +124,8 @@ public:
    */
   cmaes() noexcept;
 
+  virtual optimise_result optimise(const pass::problem &problem);
+
 protected:
   virtual pagmo::algorithm get_algorithm(const pass::problem &) const;
   virtual arma::uword calculate_iterations(const pass::problem &) const;
