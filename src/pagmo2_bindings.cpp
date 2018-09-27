@@ -44,9 +44,9 @@ pass::pagmo2::algorithm_adapter::algorithm_adapter(const std::string &name) noex
 pass::optimise_result pass::pagmo2::algorithm_adapter::optimise(
     const pass::problem &problem)
 {
-    assert(acceptable_fitness_value != -std::numeric_limits<double>::infinity() &&
+    assert(acceptable_fitness_value == -std::numeric_limits<double>::infinity() &&
            "The pagmo optimisers don't respect the `acceptable_fitness_value` termination criterion");
-    assert(maximal_duration != std::chrono::system_clock::duration::max().count() > 0 &&
+    assert(maximal_duration == std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::duration::max()) &&
            "The pagmo optimisers don't respect the `maximal_duration` termination criterion");
 
     pass::stopwatch stopwatch;

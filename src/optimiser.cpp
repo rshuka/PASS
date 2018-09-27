@@ -23,7 +23,7 @@ arma::vec pass::optimise_result::agent() const
 pass::optimiser::optimiser(const std::string name)
     : acceptable_fitness_value(-std::numeric_limits<double>::infinity()),
       maximal_iterations(std::numeric_limits<arma::uword>::max()),
-      maximal_duration(std::chrono::system_clock::duration::max().count()),
+      maximal_duration(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::duration::max())),
       name(name)
 {
   assert(maximal_iterations > 0 &&
