@@ -9,7 +9,7 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   pass::parallel_swarm_search algorithm;
 
   // Time to run a black box problem
-  const arma::uword time_in_seconds = 3;
+  const arma::uword time_in_seconds = 1;
 
   // Global Winner
   arma::uword global_winner;
@@ -18,13 +18,25 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   // Check if the problem is a benchmark problem or not
   if (benchmark == true)
   {
-    algorithm.acceptable_fitness_value = pass::precision;
     algorithm.maximal_iterations = 10000;
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
+    if (!problem.name.compare("Styblinski_Tang_Function"))
+    {
+      algorithm.acceptable_fitness_value = -39.16599 * problem.dimension();
+    }
+    else
+    {
+      algorithm.acceptable_fitness_value = pass::precision;
+    }
   }
   else if (benchmark == false)
   {
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
+  }
+  else
+  {
+    throw std::runtime_error(
+        "benchmark: Please check your benchmark value, as we got not a valid value");
   }
 
   // Output information
@@ -52,10 +64,10 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   std::cout << " ========================= Default Parameters ======================= " << std::endl;
   std::cout << "                                                                      " << std::endl;
   std::cout << " Swarm Size:                  " << algorithm.swarm_size << std::endl;
+  std::cout << " Neighbourhood Probability:   " << algorithm.neighbourhood_probability << std::endl;
   std::cout << " Inertia:                     " << algorithm.inertia << std::endl;
   std::cout << " Cognitive Acceleration:      " << algorithm.cognitive_acceleration << std::endl;
   std::cout << " Social Acceleration:         " << algorithm.social_acceleration << std::endl;
-  std::cout << " Neighbourhood Probability:   " << algorithm.neighbourhood_probability << std::endl;
   std::cout << " ==================================================================== " << std::endl;
   std::cout << "                                                                      " << std::endl;
 
@@ -172,9 +184,9 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   arma::uword np_granularity = 1;
   arma::mat np_best_segment_runtimes;
 
-  while (np_granularity <= 4)
+  while (np_granularity <= 6)
   {
-    arma::uword np_middle = (np_max - np_min) / 2 + p_min;
+    arma::uword np_middle = (np_max - np_min) / 2 + np_min;
 
     arma::uword first_segment = pass::random_integer_uniform_in_range(np_min, np_middle);
     algorithm.neighbourhood_probability = static_cast<double>(first_segment) / 1000000;
@@ -226,11 +238,125 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
 
   std::cout << " - Start: Search for Inertia " << std::endl;
 
+  arma::sword w_min = -1000000;
+  arma::sword w_max = 1000000;
+
+  arma::uword w_granularity = 1;
+  arma::mat w_best_segment_runtimes;
+
+  while (w_granularity <= 7)
+  {
+    arma::sword w_middle = (w_max - w_min) / 2 + w_min;
+
+    arma::sword first_segment = pass::random_integer_uniform_in_range(w_min, w_middle);
+    algorithm.inertia = static_cast<double>(first_segment) / 1000000;
+    arma::mat first_segment_runtimes = parameter_evaluate(algorithm, problem);
+
+    arma::sword second_segment = pass::random_integer_uniform_in_range(w_middle, w_max);
+    algorithm.inertia = static_cast<double>(second_segment) / 1000000;
+    arma::mat second_segment_runtimes = parameter_evaluate(algorithm, problem);
+
+    arma::uword winner = compare_segments(first_segment_runtimes, second_segment_runtimes);
+
+    if (winner == 1)
+    {
+      w_max = w_middle;
+      algorithm.inertia = static_cast<double>(first_segment) / 1000000;
+      w_best_segment_runtimes = first_segment_runtimes;
+    }
+    else
+    {
+      w_min = w_middle;
+      algorithm.inertia = static_cast<double>(second_segment) / 1000000;
+      w_best_segment_runtimes = second_segment_runtimes;
+    }
+    w_granularity++;
+  }
+
+  // Compare with best
+  global_winner = compare_segments(w_best_segment_runtimes, global_best_runtimes);
+
+  if (global_winner == 1)
+  {
+    global_best_runtimes = w_best_segment_runtimes;
+  }
+  else
+  {
+    algorithm.inertia = 1.0 / (2.0 * std::log(2.0));
+  }
+
   std::cout << " - Finished: Search for Inertia " << std::endl;
   std::cout << "                                                                      " << std::endl;
 
-  // ======================= End Search for Neighbourhood Probability ======================
+  // ================================ End Search for Inertia ===============================
+  //
+  //
+  //
+  //
+  // =============================== Search for C1 and C2 =================================
 
+  std::cout << " - Start: Search for Acceleration " << std::endl;
+
+  arma::uword c_min = 0;
+  arma::uword c_max = 2500000;
+
+  arma::uword c_granularity = 1;
+  arma::mat c_best_segment_runtimes;
+
+  while (c_granularity <= 7)
+  {
+    arma::uword c_middle = (c_max - c_min) / 2 + c_min;
+
+    arma::uword first_segment = pass::random_integer_uniform_in_range(c_min, c_middle);
+    algorithm.cognitive_acceleration = static_cast<double>(first_segment) / 1000000;
+    algorithm.social_acceleration = algorithm.cognitive_acceleration;
+    arma::mat first_segment_runtimes = parameter_evaluate(algorithm, problem);
+
+    arma::uword second_segment = pass::random_integer_uniform_in_range(c_middle, c_max);
+    algorithm.cognitive_acceleration = static_cast<double>(second_segment) / 1000000;
+    algorithm.social_acceleration = algorithm.cognitive_acceleration;
+    arma::mat second_segment_runtimes = parameter_evaluate(algorithm, problem);
+
+    arma::uword winner = compare_segments(first_segment_runtimes, second_segment_runtimes);
+
+    if (winner == 1)
+    {
+      c_max = c_middle;
+      algorithm.cognitive_acceleration = static_cast<double>(first_segment) / 1000000;
+      algorithm.social_acceleration = algorithm.cognitive_acceleration;
+      c_best_segment_runtimes = first_segment_runtimes;
+    }
+    else
+    {
+      c_min = c_middle;
+      algorithm.cognitive_acceleration = static_cast<double>(second_segment) / 1000000;
+      algorithm.social_acceleration = algorithm.cognitive_acceleration;
+      c_best_segment_runtimes = second_segment_runtimes;
+    }
+    c_granularity++;
+  }
+
+  // Compare with best
+  global_winner = compare_segments(c_best_segment_runtimes, global_best_runtimes);
+
+  if (global_winner == 1)
+  {
+    global_best_runtimes = c_best_segment_runtimes;
+  }
+  else
+  {
+    algorithm.cognitive_acceleration = 0.5 + std::log(2.0);
+    algorithm.social_acceleration = algorithm.cognitive_acceleration;
+  }
+
+  std::cout << " - Finished: Search for Acceleration " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+
+  // ============================= End Search for C1 and C2 ===============================
+  //
+  //
+  //
+  //
   //File where the parameters are saved
   arma::vec output(5);
   output[0] = algorithm.swarm_size;
@@ -251,16 +377,73 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   std::cout << " ======================== Adaptive Parameters ======================= " << std::endl;
   std::cout << "                                                                      " << std::endl;
   std::cout << " Swarm Size:                  " << algorithm.swarm_size << std::endl;
+  std::cout << " Neighbourhood Probability:   " << algorithm.neighbourhood_probability << std::endl;
   std::cout << " Inertia:                     " << algorithm.inertia << std::endl;
   std::cout << " Cognitive Acceleration:      " << algorithm.cognitive_acceleration << std::endl;
   std::cout << " Social Acceleration:         " << algorithm.social_acceleration << std::endl;
-  std::cout << " Neighbourhood Probability:   " << algorithm.neighbourhood_probability << std::endl;
   std::cout << " ==================================================================== " << std::endl;
   std::cout << "                                                        " << std::endl;
-  std::cout << " The parameters are saved in " << file_name << std::endl;
+
+  // =============================== Final Evaluations =================================
+
+  arma::vec final_nonZeroIndices = arma::nonzeros(global_best_runtimes.col(1));
+  double final_success = static_cast<double>(final_nonZeroIndices.size()) / static_cast<double>(pass::parameter_setting_number_of_runs) * 100.00;
+  double final_evaluations = std::numeric_limits<double>::max();
+  double final_fitness_value = std::numeric_limits<double>::max();
+
+  if (final_nonZeroIndices.size() == 0)
+  {
+    final_fitness_value = arma::median(global_best_runtimes.col(0));
+  }
+  else
+  {
+    final_evaluations = arma::median(final_nonZeroIndices);
+  }
+
+  // Output information
+  std::cout << " ================ Done Optimising Adaptive Parameters =============== " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+  if (benchmark == true)
+  {
+    std::cout << " Success:                     " << final_success << " % " << std::endl;
+  }
+  if (final_nonZeroIndices.size() == 0)
+  {
+    std::cout << " Fitness Value:               " << final_fitness_value << std::endl;
+  }
+  else
+  {
+    std::cout << " Evaluations:                 " << final_evaluations << std::endl;
+  }
+  std::cout << " ==================================================================== " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+
+  // Output information
+  std::cout << " =========================== Improvement ============================ " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+  if (benchmark == true)
+  {
+    std::cout << " Improvement Success:         " << final_success - default_success << " % more solved" << std::endl;
+  }
+  if (final_nonZeroIndices.size() == 0)
+  {
+    std::cout << " Improvement Fitness Value:   " << default_fitness_value / final_fitness_value << " times better" << std::endl;
+  }
+  else
+  {
+    if (default_success > 0.0)
+    {
+      std::cout << " Speedup Evaluations:         " << default_evaluations / final_evaluations << std::endl;
+    }
+  }
+  std::cout << " ==================================================================== " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+  std::cout << " The adaptive parameters are saved in " << file_name << std::endl;
   std::cout << "                                                        " << std::endl;
   std::cout << "                                                        " << std::endl;
   std::cout << " =============================== DONE =============================== " << std::endl;
+
+  // =============================== End Final Evaluations =================================
 }
 
 arma::mat pass::parameter_evaluate(pass::optimiser &optimiser, const pass::problem &problem)
@@ -328,15 +511,20 @@ arma::uword pass::compare_segments(const arma::mat first_segment_runtimes, const
   double score_first;
   double score_second;
 
-  if (first_segment_success != second_segment_success)
+  if (first_segment_success != second_segment_success && first_segment_evaluations != second_segment_evaluations)
   {
     score_first = std::abs(first_segment_evaluations - second_segment_evaluations) / first_segment_evaluations + first_segment_success / std::abs(first_segment_success - second_segment_success);
     score_second = std::abs(second_segment_evaluations - first_segment_evaluations) / second_segment_evaluations + second_segment_success / std::abs(second_segment_success - first_segment_success);
   }
-  else
+  else if (first_segment_success == second_segment_success)
   {
     score_first = std::abs(first_segment_evaluations - second_segment_evaluations) / first_segment_evaluations;
     score_second = std::abs(second_segment_evaluations - first_segment_evaluations) / second_segment_evaluations;
+  }
+  else
+  {
+    score_first = std::abs(first_segment_success - second_segment_success) / first_segment_success;
+    score_second = std::abs(second_segment_success - first_segment_success) / second_segment_success;
   }
 
   // Determine Winner

@@ -84,10 +84,9 @@ alias c++='c++-7'
 
 ## Implemented Algorithms
 
-- Hooke Jeeves Algorithm
-- Random Search
 - Parallel Swarm Search (own)
 - Standard Particle Swarm Optimisation 2011
+- Random Search
 
 ## Implemented Problems
 
