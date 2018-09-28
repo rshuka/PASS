@@ -115,7 +115,7 @@ pass::optimise_result pass::hooke_jeeves_algorithm::optimise(
     verbose.shed_row(0);
     verbose.save("Verbose_Optimiser_" + name + "_Problem_" + problem.name + "_Dim_" +
                      std::to_string(problem.dimension()) +
-                     "_Run_" + std::to_string(pass::number_of_runs),
+                     "_Run_" + std::to_string(pass::global_number_of_runs),
                  arma::raw_ascii);
   }
 

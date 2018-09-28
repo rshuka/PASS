@@ -130,6 +130,7 @@ add_library(pass SHARED
 
   # Analyser
   src/analyser/problem_evaluation_time.cpp
+  src/analyser/adaptive_parameter_setting.cpp
 
   # Helper
   src/helper/evaluation_time_stall.cpp

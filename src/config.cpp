@@ -24,8 +24,9 @@ namespace pass
   * @precision: the precision to stop algorithms and set restart
   */
 bool is_verbose(false);
-int number_of_runs(1);
+int global_number_of_runs(1);
 double precision(1e-06);
+arma::uword parameter_setting_number_of_runs(10);
 
 /**
  * Use OpenMP
