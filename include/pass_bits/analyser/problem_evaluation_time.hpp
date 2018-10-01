@@ -4,7 +4,7 @@
 namespace pass
 {
 /**
- * Returns the evaluation time of a problem in microseconds
+ * Returns the evaluation time of a problem in nanoseconds
  *
  * NOTE: It is not a requirement to get the same output always because the CPU can
  * be less or more used by other processes running on the computer.

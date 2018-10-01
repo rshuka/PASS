@@ -5,8 +5,8 @@ void pass::stopwatch::start() noexcept
   start_time = std::chrono::steady_clock::now();
 }
 
-std::chrono::microseconds pass::stopwatch::get_elapsed() const noexcept
+std::chrono::nanoseconds pass::stopwatch::get_elapsed() const noexcept
 {
-  return std::chrono::duration_cast<std::chrono::microseconds>(
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(
       std::chrono::steady_clock::now() - start_time);
 }

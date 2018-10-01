@@ -19,11 +19,11 @@ namespace pass
  * - Benchmark? "True" or "False"
  */
 
-void set_parameters(const pass::problem &problem, const bool benchmark);
+void search_parameters(const pass::problem &problem, const bool benchmark);
 
 /**
  * Evaluate the Problem
- * The Problem with be evaluated 10 time
+ * The Problem will be evaluated 10 times
  * Set the global variable to change that
  * pass::parameter_setting_number_of_runs
  */

@@ -1,15 +1,15 @@
-#include "pass_bits/analyser/adaptive_parameter_setting.hpp"
+#include "pass_bits/analyser/adaptive_parameter_search.hpp"
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/helper/random.hpp"
-#include <iostream>
+#include <iostream> // std::cout
 
-void pass::set_parameters(const pass::problem &problem, const bool benchmark)
+void pass::search_parameters(const pass::problem &problem, const bool benchmark)
 {
   // Our algorithm
   pass::parallel_swarm_search algorithm;
 
   // Time to run a black box problem
-  const arma::uword time_in_seconds = 1;
+  const arma::uword time_in_seconds = 10;
 
   // Global Winner
   arma::uword global_winner;
@@ -18,19 +18,13 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   // Check if the problem is a benchmark problem or not
   if (benchmark == true)
   {
-    algorithm.maximal_iterations = 10000;
+    algorithm.maximal_evaluations = 400000;
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
-    if (!problem.name.compare("Styblinski_Tang_Function"))
-    {
-      algorithm.acceptable_fitness_value = -39.16599 * problem.dimension();
-    }
-    else
-    {
-      algorithm.acceptable_fitness_value = pass::precision;
-    }
+    algorithm.acceptable_fitness_value = pass::precision;
   }
   else if (benchmark == false)
   {
+    algorithm.maximal_evaluations = 400000;
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
   }
   else
@@ -357,7 +351,7 @@ void pass::set_parameters(const pass::problem &problem, const bool benchmark)
   //
   //
   //
-  //File where the parameters are saved
+  // File where the parameters are saved
   arma::vec output(5);
   output[0] = algorithm.swarm_size;
   output[1] = algorithm.inertia;
@@ -477,6 +471,10 @@ arma::uword pass::compare_segments(const arma::mat first_segment_runtimes, const
 {
   arma::uword winner;
 
+  assert(first_segment_runtimes.n_elem == second_segment_runtimes.n_elem &&
+         "`first_segment_runtimes` and `second_segment_runtimes` must have the "
+         "same dimension");
+
   // first segment
   arma::vec first_segment_nonZeroIndices = arma::nonzeros(first_segment_runtimes.col(1));
   double first_segment_success = static_cast<double>(first_segment_nonZeroIndices.size()) / static_cast<double>(pass::parameter_setting_number_of_runs) * 100.00;
@@ -558,5 +556,7 @@ arma::uword pass::compare_segments(const arma::mat first_segment_runtimes, const
       winner = 2;
     }
   }
+  assert(winner == 1 || winner == 2 && "something went wrong with the 'winner' variable. It should be 1 or 2");
+
   return winner;
 }

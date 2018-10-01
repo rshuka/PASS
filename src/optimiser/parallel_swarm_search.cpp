@@ -121,7 +121,7 @@ restart: // Restart point
 
   // termination criteria.
   while (stopwatch.get_elapsed() < maximal_duration &&
-         result.iterations < maximal_iterations && !result.solved())
+         result.iterations < maximal_iterations && result.evaluations < maximal_evaluations && !result.solved())
   {
     if (randomize_topology)
     {
@@ -207,6 +207,7 @@ restart: // Restart point
 
         // evaluate the new position
         fitness_value = problem.evaluate_normalised(positions.col(n));
+
         if (fitness_value < personal_best_fitness_values(n))
         {
           personal_best_positions.col(n) = positions.col(n);
@@ -236,6 +237,7 @@ restart: // Restart point
     } //parallel region end
 #endif
     ++result.iterations;
+    result.evaluations = result.iterations * swarm_size;
 
     /**
      * Restart the algorithm
@@ -265,7 +267,6 @@ restart: // Restart point
     }
   }
 
-  result.evaluations = result.iterations * swarm_size;
   result.duration = stopwatch.get_elapsed();
 
   // Save the file

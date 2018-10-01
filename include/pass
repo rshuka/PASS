@@ -25,7 +25,7 @@
 
 // Analyser
 #include <pass_bits/analyser/problem_evaluation_time.hpp>
-#include <pass_bits/analyser/adaptive_parameter_setting.hpp>
+#include <pass_bits/analyser/adaptive_parameter_search.hpp>
 
 // Helper
 #include <pass_bits/helper/random.hpp>

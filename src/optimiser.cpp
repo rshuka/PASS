@@ -8,7 +8,7 @@ pass::optimise_result::optimise_result(const pass::problem &problem, const doubl
       problem(problem),
       iterations(0),
       evaluations(0),
-      duration(std::chrono::microseconds(0)) {}
+      duration(std::chrono::nanoseconds(0)) {}
 
 bool pass::optimise_result::solved() const
 {
@@ -23,13 +23,16 @@ arma::vec pass::optimise_result::agent() const
 pass::optimiser::optimiser(const std::string name)
     : acceptable_fitness_value(-std::numeric_limits<double>::infinity()),
       maximal_iterations(std::numeric_limits<arma::uword>::max()),
+      maximal_evaluations(std::numeric_limits<arma::uword>::max()),
       maximal_duration(std::chrono::system_clock::duration::max().count()),
       name(name)
 {
   assert(maximal_iterations > 0 &&
          "`maximal_iterations` should be greater than 0");
+  assert(maximal_evaluations > 0 &&
+         "`maximal_evaluations` should be greater than 0");
   assert(maximal_duration.count() > 0.0 &&
-         "`maximal_iterations` should be greater than 0");
+         "`maximal_duration` should be greater than 0");
   assert(name.empty() == false &&
          "`name` should should not be empty");
 }
