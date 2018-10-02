@@ -23,6 +23,7 @@ void search_parameters(const pass::problem &problem, const bool benchmark);
 
 /**
  * Evaluate the Problem
+ *
  * The Problem will be evaluated 10 times
  * Set the global variable to change that
  * pass::parameter_setting_number_of_runs
@@ -32,6 +33,7 @@ arma::mat parameter_evaluate(pass::optimiser &optimiser, const pass::problem &pr
 
 /**
  * Compare the two segments with each other
+ *
  * @return
  * - 1 if the first segmet is the best
  * - 2 if the second segmet is the best

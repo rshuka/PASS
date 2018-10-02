@@ -6,7 +6,7 @@ namespace pass
 {
 /**
  * `rosetta` is a 22-dimensional optimization problem issued by the ESA:
- * http://www.esa.int/gsp/ACT/inf/projects/gtop/rosetta.html
+ * https://www.esa.int/gsp/ACT/projects/gtop/rosetta.html
  */
 class rosetta : public problem
 {

@@ -556,7 +556,7 @@ arma::uword pass::compare_segments(const arma::mat first_segment_runtimes, const
       winner = 2;
     }
   }
-  assert(winner == 1 || winner == 2 && "something went wrong with the 'winner' variable. It should be 1 or 2");
+  assert((winner == 1 || winner == 2) && "something went wrong with the 'winner' variable. It should be 1 or 2");
 
   return winner;
 }

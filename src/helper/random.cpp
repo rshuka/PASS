@@ -17,6 +17,8 @@ int pass::random_integer_uniform_in_range(int min, int max)
     temp = max;
   }
 
+  assert(temp <= max && temp >= min && "Value not in range");
+
   return temp;
 }
 
@@ -24,7 +26,7 @@ arma::vec pass::random_neighbour(const arma::vec &agent,
                                  const double minimal_distance,
                                  const double maximal_distance)
 {
-  assert(0.0 <= minimal_distance && minimal_distance <= maximal_distance);
+  assert(0.0 <= minimal_distance && minimal_distance <= maximal_distance && "Neighbour not in the range");
 
   /* @see J. S. Hicks and R. F. Wheeling (1959). An efficient method for
    * generating uniformly distributed points on the surface of an n-dimensional

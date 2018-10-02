@@ -5,7 +5,8 @@
 namespace pass
 {
 /**
- * Implements the Standard Particle Swarm Optimisation 2011 algorithm
+ * Implements "Parallel Swarm Search" - a new Algorithm basen on
+ * the Standard Particle Swarm Optimisation 2011 algorithm
  * (http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=6557848)
  *
  * The initialisation variables can be found in

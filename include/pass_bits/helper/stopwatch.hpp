@@ -16,7 +16,7 @@ public:
   void start() noexcept;
 
   /**
-   * The time in microseconds (10^-9) since this object was created.
+   * The time in nanoseconds (10^-9) since this object was created.
    */
   std::chrono::nanoseconds get_elapsed() const noexcept;
 

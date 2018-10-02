@@ -15,7 +15,7 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
 pass::optimise_result pass::parallel_swarm_search::optimise(
     const pass::problem &problem)
 {
-  assert(inertia >= 0.0 && "'inertia' should be greater or equal than 0.0");
+  assert(inertia >= -1.0 && inertia <= 1.0 && "'inertia' should be greater or equal than 0.0");
   assert(cognitive_acceleration >= 0.0 && "'cognitive_acceleration' should be greater or equal than 0.0");
   assert(social_acceleration >= 0.0 && "'social_acceleration' should be greater or equal than 0.0");
   assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0 &&

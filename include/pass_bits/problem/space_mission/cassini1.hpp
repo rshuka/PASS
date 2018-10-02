@@ -6,7 +6,7 @@ namespace pass
 {
 /**
  * `cassini1` is a 6-dimensional optimization problem issued by the ESA:
- * http://www.esa.int/gsp/ACT/inf/projects/gtop/cassini1.html
+ * https://www.esa.int/gsp/ACT/projects/gtop/cassini1.html
  */
 class cassini1 : public problem
 {

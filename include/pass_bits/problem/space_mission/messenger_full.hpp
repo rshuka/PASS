@@ -6,7 +6,7 @@ namespace pass
 {
 /**
  * `messenger_full` is a 26-dimensional optimization problem issued by the ESA:
- * http://www.esa.int/gsp/ACT/inf/projects/gtop/messenger_full.html
+ * https://www.esa.int/gsp/ACT/projects/gtop/messenger_full.html
  */
 class messenger_full : public problem
 {

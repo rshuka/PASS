@@ -66,7 +66,7 @@ struct optimise_result
                   const double acceptable_fitness_value) noexcept;
 
   /**
-   * Returns `true` if the problem was solved.
+   * Returns `true` if the problem was solved i.e. if acceptable_fitness_value is reached.
    */
   bool solved() const;
 
@@ -100,7 +100,7 @@ public:
 
   /**
    * The maximal number of evaluations before the optimiser stops.
-   * Stops to the next possible evaluations "round".
+   *
    * Initialised to the maximum value representable with `arma::uword`.
    */
   arma::uword maximal_evaluations;

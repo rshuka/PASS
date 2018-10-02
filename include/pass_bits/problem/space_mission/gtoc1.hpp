@@ -7,7 +7,7 @@ namespace pass
 {
 /**
  * `GTOC1` is an 8-dimensional optimization problem issued by the ESA:
- * http://www.esa.int/gsp/ACT/inf/projects/gtop/gtoc1.html
+ * https://www.esa.int/gsp/ACT/projects/gtop/gtoc1.html
  * The underlying goal is to alter the trajectory of an asteroid by hitting it
  * with a spacecraft. To maximize the collision impact, the spacecraft performs
  * multiple gravity assists (https://en.wikipedia.org/wiki/Gravity_assist).

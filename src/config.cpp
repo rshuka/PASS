@@ -59,17 +59,17 @@ int thread_number()
 int number_of_nodes()
 {
 #if defined(SUPPORT_MPI)
-  int numberOfNodes;
-  MPI_Comm_size(MPI_COMM_WORLD, &numberOfNodes);
+  int number_of_nodes;
+  MPI_Comm_size(MPI_COMM_WORLD, &number_of_nodes);
 
-  if (numberOfNodes < 0)
+  if (number_of_nodes < 0)
   {
     throw std::runtime_error(
         "number_of_nodes: Please check your MPI installation, as we got a "
         "negative number of nodes.");
   }
 
-  return numberOfNodes;
+  return number_of_nodes;
 #else
   return 1;
 #endif
@@ -78,17 +78,17 @@ int number_of_nodes()
 int node_rank()
 {
 #if defined(SUPPORT_MPI)
-  int nodeRank;
-  MPI_Comm_rank(MPI_COMM_WORLD, &nodeRank);
+  int node_rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &node_rank);
 
-  if (nodeRank < 0)
+  if (node_rank < 0)
   {
     throw std::runtime_error(
         "node_rank: Please check your MPI installation, as we got a negative "
         "node rank.");
   }
 
-  return nodeRank;
+  return node_rank;
 #else
   return 0;
 #endif
