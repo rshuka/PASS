@@ -354,10 +354,10 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   // File where the parameters are saved
   arma::vec output(5);
   output[0] = algorithm.swarm_size;
-  output[1] = algorithm.inertia;
-  output[2] = algorithm.cognitive_acceleration;
-  output[3] = algorithm.social_acceleration;
-  output[4] = algorithm.neighbourhood_probability;
+  output[1] = algorithm.neighbourhood_probability;
+  output[2] = algorithm.inertia;
+  output[3] = algorithm.cognitive_acceleration;
+  output[4] = algorithm.social_acceleration;
 
   std::string file_name;
   file_name = "adaptive_parameter_";
