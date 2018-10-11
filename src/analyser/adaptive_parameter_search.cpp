@@ -18,13 +18,13 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   // Check if the problem is a benchmark problem or not
   if (benchmark == true)
   {
-    algorithm.maximal_iterations = 10000;
+    algorithm.maximal_evaluations = 1000000;
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
     algorithm.acceptable_fitness_value = pass::precision;
   }
   else if (benchmark == false)
   {
-    algorithm.maximal_iterations = 10000;
+    algorithm.maximal_evaluations = 1000000;
     algorithm.maximal_duration = std::chrono::seconds(time_in_seconds);
   }
   else
