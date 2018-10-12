@@ -262,7 +262,7 @@ restart: // Restart point
     /**
       * The rank with the minimum Fitness_value broadcast his agent to the others
       */
-    MPI_Bcast(result.agent().memptr(), result.agent().n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
+    MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
 
     result.fitness_value = mpi.fitness_value;
 
