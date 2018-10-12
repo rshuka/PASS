@@ -250,10 +250,6 @@ restart: // Restart point
     mpi.best_rank = pass::node_rank();
     mpi.fitness_value = result.fitness_value;
 
-    std::cout << "I am node: " << pass::node_rank() << std::endl;
-    std::cout << pass::node_rank() << " Bevore MPI: " << result.fitness_value << std::endl;
-    std::cout << pass::node_rank() << " Bevore MPI: " << result.agent() << std::endl;
-
     /**
       * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
       */
@@ -265,9 +261,6 @@ restart: // Restart point
     MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
 
     result.fitness_value = mpi.fitness_value;
-
-    std::cout << pass::node_rank() << " After MPI: " << result.fitness_value << std::endl;
-    std::cout << pass::node_rank() << " After MPI: " << result.agent() << std::endl;
 
 #endif
 
