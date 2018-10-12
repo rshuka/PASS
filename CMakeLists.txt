@@ -1,6 +1,7 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
+
 #!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
 if(APPLE)
 set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-8")
@@ -15,7 +16,6 @@ set(PASS_VERSION "${PASS_VERSION_MAJOR}.${PASS_VERSION_MINOR}.${PASS_VERSION_PAT
 
 # Project name
 project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX)
-
 
 # Adding additional support
 option(SUPPORT_SIMD "Add SSE2, SSE3, SSE4, AVX, etc. support" OFF)
@@ -60,10 +60,10 @@ message(STATUS "Found Armadillo: ${ARMADILLO_LIBRARIES} (found suitable version 
 
 # Support MPI
 if (SUPPORT_MPI)
+  find_package(MPI REQUIRED)
   message(STATUS "")
   message(STATUS "- Adding MPI support.")
   message(STATUS "  - Use 'cmake ... -DSUPPORT_MPI=Off' to exclude this.")
-  find_package(MPI REQUIRED)
 else()
   message(STATUS "")
   message(STATUS "- Excluding MPI support.")
@@ -184,6 +184,7 @@ else()
   message(STATUS "  - Use 'cmake ... -DSUPPORT_SIMD=ON' to add this.")
 endif()
 
+message(STATUS "")
 message(STATUS "- Using level 3 code optimisation.")
 target_compile_options(pass PRIVATE -O3)
 
@@ -249,6 +250,7 @@ message(STATUS "- SUPPORT_SIMD = ${SUPPORT_SIMD}")
 message(STATUS "- SUPPORT_OPENMP = ${SUPPORT_OPENMP}")
 message(STATUS "- SUPPORT_MPI = ${SUPPORT_MPI}")
 message(STATUS "- ARMADILLO_LIBRARIES = ${ARMADILLO_LIBRARIES}")
+message(STATUS "- MPI_LIBRARIES = ${MPI_LIBRARIES}")
 message(STATUS "- INSTALL_INCLUDE_DIR = ${INSTALL_INCLUDE_DIR}")
 message(STATUS "- INSTALL_LIB_DIR = ${INSTALL_LIB_DIR}")
 message(STATUS "- INSTALL_BIN_DIR = ${INSTALL_BIN_DIR}")
