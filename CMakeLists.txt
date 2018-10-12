@@ -20,7 +20,7 @@ project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX)
 # Adding additional support
 option(SUPPORT_SIMD "Add SSE2, SSE3, SSE4, AVX, etc. support" OFF)
 option(SUPPORT_OPENMP "Add OpenMP support" OFF)
-option(SUPPORT_MPI "Add MPI support" OFF)
+option(SUPPORT_MPI "Add MPI support" ON)
 
 if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
