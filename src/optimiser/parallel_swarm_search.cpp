@@ -267,7 +267,7 @@ restart: // Restart point
     }
   }
 
-// MPI Method to synchronise all the nodes with the best result after the algorithm is done
+// MPI Method to synchronise all the nodes with the best results after the algorithm is done
 #if defined(SUPPORT_MPI)
   // Struct needed to deliver the data
   struct
