@@ -274,28 +274,22 @@ restart: // Restart point
   {
     double fitness_value;
     int best_rank;
-  } mpi_send;
+  } mpi;
 
-  struct
-  {
-    double fitness_value;
-    int best_rank;
-  } mpi_rec;
-
-  mpi_send.best_rank = pass::node_rank();
-  mpi_send.fitness_value = result.fitness_value;
+  mpi.best_rank = pass::node_rank();
+  mpi.fitness_value = result.fitness_value;
 
   /**
     * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
     */
-  MPI_Allreduce(&mpi_send, &mpi_rec, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
+  MPI_Allreduce(MPI_IN_PLACE, &mpi, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
 
   /**
     * The rank with the minimum Fitness_value broadcast his agent to the others
     */
-  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_rec.best_rank, MPI_COMM_WORLD);
+  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
 
-  result.fitness_value = mpi_rec.fitness_value;
+  result.fitness_value = mpi.fitness_value;
 
 #endif
 
