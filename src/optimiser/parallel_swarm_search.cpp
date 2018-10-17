@@ -261,6 +261,7 @@ restart: // Restart point
 
 #if defined(SUPPORT_MPI)
     // Island model for PSO
+    MPI_Barrier(MPI_COMM_WORLD);
     struct
     {
       double fitness_value;
