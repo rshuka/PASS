@@ -64,6 +64,15 @@ public:
 
   int number_threads;
 
+  /**
+   * Denotes the migration invervall for the MPI Communication
+   *
+   * Is initialized to 40 Iterations
+   */
+#if defined(SUPPORT_MPI)
+  arma::uword migration_stall;
+#endif
+
   parallel_swarm_search() noexcept;
 
   virtual optimise_result optimise(const pass::problem &problem);
