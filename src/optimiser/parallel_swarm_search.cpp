@@ -290,7 +290,7 @@ restart: // Restart point
     // Find the worst agent and replace it with the best one
     if (pass::node_rank() != mpi.best_rank)
     {
-      arma::uword min_index = personal_best_fitness_values.min_index();
+      arma::uword min_index = personal_best_fitness_values.index_min();
 
       personal_best_positions.col(min_index) = result.normalised_agent;
       positions.col(min_index) = result.normalised_agent;
