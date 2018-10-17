@@ -326,10 +326,6 @@ restart: // Restart point
 
 // MPI Method to synchronise all the nodes with the best results after the algorithm is done
 #if defined(SUPPORT_MPI)
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "Entering MPI Final: " << std::endl;
-  }
   // Struct needed to deliver the data
   struct
   {
