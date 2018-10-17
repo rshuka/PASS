@@ -283,17 +283,14 @@ restart: // Restart point
     result.fitness_value = mpi.fitness_value;
 
     // Find the worst agent and replace it with the best one
-    std::cout << "mpi best rank: " << mpi.best_rank << " for iteration: " << result.iterations << std::endl;
     if (pass::node_rank() != mpi.best_rank)
     {
-      std::cout << "Entering if MPI for Node " << pass::node_rank() << std::endl;
       arma::uword min_index = personal_best_fitness_values.index_min();
 
       personal_best_positions.col(min_index) = result.normalised_agent;
       positions.col(min_index) = result.normalised_agent;
       personal_best_fitness_values(min_index) = result.fitness_value;
     }
-    std::cout << "Done if MPI for Node " << pass::node_rank() << std::endl;
 #endif
 
     /**
@@ -323,31 +320,6 @@ restart: // Restart point
       verbose(result.iterations, 2) = result.normalised_agent[0];
     }
   } // end while for termination criteria
-
-// MPI Method to synchronise all the nodes with the best results after the algorithm is done
-#if defined(SUPPORT_MPI)
-  // Struct needed to deliver the data
-  struct
-  {
-    double fitness_value;
-    int best_rank;
-  } mpi_end;
-
-  mpi_end.best_rank = pass::node_rank();
-  mpi_end.fitness_value = result.fitness_value;
-
-  /**
-    * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
-    */
-  MPI_Allreduce(MPI_IN_PLACE, &mpi_end, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
-
-  /**
-    * The rank with the minimum Fitness_value broadcast his agent to the others
-    */
-  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_end.best_rank, MPI_COMM_WORLD);
-
-  result.fitness_value = mpi_end.fitness_value;
-#endif
 
   result.duration = stopwatch.get_elapsed();
 
