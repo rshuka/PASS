@@ -321,27 +321,6 @@ restart: // Restart point
     }
   } // end while for termination criteria
 
-  // MPI Method to synchronise all the nodes with the best results after the algorithm is done
-#if defined(SUPPORT_MPI)
-  // Struct needed to deliver the data
-  struct
-  {
-    double fitness_value;
-    int best_rank;
-  } mpi_end;
-  mpi_end.best_rank = pass::node_rank();
-  mpi_end.fitness_value = result.fitness_value;
-  /**
-    * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
-    */
-  MPI_Allreduce(MPI_IN_PLACE, &mpi_end, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
-  /**
-    * The rank with the minimum Fitness_value broadcast his agent to the others
-    */
-  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_end.best_rank, MPI_COMM_WORLD);
-  result.fitness_value = mpi_end.fitness_value;
-#endif
-
   result.duration = stopwatch.get_elapsed();
 
   // Save the file
