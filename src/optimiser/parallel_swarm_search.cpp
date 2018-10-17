@@ -231,16 +231,12 @@ restart: // Restart point
 #pragma omp critical
             { // critical region start
 #endif
-              if (fitness_value < result.fitness_value)
+              // Restart criteria
+              if (result.fitness_value - fitness_value > pass::precision)
               {
                 result.normalised_agent = positions.col(n);
                 result.fitness_value = fitness_value;
                 randomize_topology = false;
-              }
-
-              // Restart criteria
-              if (result.fitness_value - fitness_value > pass::precision)
-              {
                 same_value = 0;
               }
               else
@@ -306,6 +302,7 @@ restart: // Restart point
      */
     if (same_value >= 3000)
     {
+      std::cout << "Restart" << std::endl;
       same_value = 0;
       goto restart;
     }
