@@ -283,7 +283,6 @@ restart: // Restart point
     result.fitness_value = mpi.fitness_value;
 
     // Find the worst agent and replace it with the best one
-
     arma::uword min_index = personal_best_fitness_values.index_min();
 
     personal_best_positions.col(min_index) = result.normalised_agent;
