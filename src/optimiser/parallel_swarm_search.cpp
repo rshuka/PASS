@@ -283,6 +283,7 @@ restart: // Restart point
     result.fitness_value = mpi.fitness_value;
 
     // Find the worst agent and replace it with the best one
+    std::cout << "mpi best rank: " << mpi.best_rank << " for iteration: " << result.iterations << std::endl;
     if (pass::node_rank() != mpi.best_rank)
     {
       std::cout << "Entering if MPI for Node " << pass::node_rank() << std::endl;
@@ -303,7 +304,6 @@ restart: // Restart point
      */
     if (same_value >= 3000)
     {
-      std::cout << "Restart Node: " << pass::node_rank() << std::endl;
       same_value = 0;
       goto restart;
     }
