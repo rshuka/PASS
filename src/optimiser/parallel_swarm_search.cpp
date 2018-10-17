@@ -255,21 +255,11 @@ restart: // Restart point
 
       ++result.iterations;
       result.evaluations = result.iterations * swarm_size;
-      if (pass::node_rank() == 0)
-      {
-        std::cout << "Migration stall Counter: " << ms << std::endl;
-        std::cout << "Migration stall " << migration_stall << std::endl;
-      }
 #if defined(SUPPORT_MPI)
     } // end migration stall
 #endif
 
 #if defined(SUPPORT_MPI)
-    if (pass::node_rank() == 0)
-    {
-      std::cout << "Entering MPI While: " << migration_stall << std::endl;
-      std::cout << "Iteration: " << result.iterations << std::endl;
-    }
     // Island model for PSO
     struct
     {
@@ -281,29 +271,14 @@ restart: // Restart point
     mpi.fitness_value = result.fitness_value;
 
     /**
-        * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
-        */
-    if (pass::node_rank() == 0)
-    {
-      std::cout << "Start ALL reduce " << std::endl;
-    }
+      * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
+      */
     MPI_Allreduce(MPI_IN_PLACE, &mpi, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
-    if (pass::node_rank() == 0)
-    {
-      std::cout << "Endd ALL reduce " << std::endl;
-    }
+
     /**
-        * The rank with the minimum Fitness_value broadcast his agent to the others
-        */
-    if (pass::node_rank() == 0)
-    {
-      std::cout << "Start Bcast " << std::endl;
-    }
+      * The rank with the minimum Fitness_value broadcast his agent to the others
+      */
     MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
-    if (pass::node_rank() == 0)
-    {
-      std::cout << "End Bcast " << std::endl;
-    }
 
     result.fitness_value = mpi.fitness_value;
 
@@ -368,33 +343,15 @@ restart: // Restart point
   /**
     * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
     */
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "Start All reduce final " << std::endl;
-  }
   MPI_Allreduce(MPI_IN_PLACE, &mpi_end, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "end All reduce final " << std::endl;
-  }
+
   /**
     * The rank with the minimum Fitness_value broadcast his agent to the others
     */
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "Start Bcast final " << std::endl;
-  }
   MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_end.best_rank, MPI_COMM_WORLD);
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "End Bcast final " << std::endl;
-  }
+
   result.fitness_value = mpi_end.fitness_value;
 #endif
-  if (pass::node_rank() == 0)
-  {
-    std::cout << "Done MPI Final: " << std::endl;
-  }
 
   result.duration = stopwatch.get_elapsed();
 
