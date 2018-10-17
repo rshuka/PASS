@@ -296,23 +296,21 @@ restart: // Restart point
       positions.col(min_index) = result.normalised_agent;
       personal_best_fitness_values(min_index) = result.fitness_value;
     }
-
-  } // end migration stall
 #endif
 
-  /**
+    /**
      * Restart the algorithm
      * If the algorithm does not found a better fitness value within 3000 iterations, it restarts.
      * Precision for a better fitness value is 1-e06
      * If it is restarted then choose random through hammersley or random initialisation
      */
-  if (same_value >= 3000)
-  {
-    same_value = 0;
-    goto restart;
-  }
+    if (same_value >= 3000)
+    {
+      same_value = 0;
+      goto restart;
+    }
 
-  /**
+    /**
      * +------------+---------------+----------+
      * | Iterations | Fitness Value | Position |
      * +------------+---------------+----------+
@@ -320,51 +318,50 @@ restart: // Restart point
      * on just one dimension
      * NOT VALID FOR Velocity
      */
-  if (pass::is_verbose)
-  {
-    verbose(result.iterations, 0) = result.iterations;
-    verbose(result.iterations, 1) = result.fitness_value;
-    verbose(result.iterations, 2) = result.normalised_agent[0];
-  }
-} // end while for termination criteria
+    if (pass::is_verbose)
+    {
+      verbose(result.iterations, 0) = result.iterations;
+      verbose(result.iterations, 1) = result.fitness_value;
+      verbose(result.iterations, 2) = result.normalised_agent[0];
+    }
+  } // end while for termination criteria
 
 // MPI Method to synchronise all the nodes with the best results after the algorithm is done
 #if defined(SUPPORT_MPI)
-// Struct needed to deliver the data
-struct
-{
-  double fitness_value;
-  int best_rank;
-} mpi_end;
+  // Struct needed to deliver the data
+  struct
+  {
+    double fitness_value;
+    int best_rank;
+  } mpi_end;
 
-mpi_end.best_rank = pass::node_rank();
-mpi_end.fitness_value = result.fitness_value;
+  mpi_end.best_rank = pass::node_rank();
+  mpi_end.fitness_value = result.fitness_value;
 
-/**
+  /**
     * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
     */
-MPI_Allreduce(MPI_IN_PLACE, &mpi_end, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
+  MPI_Allreduce(MPI_IN_PLACE, &mpi_end, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
 
-/**
+  /**
     * The rank with the minimum Fitness_value broadcast his agent to the others
     */
-MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_end.best_rank, MPI_COMM_WORLD);
+  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi_end.best_rank, MPI_COMM_WORLD);
 
-result.fitness_value = mpi.fitness_value;
-
+  result.fitness_value = mpi_end.fitness_value;
 #endif
 
-result.duration = stopwatch.get_elapsed();
+  result.duration = stopwatch.get_elapsed();
 
-// Save the file
-if (pass::is_verbose)
-{
-  verbose.shed_row(0);
-  verbose.save("Verbose_Optimiser_" + name + "_Problem_" + problem.name + "_Dim_" +
-                   std::to_string(problem.dimension()) +
-                   "_Run_" + std::to_string(pass::global_number_of_runs),
-               arma::raw_ascii);
-}
+  // Save the file
+  if (pass::is_verbose)
+  {
+    verbose.shed_row(0);
+    verbose.save("Verbose_Optimiser_" + name + "_Problem_" + problem.name + "_Dim_" +
+                     std::to_string(problem.dimension()) +
+                     "_Run_" + std::to_string(pass::global_number_of_runs),
+                 arma::raw_ascii);
+  }
 
-return result;
+  return result;
 }
