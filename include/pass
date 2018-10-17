@@ -33,6 +33,7 @@
 #include <pass_bits/helper/search_space_constraint.hpp>
 #include <pass_bits/helper/stopwatch.hpp>
 #include <pass_bits/helper/prime_numbers.hpp>
+#include <pass_bits/helper/seed.hpp>
 
 // Optimisation problems
 #include <pass_bits/problem.hpp>

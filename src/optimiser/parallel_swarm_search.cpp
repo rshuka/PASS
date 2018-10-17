@@ -170,13 +170,6 @@ restart: // Restart point
             }
           }
 
-          /**
-           * Compute the new velocity
-           * If OpenMP is activated, make sure the random numbers are thread safe
-           */
-#if defined(SUPPORT_OPENMP)
-          arma::arma_rng::set_seed_random();
-#endif
           //p_i
           weighted_personal_attraction = positions.col(n) +
                                          random_double_uniform_in_range(0.0, cognitive_acceleration) *
