@@ -255,6 +255,7 @@ restart: // Restart point
 
       ++result.iterations;
       result.evaluations = result.iterations * swarm_size;
+      std::cout << "Migration stall Counter: " << ms << std::endl;
       std::cout << "Migration stall " << migration_stall << std::endl;
 #if defined(SUPPORT_MPI)
     } // end migration stall
