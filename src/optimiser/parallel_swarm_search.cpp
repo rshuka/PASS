@@ -13,7 +13,7 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
       number_threads(pass::number_of_threads())
 #if defined(SUPPORT_MPI)
       ,
-      migration_stall(40)
+      migration_stall(0)
 #endif
 {
 }
@@ -248,7 +248,13 @@ restart: // Restart point
 
       ++result.iterations;
       result.evaluations = result.iterations * swarm_size;
+
 #if defined(SUPPORT_MPI)
+      if (stopwatch.get_elapsed() > maximal_duration ||
+          result.iterations >= maximal_iterations || result.evaluations >= maximal_evaluations || result.solved())
+      {
+        break;
+      }
     } // end migration stall
 #endif
 
