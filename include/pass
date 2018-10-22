@@ -12,8 +12,8 @@
 
 #pragma once
 
-#define PASS_VERSION_MAJOR 0
-#define PASS_VERSION_MINOR 90
+#define PASS_VERSION_MAJOR 1
+#define PASS_VERSION_MINOR 00
 #define PASS_VERSION_PATCH 0
 
 //

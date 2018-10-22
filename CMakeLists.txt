@@ -1,12 +1,6 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-
-#!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
-if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-8")
-endif()
-
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
 file(STRINGS "./include/pass" PASS_HEADER_CONTENTS REGEX "#define PASS_VERSION_[A-Z]+ ")
 string(REGEX REPLACE ".*#define PASS_VERSION_MAJOR ([0-9]+).*" "\\1" PASS_VERSION_MAJOR "${PASS_HEADER_CONTENTS}")
@@ -33,8 +27,6 @@ endif()
 if (NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 endif()
-
-
 
 message(STATUS "")
 message(STATUS "Building PASS (version: ${PASS_VERSION}).")
@@ -151,7 +143,6 @@ add_library(pass SHARED
   src/helper/astro_problems/vector3d_helpers.cpp
   src/helper/astro_problems/zero_finder.cpp
 
-
   # Optimisation Problems
   src/problem.cpp
   src/problem/optimisation_benchmark/ackley_function.cpp
@@ -204,7 +195,7 @@ target_link_libraries(pass PUBLIC ${ARMADILLO_LIBRARIES})
 
 if (SUPPORT_MPI)
   target_include_directories(pass SYSTEM PUBLIC ${MPI_INCLUDE_PATH})
-  target_link_libraries(pass PUBLIC ${MPI_C_LIBRARIES})
+  target_link_libraries(pass PUBLIC ${MPI_LIBRARIES})
 endif()
 
 # -------------

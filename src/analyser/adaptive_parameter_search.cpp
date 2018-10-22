@@ -469,7 +469,7 @@ arma::mat pass::parameter_evaluate(pass::optimiser &optimiser, const pass::probl
 
 arma::uword pass::compare_segments(const arma::mat first_segment_runtimes, const arma::mat second_segment_runtimes)
 {
-  arma::uword winner;
+  arma::uword winner = arma::datum::nan;
 
   assert(first_segment_runtimes.n_elem == second_segment_runtimes.n_elem &&
          "`first_segment_runtimes` and `second_segment_runtimes` must have the "
