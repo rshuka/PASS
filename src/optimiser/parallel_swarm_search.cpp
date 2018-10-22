@@ -280,7 +280,7 @@ restart: // Restart point
     /**
       * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
       */
-    MPI_Allreduce(MPI_IN_PLACE, &mpi, 1, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, &mpi, 2, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
 
     /**
       * The rank with the minimum Fitness_value broadcast his agent to the others
