@@ -38,9 +38,6 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   pass::stopwatch stopwatch;
   stopwatch.start();
 
-  // Restart variabel
-  arma::uword same_value = 0;
-
   // Variables needed
   pass::optimise_result result(problem, acceptable_fitness_value);
 
@@ -61,18 +58,10 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   double fitness_value;
 
-restart: // Restart point
-
   // Initialise the positions and the velocities
   // Particle data, stored column-wise.
-  if (result.iterations == 0)
-  {
-    positions = problem.normalised_hammersley_agents(swarm_size);
-  }
-  else
-  {
-    positions = problem.initialise_normalised_agents(swarm_size);
-  }
+
+  positions = problem.initialise_normalised_agents(swarm_size);
 
   for (arma::uword col = 0; col < swarm_size; ++col)
   {
@@ -232,22 +221,21 @@ restart: // Restart point
 #pragma omp critical
             { // critical region start
 #endif
-              // Restart criteria
-              if (result.fitness_value - fitness_value > pass::precision)
+              if (fitness_value < result.fitness_value)
               {
                 result.normalised_agent = positions.col(n);
                 result.fitness_value = fitness_value;
                 randomize_topology = false;
-                same_value = 0;
-              }
-              else
-              {
-                same_value++;
               }
 
 #if defined(SUPPORT_OPENMP)
             } // crititcal region end
 #endif
+          }
+          // If one particle find the solution, exit the loop
+          if (result.solved())
+          {
+            break;
           }
         }
 #if defined(SUPPORT_OPENMP)
@@ -299,18 +287,6 @@ restart: // Restart point
       personal_best_fitness_values(min_index) = result.fitness_value;
     }
 #endif
-
-    /**
-     * Restart the algorithm
-     * If the algorithm does not found a better fitness value within 3000 iterations, it restarts.
-     * Precision for a better fitness value is 1-e06
-     * If it is restarted then choose random through hammersley or random initialisation
-     */
-    if (same_value >= 3000)
-    {
-      same_value = 0;
-      goto restart;
-    }
 
     /**
      * +------------+---------------+----------+
