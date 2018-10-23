@@ -232,11 +232,6 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
             } // crititcal region end
 #endif
           }
-          // If one particle find the solution, exit the loop
-          if (result.solved())
-          {
-            break;
-          }
         }
 #if defined(SUPPORT_OPENMP)
       } //parallel region end
