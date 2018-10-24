@@ -75,21 +75,71 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   personal_best_positions = positions;
 
-  // Evaluate the initial positions.
-  // Compute the fitness.
-  // Begin with the previous best set to this initial position
-  for (arma::uword n = 0; n < swarm_size; ++n)
-  {
-    fitness_value = problem.evaluate_normalised(positions.col(n));
-    personal_best_fitness_values(n) = fitness_value;
-
-    if (fitness_value <= result.fitness_value)
+// Evaluate the initial positions.
+// Compute the fitness.
+// Begin with the previous best set to this initial position
+#if defined(SUPPORT_OPENMP)
+#pragma omp parallel proc_bind(close) num_threads(number_threads)
+  { //parallel region start
+#pragma omp for private(fitness_value) schedule(static)
+#endif
+    for (arma::uword n = 0; n < swarm_size; ++n)
     {
-      result.normalised_agent = positions.col(n);
-      result.fitness_value = fitness_value;
+      fitness_value = problem.evaluate_normalised(positions.col(n));
+      personal_best_fitness_values(n) = fitness_value;
+#if defined(SUPPORT_OPENMP)
+#pragma omp critical
+      { // critical region start
+#endif
+        if (fitness_value <= result.fitness_value)
+        {
+          result.normalised_agent = positions.col(n);
+          result.fitness_value = fitness_value;
+        }
+#if defined(SUPPORT_OPENMP)
+      } // crititcal region end
+#endif
     }
-  }
+#if defined(SUPPORT_OPENMP)
+  } // parallel region end
+#endif
+
   ++result.iterations;
+
+// Island model for PSO
+// Synchronise MPI after the initialisation if the problem is immediately solved
+#if defined(SUPPORT_MPI)
+  struct
+  {
+    double fitness_value;
+    int best_rank;
+  } mpi;
+
+  mpi.best_rank = pass::node_rank();
+  mpi.fitness_value = result.fitness_value;
+
+  /**
+      * All Reduce returns the minimum value of Fitness_value and the rank of the process that owns it.
+      */
+  MPI_Allreduce(MPI_IN_PLACE, &mpi, 2, MPI_DOUBLE_INT, MPI_MINLOC, MPI_COMM_WORLD);
+
+  /**
+      * The rank with the minimum Fitness_value broadcast his agent to the others
+      */
+  MPI_Bcast(result.normalised_agent.memptr(), result.normalised_agent.n_elem, MPI_DOUBLE, mpi.best_rank, MPI_COMM_WORLD);
+
+  result.fitness_value = mpi.fitness_value;
+
+  if (pass::node_rank() != mpi.best_rank)
+  {
+    // Find the worst agent and replace it with the best one
+    arma::uword min_index = personal_best_fitness_values.index_min();
+
+    personal_best_positions.col(min_index) = result.normalised_agent;
+    positions.col(min_index) = result.normalised_agent;
+    personal_best_fitness_values(min_index) = result.fitness_value;
+  }
+#endif
 
   /**
    * +------------+---------------+----------+
@@ -251,12 +301,6 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
 #if defined(SUPPORT_MPI)
     // Island model for PSO
-    struct
-    {
-      double fitness_value;
-      int best_rank;
-    } mpi;
-
     mpi.best_rank = pass::node_rank();
     mpi.fitness_value = result.fitness_value;
 
