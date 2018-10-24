@@ -23,10 +23,12 @@ bool pass::enable_openmp()
   arma::mat summary(repetitions.size(), 2);
 
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_duration = std::chrono::seconds(10);
+  //algorithm_serial.maximal_duration = std::chrono::seconds(10);
+  algorithm_serial.maximal_iterations = 100;
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_parallel.maximal_duration = std::chrono::seconds(10);
+  //algorithm_parallel.maximal_duration = std::chrono::seconds(10);
+  algorithm_parallel.maximal_iterations = 100;
 
   int count = 0;
 
@@ -47,7 +49,8 @@ bool pass::enable_openmp()
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
-      serial(serial_run) = serial_alg.iterations;
+      //serial(serial_run) = serial_alg.iterations;
+      serial(serial_run) = serial_alg.duration.count();
     }
 
     std::cout << "Serial list \n: " << serial << std::endl;
@@ -59,7 +62,8 @@ bool pass::enable_openmp()
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
-      parallel(parallel_run) = parallel_alg.iterations;
+      //parallel(parallel_run) = parallel_alg.iterations;
+      parallel(parallel_run) = parallel_alg.duration.count();
     }
     std::cout << "Parallel list \n: " << parallel << std::endl;
 
