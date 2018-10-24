@@ -9,8 +9,11 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
       cognitive_acceleration(0.5 + std::log(2.0)),
       social_acceleration(cognitive_acceleration),
       neighbourhood_probability(1.0 -
-                                std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0)),
+                                std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0))
+#if defined(SUPPORT_OPENMP)
+      ,
       number_threads(pass::number_of_threads())
+#endif
 #if defined(SUPPORT_MPI)
       ,
       migration_stall(0)
@@ -27,7 +30,9 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   assert(neighbourhood_probability > 0.0 && neighbourhood_probability <= 1.0 &&
          "'neighbourhood_probability' should be a value between 0.0 and 1.0");
   assert(swarm_size > 0 && "Can't generate 0 agents");
+#if defined(SUPPORT_OPENMP)
   assert(number_threads > 0 && "The number of threads should be greater than 0");
+#endif
 #if defined(SUPPORT_MPI)
   assert(migration_stall >= 0 && "The number of threads should be greater or equal than 0");
 #endif

@@ -123,6 +123,7 @@ add_library(pass SHARED
   # Analyser
   src/analyser/problem_evaluation_time.cpp
   src/analyser/adaptive_parameter_search.cpp
+  src/analyser/openmp.cpp
 
   # Helper
   src/helper/evaluation_time_stall.cpp

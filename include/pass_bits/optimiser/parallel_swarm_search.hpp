@@ -61,9 +61,9 @@ public:
    *
    * Is initialized to maximum available threads
    */
-
+#if defined(SUPPORT_OPENMP)
   int number_threads;
-
+#endif
   /**
    * Denotes the migration invervall for the MPI Communication
    *
