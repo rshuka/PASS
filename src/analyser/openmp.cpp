@@ -1,5 +1,5 @@
 #include "pass_bits/analyser/openmp.hpp"
-#include "pass_bits/problem/optimisation_benchmark/styblinski_tang_function.hpp"
+#include "pass_bits/problem/space_mission/gtoc1.hpp"
 #include "pass_bits/helper/evaluation_time_stall.hpp"
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
@@ -14,7 +14,7 @@ bool pass::enable_openmp()
   arma::uword alg_runs = 5;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 15> repetitions = {1, 10, 50, 90, 140, 190, 200, 300, 900, 1200, 1800, 2000, 2400, 2800, 3000};
+  std::array<int, 15> repetitions = {1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140};
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
@@ -34,7 +34,7 @@ bool pass::enable_openmp()
     std::cout << "Repetition: " << repetition << std::endl;
 
     // Problem initialisation
-    pass::styblinski_tang_function problem(10);
+    pass::gtoc1 problem;
     pass::evaluation_time_stall simulated_problem(problem);
     simulated_problem.repetitions = repetition;
 
