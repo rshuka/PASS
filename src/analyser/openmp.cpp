@@ -23,12 +23,10 @@ bool pass::enable_openmp()
   arma::mat summary(repetitions.size(), 2);
 
   pass::particle_swarm_optimisation algorithm_serial;
-  //algorithm_serial.maximal_duration = std::chrono::seconds(10);
-  algorithm_serial.maximal_iterations = 100;
+  algorithm_serial.maximal_duration = std::chrono::seconds(5);
 
   pass::parallel_swarm_search algorithm_parallel;
-  //algorithm_parallel.maximal_duration = std::chrono::seconds(10);
-  algorithm_parallel.maximal_iterations = 100;
+  algorithm_parallel.maximal_duration = std::chrono::seconds(5);
 
   int count = 0;
 
@@ -43,32 +41,22 @@ bool pass::enable_openmp()
 
     double t = pass::problem_evaluation_time(simulated_problem);
 
-    std::cout << "Time: " << t * 1e-6 << std::endl;
     // Do the evaluation for serial and parallel for all the evaluations values
-
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
-      //serial(serial_run) = serial_alg.iterations;
-      serial(serial_run) = serial_alg.duration.count();
+      serial(serial_run) = serial_alg.evaluations;
     }
 
-    std::cout << "Serial list \n: " << serial << std::endl;
-
     summary(count, 0) = arma::median(serial);
-
-    std::cout << "Summary \n: " << summary << std::endl;
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
-      //parallel(parallel_run) = parallel_alg.iterations;
-      parallel(parallel_run) = parallel_alg.duration.count();
+      parallel(parallel_run) = parallel_alg.evaluations;
     }
-    std::cout << "Parallel list \n: " << parallel << std::endl;
 
     summary(count, 1) = arma::median(parallel);
-    std::cout << "Summary \n: " << summary << std::endl;
 
     std::cout << "Speedup: " << (arma::median(parallel) / arma::median(serial)) << std::endl;
     std::cout << "---------------------------" << std::endl;
