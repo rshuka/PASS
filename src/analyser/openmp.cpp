@@ -23,10 +23,10 @@ bool pass::enable_openmp()
   arma::mat summary(repetitions.size(), 2);
 
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_duration = std::chrono::seconds(5);
+  algorithm_serial.maximal_duration = std::chrono::seconds(10);
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_parallel.maximal_duration = std::chrono::seconds(5);
+  algorithm_parallel.maximal_duration = std::chrono::seconds(10);
 
   int count = 0;
 
