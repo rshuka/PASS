@@ -3,6 +3,7 @@
 #include "pass_bits/helper/evaluation_time_stall.hpp"
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
+#include "pass_bits/analyser/problem_evaluation_time.hpp"
 #include <array>
 
 bool pass::enable_openmp()
@@ -38,6 +39,9 @@ bool pass::enable_openmp()
     pass::evaluation_time_stall simulated_problem(problem);
     simulated_problem.repetitions = repetition;
 
+    double t = pass::problem_evaluation_time(simulated_problem);
+
+    std::cout << "Time: " << t * 1e-6 << std::endl;
     // Do the evaluation for serial and parallel for all the evaluations values
 
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
