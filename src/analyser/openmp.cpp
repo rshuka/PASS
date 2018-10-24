@@ -40,6 +40,7 @@ bool pass::enable_openmp()
     simulated_problem.repetitions = repetition;
 
     double t = pass::problem_evaluation_time(simulated_problem);
+    std::cout << "Time: " << t * 1e-6 << std::endl;
 
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
