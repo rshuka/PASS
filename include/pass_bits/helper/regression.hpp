@@ -31,6 +31,6 @@ public:
    * Predict a value x using a linear model
    */
 
-  double predict_linear(double x, arma::colvec model);
+  double predict_linear(const double x, const arma::colvec model);
 };
 } // namespace pass

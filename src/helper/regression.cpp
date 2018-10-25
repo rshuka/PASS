@@ -42,7 +42,7 @@ arma::colvec pass::regression::linear_model(const int elements, const arma::colv
   return model;
 }
 
-double pass::regression::predict_linear(double x, arma::colvec model)
+double pass::regression::predict_linear(const double x, const arma::colvec model)
 {
   return model(0) * x + model(1);
 }
