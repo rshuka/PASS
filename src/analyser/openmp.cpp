@@ -64,11 +64,11 @@ bool pass::enable_openmp()
     summary(count, 1) = arma::median(parallel) / arma::median(serial);
 
     std::cout << "Speedup: " << (arma::median(parallel) / arma::median(serial)) << std::endl;
-
-    std::cout << "Summary: " << summary << std::endl;
     std::cout << "---------------------------" << std::endl;
     count++;
   }
+
+  std::cout << "Summary: " << summary << std::endl;
 
   return true;
 }
