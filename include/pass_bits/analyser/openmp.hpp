@@ -12,6 +12,6 @@ namespace pass
  * the same process will always be something new, so, it is not required to get the same result always!
  *
  */
-bool enable_openmp(const pass::problem &problem);
+bool enable_openmp(const pass::problem &problem, const int &training);
 
 } // namespace pass
