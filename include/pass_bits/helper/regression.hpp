@@ -1,12 +1,13 @@
 #pragma once
+#include <array>
 #include <armadillo>
+#include <cassert>
 namespace pass
 {
 /**
    * Regression Implementation
    *
    * Linear and polynomial regression
-   *
    */
 class regression
 {
@@ -25,7 +26,7 @@ public:
    * -> 0 worst fit
    * -> 1 best fit
    */
-  arma::rowvec linear_model(const arma::rowvec x_values, const arma::rowvec y_values);
+  arma::rowvec linear_model(const arma::rowvec &x_values, const arma::rowvec &y_values);
 
   /**
    *  Creates the polynomial model (3 Grade!!) for the given data set
@@ -42,16 +43,16 @@ public:
    * fourth element -> p1
    */
 
-  arma::rowvec poly_model(const arma::rowvec x_values, const arma::rowvec y_values);
+  arma::rowvec poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values);
 
   /**
    * Predict a value x using the linear model
    */
-  double predict_linear(const double x, const arma::rowvec model);
+  double predict_linear(const double &x, const arma::rowvec &model);
 
   /**
    * Predict a value x using the polynomial model
    */
-  double predict_poly(const double x, const arma::rowvec model);
+  double predict_poly(const double &x, const arma::rowvec &model);
 };
 } // namespace pass

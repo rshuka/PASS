@@ -1,8 +1,10 @@
 #include "pass_bits/helper/regression.hpp"
 #include <math.h> // sqrt, pow
 
-arma::rowvec pass::regression::linear_model(const arma::rowvec x_values, const arma::rowvec y_values)
+arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const arma::rowvec &y_values)
 {
+  assert(x_values.n_elem > 1 && y_values.n_elem > 1 && "The training data should have more than one element");
+
   const int elements = x_values.n_elem;
 
   arma::rowvec model(3);
@@ -45,8 +47,9 @@ arma::rowvec pass::regression::linear_model(const arma::rowvec x_values, const a
   return model;
 }
 
-arma::rowvec pass::regression::poly_model(const arma::rowvec x_values, const arma::rowvec y_values)
+arma::rowvec pass::regression::poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values)
 {
+  assert(x_values.n_elem > 1 && y_values.n_elem > 1 && "The training data should have more than one element");
 
   int degree = 3; // degree of polynom
 
@@ -127,11 +130,13 @@ arma::rowvec pass::regression::poly_model(const arma::rowvec x_values, const arm
   }
 
   //loop to perform the gauss elimination
-  for (i = 0; i < degree - 1; i++) {
+  for (i = 0; i < degree - 1; i++)
+  {
     for (k = i + 1; k < degree; k++)
     {
       double t = matrix(k, i) / matrix(i, i);
-      for (j = 0; j <= degree; j++) {
+      for (j = 0; j <= degree; j++)
+      {
         //make the elements below the pivot elements equal to zero or elimnate the variables
         matrix(k, j) = matrix(k, j) - t * matrix(i, j);
       }
@@ -155,19 +160,24 @@ arma::rowvec pass::regression::poly_model(const arma::rowvec x_values, const arm
     coeff(i) = coeff(i) / matrix(i, i);
   }
 
-  for (i = 0; i < degree; i++) {
+  for (i = 0; i < degree; i++)
+  {
     model(i) = coeff(i);
   }
 
   return model;
 }
 
-double pass::regression::predict_linear(const double x, const arma::rowvec model)
+double pass::regression::predict_linear(const double &x, const arma::rowvec &model)
 {
+  assert(model.n_elem == 2 && "Check the model! It seems to be not compatible the linear model");
+
   return model(0) * x + model(1);
 }
 
-double pass::regression::predict_poly(const double x, const arma::rowvec model)
+double pass::regression::predict_poly(const double &x, const arma::rowvec &model)
 {
-  return model(0) + model(1) * x  + model(2) * std::pow(x, 2) + model(3) * std::pow(x, 3);
+  assert(model.n_elem == 4 && "Check the model! It seems to be not compatible the polynomial model");
+
+  return model(0) + model(1) * x + model(2) * std::pow(x, 2) + model(3) * std::pow(x, 3);
 }

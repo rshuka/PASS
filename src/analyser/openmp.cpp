@@ -1,12 +1,12 @@
 #include "pass_bits/analyser/openmp.hpp"
 #include "pass_bits/problem/space_mission/gtoc1.hpp"
+#include "pass_bits/problem/optimisation_benchmark/ackley_function.hpp"
 #include "pass_bits/helper/evaluation_time_stall.hpp"
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 #include "pass_bits/analyser/problem_evaluation_time.hpp"
-#include <array>
 
-bool pass::enable_openmp()
+bool pass::enable_openmp(const pass::problem &problem)
 {
   // set random seed
   arma::arma_rng::set_seed_random();
@@ -36,7 +36,7 @@ bool pass::enable_openmp()
     std::cout << "Repetition: " << repetition << std::endl;
 
     // Problem initialisation
-    pass::gtoc1 problem;
+    pass::ackley_function problem(50);
     pass::evaluation_time_stall simulated_problem(problem);
     simulated_problem.repetitions = repetition;
 
