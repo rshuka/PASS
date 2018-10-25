@@ -15,8 +15,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   arma::uword alg_runs = 2;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 25> repetitions = {10, 15, 17, 20, 25, 28, 30, 33, 36,
-                                     40, 45, 50, 60, 70, 80, 100, 120, 140, 160, 200, 240, 280, 300, 400, 500};
+  std::array<int, 20> repetitions = {10, 20, 40, 60, 70, 100, 120, 140, 160, 200, 240, 280, 300, 400, 500, 600, 700, 800, 900, 1000};
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
