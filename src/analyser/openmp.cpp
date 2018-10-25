@@ -25,7 +25,6 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << "                                                                            " << std::endl;
   std::cout << " Your Problem Evaluation Time is: : " << your_time * 1e-6 << " microseconds." << std::endl;
   std::cout << "                                                                            " << std::endl;
-  std::cout << " ========================================================================== " << std::endl;
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -34,17 +33,6 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << "                                                                            " << std::endl;
 
   std::srand(time(0));
-
-  // load bar
-  int x = 0;
-
-  for (int i = 0; i < 100; i++)
-  {
-    x++;
-    std::cout << " \r" << x << "% completed." << std::flush;
-    usleep(1e7);
-  }
-  // ends load bar
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
@@ -61,6 +49,9 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   for (auto repetition : repetitions)
   {
+    int temp_count = 30 / count;
+
+    std::cout << " \r" << 100 / temp_count << "% completed." << std::flush;
     // Problem initialisation
     pass::gtoc1 test_problem;
     pass::evaluation_time_stall simulated_problem(test_problem);
