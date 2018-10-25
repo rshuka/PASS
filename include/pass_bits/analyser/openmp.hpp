@@ -4,12 +4,16 @@
 namespace pass
 {
 /**
- * Returns the evaluation time of a problem in nanoseconds
+ * Depending on your problem it returns if you should use openMP or not
+ * Outputs are given through all the analyse process
  *
- * NOTE: It is not a requirement to get the same output always because the CPU can
- * be less or more used by other processes running on the computer.
- * In the human mind, we can remember the solution of a math problem, though for a computer
- * the same process will always be something new, so, it is not required to get the same result always!
+ * Steps:
+ * 1. Estimate the evaluation time of your problem
+ * 2. Generate trainingsdata
+ * 3. Test linear model if it fits
+ * 4. Test polynomial model if it fitst
+ * 5. Predict the speedup for your model
+ * 6. Give suggestions if to activate openMP or not
  *
  */
 bool enable_openmp(const pass::problem &problem);

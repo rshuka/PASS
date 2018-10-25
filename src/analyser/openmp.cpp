@@ -23,7 +23,9 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << "                                                                            " << std::endl;
   std::cout << " Your Problem:                " << problem.name << std::endl;
   std::cout << " Dimension:                   " << problem.dimension() << std::endl;
-
+  std::cout << " Number Threads:              " << pass::number_of_threads() << std::endl;
+  std::cout << " Maximum Speedup:             " << pass::number_of_threads() << std::endl;
+  std::cout << "                                                                            " << std::endl;
   std::cout << " ============================= Start Evaluation =========================== " << std::endl;
 
   double your_time = pass::problem_evaluation_time(problem);
@@ -79,7 +81,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     count++;
 
     // load bar
-    double temp_count = 30.0 / (count + 1);
+    double temp_count = 30.0 / count;
     std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
   }
 
@@ -89,6 +91,7 @@ bool pass::enable_openmp(const pass::problem &problem)
             << std::flush;
   std::cout << "                                                                            " << std::endl;
   std::cout << " ===========================  End Training  =============================== " << std::endl;
+  std::cout << "                                                                            " << std::endl;
 
   // Generating a regression object
   pass::regression r;
@@ -123,23 +126,26 @@ bool pass::enable_openmp(const pass::problem &problem)
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should activate openMP!                                                " << std::endl;
+      std::cout << "                                                                            " << std::endl;
       return true;
     }
     if (predict_linear < 1) // is efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
+      std::cout << "                                                                            " << std::endl;
       return false;
     }
     if (predict_linear > 1 && predict_linear < pass::number_of_threads() / 2) // efficienty is less than 50 %
     {
       std::cout << "                                                                            " << std::endl;
-      std::cout << " You should decide yourself if to activate openMP or not                    " << std::endl;
+      std::cout << " You should decide yourself if to activate openMP or not!                   " << std::endl;
+      std::cout << "                                                                            " << std::endl;
     }
   }
   std::cout << " Linear Model is NOT suitable.                                              " << std::endl;
   std::cout << "                                                                            " << std::endl;
-  std::cout << " Finished building linear model                                            " << std::endl;
+  std::cout << " Finished building linear model.                                            " << std::endl;
 
   std::cout << "                                                                            " << std::endl;
   std::cout << " Building polynomial model for the training data.                           " << std::endl;
@@ -160,18 +166,21 @@ bool pass::enable_openmp(const pass::problem &problem)
   {
     std::cout << "                                                                            " << std::endl;
     std::cout << " You should activate openMP!                                                " << std::endl;
+    std::cout << "                                                                            " << std::endl;
     return true;
   }
   if (predict_poly < 1) // is efficienty is more than 50 %
   {
     std::cout << "                                                                            " << std::endl;
     std::cout << " You should NOT activate openMP!                                            " << std::endl;
+    std::cout << "                                                                            " << std::endl;
     return false;
   }
   if (predict_poly > 1 && predict_poly < pass::number_of_threads() / 2) // is efficienty is more than 50 %
   {
     std::cout << "                                                                            " << std::endl;
-    std::cout << " You should decide yourself if to activate openMP or not                    " << std::endl;
+    std::cout << " You should decide yourself if to activate openMP or not!                   " << std::endl;
+    std::cout << "                                                                            " << std::endl;
   }
 
   std::cout << " ========================= Done Building Models  ========================== " << std::endl;
