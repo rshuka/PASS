@@ -12,7 +12,7 @@ bool pass::enable_openmp()
   arma::arma_rng::set_seed_random();
 
   // define the maximum of runs
-  arma::uword alg_runs = 5;
+  arma::uword alg_runs = 3;
 
   // Array including all alg runtime, we want to test
   std::array<int, 15> repetitions = {1, 10, 20, 40, 70, 100, 120, 140, 160, 180, 200, 220, 240, 260, 300};

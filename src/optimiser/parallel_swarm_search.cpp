@@ -80,35 +80,21 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
 
   personal_best_positions = positions;
 
-// Evaluate the initial positions.
-// Compute the fitness.
-// Begin with the previous best set to this initial position
-#if defined(SUPPORT_OPENMP)
-#pragma omp parallel proc_bind(close) num_threads(number_threads)
-  { //parallel region start
-#pragma omp for private(fitness_value) schedule(static)
-#endif
-    for (arma::uword n = 0; n < swarm_size; ++n)
-    {
-      fitness_value = problem.evaluate_normalised(positions.col(n));
-      personal_best_fitness_values(n) = fitness_value;
-#if defined(SUPPORT_OPENMP)
-#pragma omp critical
-      { // critical region start
-#endif
-        if (fitness_value <= result.fitness_value)
-        {
-          result.normalised_agent = positions.col(n);
-          result.fitness_value = fitness_value;
-        }
-#if defined(SUPPORT_OPENMP)
-      } // crititcal region end
-#endif
-    }
-#if defined(SUPPORT_OPENMP)
-  } // parallel region end
-#endif
+  // Evaluate the initial positions.
+  // Compute the fitness.
+  // Begin with the previous best set to this initial position
 
+  for (arma::uword n = 0; n < swarm_size; ++n)
+  {
+    fitness_value = problem.evaluate_normalised(positions.col(n));
+    personal_best_fitness_values(n) = fitness_value;
+
+    if (fitness_value <= result.fitness_value)
+    {
+      result.normalised_agent = positions.col(n);
+      result.fitness_value = fitness_value;
+    }
+  }
   ++result.iterations;
 
 // Island model for PSO
