@@ -28,6 +28,7 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   double your_time = pass::problem_evaluation_time(problem);
 
+  std::cout << "                                                                            " << std::endl;
   std::cout << " Evaluation time: " << your_time * 1e-6 << " microseconds." << std::endl;
   std::cout << "                                                                            " << std::endl;
   std::cout << " ============================= End Evaluation  ============================ " << std::endl;
