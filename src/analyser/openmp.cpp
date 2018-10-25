@@ -15,7 +15,7 @@ bool pass::enable_openmp()
   arma::uword alg_runs = 5;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 15> repetitions = {1, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 300};
+  std::array<int, 15> repetitions = {1, 10, 20, 40, 70, 100, 120, 140, 160, 180, 200, 220, 240, 260, 300};
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
@@ -47,6 +47,8 @@ bool pass::enable_openmp()
     {
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
       serial(serial_run) = serial_alg.evaluations;
+      std::cout << "serial: \n"
+                << serial << std::endl;
     }
 
     summary(count, 0) = arma::median(serial);
@@ -55,6 +57,8 @@ bool pass::enable_openmp()
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
+      std::cout << "parallel: \n"
+                << parallel << std::endl;
     }
 
     summary(count, 1) = arma::median(parallel);

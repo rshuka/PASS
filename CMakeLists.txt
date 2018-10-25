@@ -143,6 +143,7 @@ add_library(pass SHARED
   src/helper/astro_problems/propagate_kep.cpp
   src/helper/astro_problems/vector3d_helpers.cpp
   src/helper/astro_problems/zero_finder.cpp
+  src/helper/regression.cpp
 
   # Optimisation Problems
   src/problem.cpp
