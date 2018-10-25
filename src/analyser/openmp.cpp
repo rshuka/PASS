@@ -4,6 +4,7 @@
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 #include "pass_bits/analyser/problem_evaluation_time.hpp"
+#include "pass_bits/helper/regression.hpp"
 
 bool pass::enable_openmp(const pass::problem &problem)
 {
@@ -17,10 +18,38 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
                                      40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
+  double your_time = pass::problem_evaluation_time(problem);
+
+  // Output information
+  std::cout << " =========================== Start openMP Analyse ========================= " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " Your Problem Evaluation Time is: : " << your_time * 1e-6 << " microseconds." << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " ========================================================================== " << std::endl;
+
+  // Output information
+  std::cout << " ============================= Start Trainining =========================== " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " Training should take about 10 minutes.                                     " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+
+  std::srand(time(0));
+
+  // load bar
+  int x = 0;
+
+  for (int i = 0; i < 100; i++)
+  {
+    x++;
+    std::cout << " \r" << x << "% completed." << std::flush;
+    usleep(1e7);
+  }
+  // ends load bar
+
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
 
-  arma::mat summary(repetitions.size(), 2);
+  arma::mat summary(2, repetitions.size());
 
   pass::particle_swarm_optimisation algorithm_serial;
   algorithm_serial.maximal_duration = std::chrono::seconds(5);
@@ -32,17 +61,13 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   for (auto repetition : repetitions)
   {
-    std::cout << "Repetition: " << repetition << std::endl;
-
     // Problem initialisation
-    pass::gtoc1 problem;
-    pass::evaluation_time_stall simulated_problem(problem);
+    pass::gtoc1 test_problem;
+    pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
     double ev_time = pass::problem_evaluation_time(simulated_problem);
-    summary(count, 0) = ev_time;
-
-    std::cout << "Time: " << ev_time * 1e-6 << std::endl;
+    summary(0, count) = ev_time;
 
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
@@ -51,23 +76,112 @@ bool pass::enable_openmp(const pass::problem &problem)
       serial(serial_run) = serial_alg.evaluations;
     }
 
-    std::cout << "serial: " << serial << std::endl;
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
     }
 
-    std::cout << "Parallel: " << parallel << std::endl;
-
-    summary(count, 1) = arma::median(parallel) / arma::median(serial);
-
-    std::cout << "Speedup: " << (arma::median(parallel) / arma::median(serial)) << std::endl;
-    std::cout << "---------------------------" << std::endl;
+    summary(1, count) = arma::median(parallel) / arma::median(serial);
     count++;
   }
 
-  std::cout << "Summary: " << summary << std::endl;
+  std::cout << std::endl
+            << std::endl
+            << "Training completed successfully.\n"
+            << std::flush;
+
+  std::cout << " ========================================================================== " << std::endl;
+
+  // Generating a regression object
+  pass::regression r;
+
+  // Getting the data for the model
+  arma::rowvec x_values = summary.row(0);
+  arma::rowvec y_values = summary.row(1);
+
+  // Output information
+  std::cout << " =========================== Start Building Models ======================== " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " Building linear model for the training data                                " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+
+  // Generating the linear model
+
+  arma::rowvec linear_model = r.linear_model(x_values, y_values);
+
+  if (linear_model(2) >= 0.9)
+  {
+    std::cout << " Linear Model is suitable                                                   " << std::endl;
+    double predict_linear = r.predict_linear(your_time, linear_model);
+
+    if (predict_linear > 0.9 * pass::number_of_threads())
+    {
+      predict_linear = 0.9 * pass::number_of_threads();
+    }
+    std::cout << "                                                                            " << std::endl;
+    std::cout << " Your speedUp would be approximately " << predict_linear << std::endl;
+
+    if (predict_linear > pass::number_of_threads() / 2) // is efficienty is more than 50 %
+    {
+      std::cout << "                                                                            " << std::endl;
+      std::cout << " You should activate openMP!                                                " << std::endl;
+      return true;
+    }
+    if (predict_linear < 1) // is efficienty is more than 50 %
+    {
+      std::cout << "                                                                            " << std::endl;
+      std::cout << " You should NOT activate openMP!                                            " << std::endl;
+      return false;
+    }
+    if (predict_linear > 1 && predict_linear < pass::number_of_threads() / 2) // is efficienty is more than 50 %
+    {
+      std::cout << "                                                                            " << std::endl;
+      throw std::runtime_error(
+          " You should decide yourself if to activate openMP or not");
+    }
+  }
+  std::cout << " Linear Model is NOT suitable                                               " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << "  Finished building linear model                                            " << std::endl;
+
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " Building polynomial model for the training data                            " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+
+  arma::rowvec poly_model = r.poly_model(x_values, y_values);
+
+  double predict_poly = r.predict_poly(your_time, poly_model);
+
+  if (predict_poly > 0.9 * pass::number_of_threads())
+  {
+    predict_poly = 0.9 * pass::number_of_threads();
+  }
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " Your speedUp would be approximately " << predict_poly << std::endl;
+
+  if (predict_poly > pass::number_of_threads() / 2) // is efficienty is more than 50 %
+  {
+    std::cout << "                                                                            " << std::endl;
+    std::cout << " You should activate openMP!                                                " << std::endl;
+    return true;
+  }
+  if (predict_poly < 1) // is efficienty is more than 50 %
+  {
+    std::cout << "                                                                            " << std::endl;
+    std::cout << " You should NOT activate openMP!                                            " << std::endl;
+    return false;
+  }
+  if (predict_poly > 1 && predict_poly < pass::number_of_threads() / 2) // is efficienty is more than 50 %
+  {
+    std::cout << "                                                                            " << std::endl;
+    throw std::runtime_error(
+        " You should decide yourself if to activate openMP or not");
+  }
+
+  std::cout << " ========================= Done Building Models  ========================== " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << " ========================= Done openMP Analyse  =========================== " << std::endl;
 
   return true;
 }
