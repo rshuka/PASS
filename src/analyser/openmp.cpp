@@ -32,8 +32,6 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << " Training should take about 10 minutes.                                     " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
-  std::srand(time(0));
-
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
 
@@ -45,11 +43,12 @@ bool pass::enable_openmp(const pass::problem &problem)
   pass::parallel_swarm_search algorithm_parallel;
   algorithm_parallel.maximal_duration = std::chrono::seconds(5);
 
+  std::srand(time(0));
   int count = 0;
 
   for (auto repetition : repetitions)
   {
-    int temp_count = 30 / count;
+    double temp_count = 30.0 / count;
 
     std::cout << " \r" << 100 / temp_count << "% completed." << std::flush;
     // Problem initialisation
