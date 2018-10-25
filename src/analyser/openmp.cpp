@@ -79,8 +79,8 @@ bool pass::enable_openmp(const pass::problem &problem)
     count++;
 
     // load bar
-    double temp_count = 30.0 / count;
-    std::cout << " \r " << 100 / temp_count << " % completed." << std::flush;
+    double temp_count = 30.0 / (count + 1);
+    std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
   }
 
   std::cout << std::endl
