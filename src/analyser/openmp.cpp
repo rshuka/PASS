@@ -13,25 +13,25 @@ bool pass::enable_openmp(const pass::problem &problem, const int &training)
   arma::arma_rng::set_seed_random();
 
   // min and max of training data
-  int min = 10;
-  int max = 2000;
+  arma::uword min = 10;
+  arma::uword max = 5000;
 
   // define the maximum of runs
   arma::uword alg_runs = 2;
 
-  arma::rowvec data_normalised(training, arma::fill::randu);
+  arma::rowvec repetitions_normalised(training, arma::fill::randu);
 
-  arma::rowvec data(training);
+  arma::rowvec repetitions(training);
 
-  for (int i = 0; i < training; i++)
+  for (arma::uword i = 0; i < training; i++)
   {
-    data(i) = data_normalised(i) * max + min;
+    repetitions(i) = repetitions_normalised(i) * max + min;
   }
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
 
-  arma::mat summary(data.size(), 2);
+  arma::mat summary(repetitions.size(), 2);
 
   pass::particle_swarm_optimisation algorithm_serial;
   algorithm_serial.maximal_duration = std::chrono::seconds(5);
@@ -41,7 +41,7 @@ bool pass::enable_openmp(const pass::problem &problem, const int &training)
 
   int count = 0;
 
-  for (auto repetition : data)
+  for (auto repetition : repetitions)
   {
     // Problem initialisation
     pass::ackley_function problem(50);
