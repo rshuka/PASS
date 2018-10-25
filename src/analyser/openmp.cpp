@@ -15,8 +15,8 @@ bool pass::enable_openmp(const pass::problem &problem)
   arma::uword alg_runs = 2;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
-                                     40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
+  std::array<int, 25> repetitions = {10, 15, 17, 20, 25, 28, 30, 33, 36,
+                                     40, 45, 50, 60, 70, 80, 100, 120, 140, 160, 200, 240, 280, 300, 400, 500};
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
@@ -33,8 +33,6 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   for (auto repetition : repetitions)
   {
-    std::cout << "Repetition: " << repetition << std::endl;
-
     // Problem initialisation
     pass::ackley_function problem(50);
     pass::evaluation_time_stall simulated_problem(problem);
@@ -43,8 +41,6 @@ bool pass::enable_openmp(const pass::problem &problem)
     double ev_time = pass::problem_evaluation_time(simulated_problem);
     summary(count, 0) = ev_time;
 
-    std::cout << "Time: " << ev_time * 1e-6 << std::endl;
-
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
@@ -52,19 +48,14 @@ bool pass::enable_openmp(const pass::problem &problem)
       serial(serial_run) = serial_alg.evaluations;
     }
 
-    std::cout << "serial: " << serial << std::endl;
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
     }
 
-    std::cout << "Parallel: " << parallel << std::endl;
-
     summary(count, 1) = arma::median(parallel) / arma::median(serial);
 
-    std::cout << "Speedup: " << (arma::median(parallel) / arma::median(serial)) << std::endl;
-    std::cout << "---------------------------" << std::endl;
     count++;
   }
 
