@@ -16,7 +16,7 @@ public:
    *  using the linear least squares method
    *  https://en.wikipedia.org/wiki/Linear_least_squares
    *
-   * @return a colvec like y = mx + b and the correlation coeff r^2
+   * @return a rowvec like y = mx + b and the correlation coeff r^2
    * first element -> m
    * second element -> b
    * thirt element -> r^2
@@ -25,12 +25,33 @@ public:
    * -> 0 worst fit
    * -> 1 best fit
    */
-  arma::colvec linear_model(const int elements, const arma::colvec x_values, const arma::colvec y_values);
+  arma::rowvec linear_model(const arma::rowvec x_values, const arma::rowvec y_values);
 
   /**
-   * Predict a value x using a linear model
+   *  Creates the polynomial model (3 Grade!!) for the given data set
+   *  using the least squares method
+   *  https://en.wikipedia.org/wiki/Linear_least_squares
+   *
+   * Code based on Manas Sharma example
+   * @see https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
+   *
+   * @return a rowvec like f(x) = p1*x^3 + p2*x^2 + p3*x + p4
+   * first element -> p4
+   * second element -> p4
+   * thirt element -> p2
+   * fourth element -> p1
    */
 
-  double predict_linear(const double x, const arma::colvec model);
+  arma::rowvec poly_model(const arma::rowvec x_values, const arma::rowvec y_values);
+
+  /**
+   * Predict a value x using the linear model
+   */
+  double predict_linear(const double x, const arma::rowvec model);
+
+  /**
+   * Predict a value x using the polynomial model
+   */
+  double predict_poly(const double x, const arma::rowvec model);
 };
 } // namespace pass
