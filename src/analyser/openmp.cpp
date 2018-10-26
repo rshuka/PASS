@@ -163,12 +163,10 @@ arma::mat pass::train(const int &examples)
   algorithm_serial.maximal_duration = std::chrono::seconds(5);
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_serial.maximal_duration = std::chrono::seconds(5);
+  algorithm_parallel.maximal_duration = std::chrono::seconds(5);
 
   for (arma::uword repetition : repetitions)
   {
-    std::cout << "Repetition " << repetition << std::endl;
-
     // Problem initialisation
     pass::gtoc1 test_problem;
     pass::evaluation_time_stall simulated_problem(test_problem);
