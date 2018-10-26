@@ -17,6 +17,9 @@ public:
    *  using the linear least squares method
    *  https://en.wikipedia.org/wiki/Linear_least_squares
    *
+   * @ x_values -> Training points for the x axis
+   * @ y_values -> Training points for the y axis
+   *
    * @return a rowvec like y = mx + b and the correlation coeff r^2
    * first element -> m
    * second element -> b
@@ -29,12 +32,16 @@ public:
   arma::rowvec linear_model(const arma::rowvec &x_values, const arma::rowvec &y_values);
 
   /**
-   *  Creates the polynomial model (3 Grade!!) for the given data set
+   *  Creates the polynomial model for the given data set
    *  using the least squares method
    *  https://en.wikipedia.org/wiki/Linear_least_squares
    *
    * Code based on Manas Sharma example
    * @see https://www.bragitoff.com/2015/09/c-program-for-polynomial-fit-least-squares/
+   *
+   * @ x_values -> Training points for the x axis
+   * @ y_values -> Training points for the y axis
+   * @degree -> the degree of the polynomial regression
    *
    * @return a rowvec like f(x) = p1*x^3 + p2*x^2 + p3*x + p4
    * first element -> p4
@@ -43,7 +50,7 @@ public:
    * fourth element -> p1
    */
 
-  arma::rowvec poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values);
+  arma::rowvec poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values, int degree);
 
   /**
    * Predict a value x using the linear model

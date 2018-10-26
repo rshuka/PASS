@@ -4,6 +4,7 @@
 arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const arma::rowvec &y_values)
 {
   assert(x_values.n_elem > 1 && y_values.n_elem > 1 && "The training data should have more than one element");
+  assert(x_values.n_elem == y_values.n_elem && "`x_values` and `y_values` must have the same dimension");
 
   const int elements = x_values.n_elem;
 
@@ -47,11 +48,10 @@ arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const 
   return model;
 }
 
-arma::rowvec pass::regression::poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values)
+arma::rowvec pass::regression::poly_model(const arma::rowvec &x_values, const arma::rowvec &y_values, int degree)
 {
   assert(x_values.n_elem > 1 && y_values.n_elem > 1 && "The training data should have more than one element");
-
-  int degree = 3; // degree of polynom
+  assert(x_values.n_elem == y_values.n_elem && "`x_values` and `y_values` must have the same dimension");
 
   arma::rowvec model(degree + 1);
 
@@ -177,7 +177,13 @@ double pass::regression::predict_linear(const double &x, const arma::rowvec &mod
 
 double pass::regression::predict_poly(const double &x, const arma::rowvec &model)
 {
-  assert(model.n_elem == 4 && "Check the model! It seems to be not compatible the polynomial model");
 
-  return model(0) + model(1) * x + model(2) * std::pow(x, 2) + model(3) * std::pow(x, 3);
+  double predict = 0;
+
+  for (arma::uword i = 0; i < model.n_elem; i++)
+  {
+    predict += model(i) * std::pow(x, i);
+  }
+
+  return predict;
 }
