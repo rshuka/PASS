@@ -162,18 +162,18 @@ arma::mat pass::train(const int &examples)
   std::srand(time(0));
   int count = 0;
 
+  pass::particle_swarm_optimisation algorithm_serial;
+  algorithm_serial.maximal_evaluations = 2000;
+
+  pass::parallel_swarm_search algorithm_parallel;
+  algorithm_parallel.maximal_evaluations = 2000;
+
   for (auto repetition : repetitions)
   {
     // Problem initialisation
     pass::gtoc1 test_problem;
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
-
-    pass::particle_swarm_optimisation algorithm_serial;
-    algorithm_serial.maximal_iterations = 100;
-
-    pass::parallel_swarm_search algorithm_parallel;
-    algorithm_parallel.maximal_iterations = 100;
 
     double ev_time = pass::problem_evaluation_time(simulated_problem);
     summary(0, count) = ev_time;
@@ -185,7 +185,7 @@ arma::mat pass::train(const int &examples)
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
       //serial(serial_run) = serial_alg.evaluations;
       serial(serial_run) = serial_alg.duration.count();
-      usleep(1000000);
+      //usleep(1000000);
     }
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
@@ -194,7 +194,7 @@ arma::mat pass::train(const int &examples)
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       //parallel(parallel_run) = parallel_alg.evaluations;
       parallel(parallel_run) = parallel_alg.duration.count();
-      usleep(1000000);
+      //usleep(1000000);
     }
 
     summary(1, count) = arma::mean(parallel) / arma::mean(serial);
