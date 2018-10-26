@@ -16,6 +16,11 @@ double random_double_uniform_in_range(double min, double max);
 int random_integer_uniform_in_range(int min, int max);
 
 /**
+ * Returns a uniformly 'count' drawn random integer numbers in range [min, max].
+ */
+arma::rowvec integers_uniform_in_range(const int min, const int max, const int count);
+
+/**
  * Return a randomly and uniformly drawn neighbour of *agent*, with distance
  * [*minimal_distance*, *maximal_distance*].
  */

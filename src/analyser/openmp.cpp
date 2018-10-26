@@ -1,10 +1,12 @@
 #include "pass_bits/analyser/openmp.hpp"
 #include "pass_bits/problem/space_mission/gtoc1.hpp"
+#include "pass_bits/problem/optimisation_benchmark/de_jong_function.hpp"
 #include "pass_bits/helper/evaluation_time_stall.hpp"
 #include "pass_bits/optimiser/parallel_swarm_search.hpp"
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 #include "pass_bits/analyser/problem_evaluation_time.hpp"
 #include "pass_bits/helper/regression.hpp"
+#include "pass_bits/helper/random.hpp"
 #include <unistd.h>
 
 bool pass::enable_openmp(const pass::problem &problem)
@@ -141,8 +143,12 @@ arma::mat pass::train(const int &examples)
   arma::uword alg_runs = 3;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
-                                     40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
+  //std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
+  //                                   40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
+
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 100, examples);
+
+  std::cout << "Repetitions: " << repetitions << std::endl;
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -167,7 +173,7 @@ arma::mat pass::train(const int &examples)
     //std::cout << "Repetition: " << repetition << std::endl;
 
     // Problem initialisation
-    pass::gtoc1 test_problem;
+    pass::de_jong_function test_problem(10);
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
@@ -189,10 +195,11 @@ arma::mat pass::train(const int &examples)
       usleep(1000);
     }
 
-    std::cout << "Summary: \n"
-              << summary << std::endl;
-
     summary(1, count) = arma::mean(parallel) / arma::mean(serial);
+
+    std::cout << "Summary: \n"
+              << summary.col(count) << std::endl;
+
     count++;
 
     // load bar
