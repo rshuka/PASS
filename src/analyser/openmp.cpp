@@ -148,7 +148,7 @@ arma::mat pass::train(const int &examples)
   //std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
   //                                   40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
-  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 200, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(50, 600, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -176,7 +176,7 @@ arma::mat pass::train(const int &examples)
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
       pass::particle_swarm_optimisation algorithm_serial;
-      algorithm_serial.maximal_iterations = 200;
+      algorithm_serial.maximal_iterations = 100;
       //algorithm_serial.maximal_duration = std::chrono::seconds(5);
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
       //serial(serial_run) = serial_alg.evaluations;
@@ -187,7 +187,7 @@ arma::mat pass::train(const int &examples)
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       pass::parallel_swarm_search algorithm_parallel;
-      algorithm_parallel.maximal_iterations = 200;
+      algorithm_parallel.maximal_iterations = 100;
       //algorithm_parallel.maximal_duration = std::chrono::seconds(5);
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       //parallel(parallel_run) = parallel_alg.evaluations;
