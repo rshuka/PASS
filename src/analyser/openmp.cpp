@@ -5,6 +5,7 @@
 #include "pass_bits/optimiser/particle_swarm_optimisation.hpp"
 #include "pass_bits/analyser/problem_evaluation_time.hpp"
 #include "pass_bits/helper/regression.hpp"
+#include <unistd.h>
 
 bool pass::enable_openmp(const pass::problem &problem)
 {
@@ -33,7 +34,9 @@ bool pass::enable_openmp(const pass::problem &problem)
   arma::rowvec model;
 
   // Check if the file exists
-  bool ok = model.load("./openmp_model.pass", arma::raw_ascii);
+  bool ok = model.load("./openmp_model.pass");
+
+  std::cout << "Model load: " << model << std::endl;
 
   if (ok == false)
   {
@@ -47,8 +50,6 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << " ============================== Model Exists ============================== " << std::endl;
     std::cout << "                                                                            " << std::endl;
   }
-
-  std::cout << "Model Main: " << model << std::endl;
 
   std::cout << " ========================= Start SpeedUp Prediction ======================= " << std::endl;
 
@@ -98,6 +99,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     {
       predict_poly = 0.9 * pass::number_of_threads();
     }
+    std::cout << "                                                                            " << std::endl;
     std::cout << " Your speedUp would be approximately: " << predict_poly << std::endl;
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
@@ -136,7 +138,7 @@ arma::mat pass::train(const int &examples)
   arma::arma_rng::set_seed_random();
 
   // define the maximum of runs
-  arma::uword alg_runs = 2;
+  arma::uword alg_runs = 3;
 
   // Array including all alg runtime, we want to test
   std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
@@ -177,15 +179,20 @@ arma::mat pass::train(const int &examples)
     {
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
       serial(serial_run) = serial_alg.evaluations;
+      usleep(1000);
     }
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
+      usleep(1000);
     }
 
-    summary(1, count) = arma::median(parallel) / arma::median(serial);
+    std::cout << "Summary: \n"
+              << summary << std::endl;
+
+    summary(1, count) = arma::mean(parallel) / arma::mean(serial);
     count++;
 
     // load bar
@@ -200,9 +207,6 @@ arma::mat pass::train(const int &examples)
   std::cout << "                                                                            " << std::endl;
   std::cout << " ===========================  End Training  =============================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
-
-  //std::cout << "Summary: \n"
-  //          << summary << std::endl;
 
   return summary;
 }
@@ -229,8 +233,6 @@ arma::rowvec pass::build_model(const arma::mat &training_points)
   // Generating the linear model
 
   arma::rowvec linear_model = r.linear_model(x_values, y_values);
-
-  std::cout << "linear model " << linear_model << std::endl;
 
   if (linear_model(2) >= 0.9)
   {
