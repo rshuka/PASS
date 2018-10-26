@@ -22,7 +22,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   double your_time = pass::problem_evaluation_time(problem);
 
   std::cout << "                                                                            " << std::endl;
-  std::cout << " Evaluation time: " << your_time * 1e-6 << " microseconds." << std::endl;
+  std::cout << " Evaluation time: " << your_time * 1e-6 << " milliseconds." << std::endl;
   std::cout << "                                                                            " << std::endl;
   std::cout << " ============================= End Evaluation  ============================ " << std::endl;
   std::cout << "                                                                            " << std::endl;
@@ -30,18 +30,27 @@ bool pass::enable_openmp(const pass::problem &problem)
   // Start training the data
   arma::mat summary = train(30);
 
-  std::cout << "Data Main: \n"
-            << summary << std::endl;
+  arma::rowvec model;
 
-  arma::rowvec model = build_model(summary);
+  // Check if the file exists
+  bool ok = model.load("./openmp_model.pass", arma::raw_ascii);
+
+  if (ok == false)
+  {
+    std::cout << " ========================= Model Does Not Exist =========================== " << std::endl;
+    std::cout << "                                                                            " << std::endl;
+    model = build_model(summary);
+  }
+  else
+  {
+    std::cout << "                                                                            " << std::endl;
+    std::cout << " ============================== Model Exists ============================== " << std::endl;
+    std::cout << "                                                                            " << std::endl;
+  }
 
   std::cout << "Model Main: " << model << std::endl;
 
   std::cout << " ========================= Start SpeedUp Prediction ======================= " << std::endl;
-
-  std::cout << "                                                                            " << std::endl;
-  std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
-  std::cout << "                                                                            " << std::endl;
 
   // Generating a regression object
   pass::regression r;
@@ -49,8 +58,6 @@ bool pass::enable_openmp(const pass::problem &problem)
   if (model.n_elem == 3)
   {
     double predict_linear = r.predict_linear(your_time, model);
-
-    std::cout << "predict linear " << predict_linear << std::endl;
 
     if (predict_linear > 0.9 * pass::number_of_threads())
     {
@@ -85,16 +92,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   }
   else
   {
-    std::cout << " Linear Model is NOT suitable.                                              " << std::endl;
-    std::cout << "                                                                            " << std::endl;
-    std::cout << " Finished building linear model.                                            " << std::endl;
-
-    std::cout << "                                                                            " << std::endl;
-    std::cout << " Building polynomial model for the training data.                           " << std::endl;
-    std::cout << "                                                                            " << std::endl;
-
     double predict_poly = r.predict_poly(your_time, model);
-    std::cout << "predict Poly " << predict_poly << std::endl;
 
     if (predict_poly > 0.9 * pass::number_of_threads())
     {
@@ -164,7 +162,7 @@ arma::mat pass::train(const int &examples)
 
   for (auto repetition : repetitions)
   {
-    std::cout << "Repetition: " << repetition << std::endl;
+    //std::cout << "Repetition: " << repetition << std::endl;
 
     // Problem initialisation
     pass::gtoc1 test_problem;
@@ -181,15 +179,11 @@ arma::mat pass::train(const int &examples)
       serial(serial_run) = serial_alg.evaluations;
     }
 
-    std::cout << "Serial: " << serial << std::endl;
-
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
     }
-
-    std::cout << "Parallel: " << parallel << std::endl;
 
     summary(1, count) = arma::median(parallel) / arma::median(serial);
     count++;
@@ -207,23 +201,24 @@ arma::mat pass::train(const int &examples)
   std::cout << " ===========================  End Training  =============================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
-  std::cout << "Summary: \n"
-            << summary << std::endl;
+  //std::cout << "Summary: \n"
+  //          << summary << std::endl;
 
   return summary;
 }
 
 arma::rowvec pass::build_model(const arma::mat &training_points)
 {
+  // File to save the model
+  std::string file_name;
+  file_name = "openmp_model.pass";
+
   // Generating a regression object
   pass::regression r;
 
   // Getting the data for the model
   arma::rowvec x_values = training_points.row(0);
   arma::rowvec y_values = training_points.row(1);
-
-  std::cout << "X values from data: " << x_values << std::endl;
-  std::cout << "Y values from data: " << y_values << std::endl;
 
   // Output information
   std::cout << " =========================== Start Building Models ======================== " << std::endl;
@@ -245,6 +240,9 @@ arma::rowvec pass::build_model(const arma::mat &training_points)
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================= Done Building Models  ========================== " << std::endl;
     std::cout << "                                                                            " << std::endl;
+
+    linear_model.save("./" + file_name, arma::raw_ascii);
+
     return linear_model;
   }
 
@@ -259,7 +257,7 @@ arma::rowvec pass::build_model(const arma::mat &training_points)
   std::cout << " ========================= Done Building Models  ========================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
-  std::cout << "Poly model " << poly_model << std::endl;
+  poly_model.save("./" + file_name, arma::raw_ascii);
 
   return poly_model;
 }
