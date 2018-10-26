@@ -169,25 +169,27 @@ arma::mat pass::train(const int &examples)
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
+    pass::particle_swarm_optimisation algorithm_serial;
+    algorithm_serial.maximal_iterations = 100;
+
+    pass::parallel_swarm_search algorithm_parallel;
+    algorithm_parallel.maximal_iterations = 100;
+
     double ev_time = pass::problem_evaluation_time(simulated_problem);
     summary(0, count) = ev_time;
 
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
-      pass::particle_swarm_optimisation algorithm_serial;
-      algorithm_serial.maximal_iterations = 100;
       //algorithm_serial.maximal_duration = std::chrono::seconds(5);
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
       //serial(serial_run) = serial_alg.evaluations;
       serial(serial_run) = serial_alg.duration.count();
       usleep(1000000);
     }
-    usleep(1000000);
+
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
-      pass::parallel_swarm_search algorithm_parallel;
-      algorithm_parallel.maximal_iterations = 100;
       //algorithm_parallel.maximal_duration = std::chrono::seconds(5);
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
       //parallel(parallel_run) = parallel_alg.evaluations;
