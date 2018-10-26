@@ -28,9 +28,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << " ============================= End Evaluation  ============================ " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
-  // Start training the data
-  arma::mat summary = train(30);
-
+  arma::mat summary;
   arma::rowvec model;
 
   // Check if the file exists
@@ -42,6 +40,8 @@ bool pass::enable_openmp(const pass::problem &problem)
   {
     std::cout << " ========================= Model Does Not Exist =========================== " << std::endl;
     std::cout << "                                                                            " << std::endl;
+    // Start training the data
+    summary = train(30);
     model = build_model(summary);
   }
   else
