@@ -90,7 +90,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
 
   // termination criteria.
   while (stopwatch.get_elapsed() < maximal_duration &&
-         result.iterations < maximal_iterations && !result.solved())
+         result.iterations < maximal_iterations && result.evaluations < maximal_evaluations && !result.solved())
   {
     if (randomize_topology)
     {
