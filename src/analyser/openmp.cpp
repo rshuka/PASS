@@ -38,7 +38,7 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   if (ok == false)
   {
-    std::cout << " ========================= Model Does Not Exist =========================== " << std::endl;
+    std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training the data
     summary = train(40);
@@ -47,7 +47,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   else
   {
     std::cout << "                                                                            " << std::endl;
-    std::cout << " ============================== Model Exists ============================== " << std::endl;
+    std::cout << " - Model exists                                                             " << std::endl;
     std::cout << "                                                                            " << std::endl;
   }
 
@@ -75,6 +75,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should activate openMP!                                                " << std::endl;
       std::cout << "                                                                            " << std::endl;
+      std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
     if (predict_linear < 1) // is efficienty is more than 50 %
@@ -82,6 +83,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
       std::cout << "                                                                            " << std::endl;
+      std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return false;
     }
     if (predict_linear > 1 && predict_linear < pass::number_of_threads() / 2) // efficienty is less than 50 %
@@ -109,6 +111,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should activate openMP!                                                " << std::endl;
       std::cout << "                                                                            " << std::endl;
+      std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
     if (predict_poly < 1) // is efficienty is more than 50 %
@@ -116,6 +119,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
       std::cout << "                                                                            " << std::endl;
+      std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return false;
     }
     if (predict_poly > 1 && predict_poly < pass::number_of_threads() / 2) // is efficienty is more than 50 %
@@ -199,7 +203,7 @@ arma::mat pass::train(const int &examples)
     count++;
 
     // load bar
-    double temp_count = 30.0 / count;
+    double temp_count = examples / count;
     std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
   }
 

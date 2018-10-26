@@ -1,6 +1,7 @@
 #pragma once
 
 // Armadillo
+#define ARMA_DONT_PRINT_ERRORS
 #include <armadillo>
 
 // MPI support must be added via CMake, to ensure that we also link against it.
