@@ -41,7 +41,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training the data
-    summary = train(40);
+    summary = train(30);
     model = build_model(summary);
   }
   else
@@ -148,7 +148,7 @@ arma::mat pass::train(const int &examples)
   //std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
   //                                   40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
-  arma::rowvec repetitions = pass::integers_uniform_in_range(500, 2000, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(100, 4000, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -203,7 +203,8 @@ arma::mat pass::train(const int &examples)
     count++;
 
     // load bar
-    double temp_count = examples / count;
+
+    double temp_count = static_cast<double>(examples) / static_cast<double>(count);
     std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
   }
 
