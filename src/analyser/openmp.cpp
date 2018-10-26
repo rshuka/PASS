@@ -148,7 +148,7 @@ arma::mat pass::train(const int &examples)
   //std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
   //                                   40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
-  arma::rowvec repetitions = pass::integers_uniform_in_range(50, 2000, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 200, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -175,7 +175,7 @@ arma::mat pass::train(const int &examples)
     //std::cout << "Repetition: " << repetition << std::endl;
 
     // Problem initialisation
-    pass::de_jong_function test_problem(10);
+    pass::gtoc1 test_problem;
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
