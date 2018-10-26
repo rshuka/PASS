@@ -36,14 +36,12 @@ bool pass::enable_openmp(const pass::problem &problem)
   // Check if the file exists
   bool ok = model.load("./openmp_model.pass");
 
-  std::cout << "Model load: " << model << std::endl;
-
   if (ok == false)
   {
     std::cout << " ========================= Model Does Not Exist =========================== " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training the data
-    summary = train(30);
+    summary = train(40);
     model = build_model(summary);
   }
   else
@@ -140,15 +138,13 @@ arma::mat pass::train(const int &examples)
   arma::arma_rng::set_seed_random();
 
   // define the maximum of runs
-  arma::uword alg_runs = 3;
+  arma::uword alg_runs = 2;
 
   // Array including all alg runtime, we want to test
   //std::array<int, 30> repetitions = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 20, 25, 28, 30, 33, 36,
   //                                   40, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
-  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 100, examples);
-
-  std::cout << "Repetitions: " << repetitions << std::endl;
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 5000, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;

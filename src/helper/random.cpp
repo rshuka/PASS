@@ -5,11 +5,15 @@
 
 double pass::random_double_uniform_in_range(double min, double max)
 {
+  assert(min < max && "'min' should be less than 'max'");
+
   return min + arma::arma_rng::randu<double>() * (max - min);
 }
 
 int pass::random_integer_uniform_in_range(int min, int max)
 {
+  assert(min < max && "'min' should be less than 'max'");
+
   int temp = min + arma::arma_rng::randu<double>() * (max + 1 - min);
 
   if (temp > max)
@@ -24,6 +28,8 @@ int pass::random_integer_uniform_in_range(int min, int max)
 
 arma::rowvec pass::integers_uniform_in_range(const int min, const int max, const int count)
 {
+  assert(min < max && "'min' should be less than 'max'");
+  assert(count > 1 && "'count' should be more than 1");
 
   arma::rowvec numbers(count);
 
