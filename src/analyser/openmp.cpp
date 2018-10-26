@@ -160,10 +160,12 @@ arma::mat pass::train(const int &examples)
   arma::mat summary(2, repetitions.size());
 
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_duration = std::chrono::seconds(5);
+  algorithm_serial.maximal_iterations = 5000;
+  //algorithm_serial.maximal_duration = std::chrono::seconds(5);
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_parallel.maximal_duration = std::chrono::seconds(5);
+  algorithm_parallel.maximal_iterations = 5000;
+  //algorithm_parallel.maximal_duration = std::chrono::seconds(5);
 
   std::srand(time(0));
   int count = 0;
@@ -184,14 +186,16 @@ arma::mat pass::train(const int &examples)
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
       auto serial_alg = algorithm_serial.optimise(simulated_problem);
-      serial(serial_run) = serial_alg.evaluations;
+      //serial(serial_run) = serial_alg.evaluations;
+      serial(serial_run) = serial_alg.duration.count();
       usleep(1000);
     }
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
-      parallel(parallel_run) = parallel_alg.evaluations;
+      //parallel(parallel_run) = parallel_alg.evaluations;
+      parallel(parallel_run) = parallel_alg.duration.count();
       usleep(1000);
     }
 
