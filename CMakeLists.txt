@@ -1,10 +1,5 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-#!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
-if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-8")
-endif()
-
 
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
 file(STRINGS "./include/pass" PASS_HEADER_CONTENTS REGEX "#define PASS_VERSION_[A-Z]+ ")
@@ -48,6 +43,13 @@ endif()
 
 message(STATUS "")
 message(STATUS "Finding dependencies.")
+
+find_library(OPENBLAS_LIBRARIES openblas)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(OpenBLAS DEFAULT_MSG OPENBLAS_LIBRARIES)
+
+mark_as_advanced(OPENBLAS_LIBRARIES)
 
 # Requite minimum Version of Amardillo
 set(REQUIRED_ARMADILLO_VERSION "8.200.0")

@@ -447,10 +447,8 @@ arma::mat pass::parameter_evaluate(pass::optimiser &optimiser, const pass::probl
 
   for (arma::uword r = 0; r < pass::parameter_setting_number_of_runs; ++r)
   {
-    // Random Seed
-    arma::arma_rng::set_seed_random();
 
-    auto results = optimiser.optimise(problem);
+    pass::optimise_result results = optimiser.optimise(problem);
 
     if (results.solved())
     {

@@ -138,9 +138,6 @@ bool pass::enable_openmp(const pass::problem &problem)
 
 arma::mat pass::train(const int &examples)
 {
-  // set random seed
-  arma::arma_rng::set_seed_random();
-
   // define the maximum of runs
   arma::uword alg_runs = 2;
 
@@ -161,16 +158,18 @@ arma::mat pass::train(const int &examples)
 
   std::srand(time(0));
   int count = 0;
+  int time_in_seconds = 5;
 
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_duration = std::chrono::seconds(5);
+  algorithm_serial.maximal_duration = std::chrono::seconds(time_in_seconds);
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_serial.maximal_duration = std::chrono::seconds(5);
+  algorithm_serial.maximal_duration = std::chrono::seconds(time_in_seconds);
 
-  for (auto repetition : repetitions)
+  for (arma::uword repetition : repetitions)
   {
     std::cout << "Repetition " << repetition << std::endl;
+
     // Problem initialisation
     pass::gtoc1 test_problem;
     pass::evaluation_time_stall simulated_problem(test_problem);
@@ -182,15 +181,14 @@ arma::mat pass::train(const int &examples)
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
-
-      auto serial_alg = algorithm_serial.optimise(simulated_problem);
+      pass::optimise_result serial_alg = algorithm_serial.optimise(simulated_problem);
       serial(serial_run) = serial_alg.evaluations;
       usleep(1000000);
     }
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
-      auto parallel_alg = algorithm_parallel.optimise(simulated_problem);
+      optimise_result parallel_alg = algorithm_parallel.optimise(simulated_problem);
       parallel(parallel_run) = parallel_alg.evaluations;
       usleep(1000000);
     }
