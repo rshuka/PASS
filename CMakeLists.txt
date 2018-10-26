@@ -44,13 +44,6 @@ endif()
 message(STATUS "")
 message(STATUS "Finding dependencies.")
 
-find_library(OPENBLAS_LIBRARIES openblas)
-
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(OpenBLAS DEFAULT_MSG OPENBLAS_LIBRARIES)
-
-mark_as_advanced(OPENBLAS_LIBRARIES)
-
 # Requite minimum Version of Amardillo
 set(REQUIRED_ARMADILLO_VERSION "8.200.0")
 find_package(Armadillo QUIET)

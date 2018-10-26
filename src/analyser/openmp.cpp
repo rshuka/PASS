@@ -158,13 +158,12 @@ arma::mat pass::train(const int &examples)
 
   std::srand(time(0));
   int count = 0;
-  int time_in_seconds = 5;
 
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_duration = std::chrono::seconds(time_in_seconds);
+  algorithm_serial.maximal_duration = std::chrono::seconds(5);
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_serial.maximal_duration = std::chrono::seconds(time_in_seconds);
+  algorithm_serial.maximal_duration = std::chrono::seconds(5);
 
   for (arma::uword repetition : repetitions)
   {
