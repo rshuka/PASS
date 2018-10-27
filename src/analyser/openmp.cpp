@@ -41,7 +41,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training the data
-    summary = train(30);
+    summary = train(60);
     model = build_model(summary);
   }
   else
@@ -194,7 +194,7 @@ arma::mat pass::train(const int &examples)
 
     // load bar
     double temp_count = static_cast<double>(examples) / static_cast<double>(count);
-    std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
+    std::cout << " \r " << static_cast<double>(100.0 / temp_count) << "% completed." << std::flush;
   }
 
   std::cout << std::endl
