@@ -141,11 +141,7 @@ arma::mat pass::train(const int &examples)
   // define the maximum of runs
   arma::uword alg_runs = 2;
 
-  // Array including all alg runtime, we want to test
-  //std::array<int, 30> repetitions = {1, 2, 3, 80, 100, 140, 180, 190, 90, 100, 110, 120, 130, 160, 200, 240, 330, 333, 436,
-  //                                   2, 45, 50, 60, 70, 80, 100, 120, 140, 160};
-
-  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 5000, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 10000, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -160,11 +156,9 @@ arma::mat pass::train(const int &examples)
   int count = 0;
 
   pass::particle_swarm_optimisation algorithm_serial;
-  //algorithm_serial.maximal_duration = std::chrono::seconds(5);
   algorithm_serial.maximal_iterations = 200;
 
   pass::parallel_swarm_search algorithm_parallel;
-  //algorithm_parallel.maximal_duration = std::chrono::seconds(5);
   algorithm_parallel.maximal_iterations = 200;
 
   repetitions = arma::sort(repetitions);
@@ -176,8 +170,6 @@ arma::mat pass::train(const int &examples)
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
-    std::cout << "Repetion: " << repetition << std::endl;
-
     double ev_time = pass::problem_evaluation_time(simulated_problem);
     summary(0, count) = ev_time;
 
@@ -185,7 +177,6 @@ arma::mat pass::train(const int &examples)
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
     {
       pass::optimise_result serial_alg = algorithm_serial.optimise(simulated_problem);
-      //serial(serial_run) = serial_alg.evaluations;
       serial(serial_run) = serial_alg.duration.count();
       usleep(1000000);
     }
@@ -193,7 +184,6 @@ arma::mat pass::train(const int &examples)
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
       optimise_result parallel_alg = algorithm_parallel.optimise(simulated_problem);
-      //parallel(parallel_run) = parallel_alg.evaluations;
       parallel(parallel_run) = parallel_alg.duration.count();
       usleep(1000000);
     }
