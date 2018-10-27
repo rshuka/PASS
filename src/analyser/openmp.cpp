@@ -142,10 +142,10 @@ arma::mat pass::train(const int &examples)
   arma::uword alg_runs = 2;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 30> repetitions = {1, 2, 3, 80, 100, 140, 180, 190, 90, 100, 110, 120, 130, 160, 200, 240, 330, 333, 436,
-                                     2, 45, 50, 60, 70, 80, 100, 120, 140, 160};
+  //std::array<int, 30> repetitions = {1, 2, 3, 80, 100, 140, 180, 190, 90, 100, 110, 120, 130, 160, 200, 240, 330, 333, 436,
+  //                                   2, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
-  //arma::rowvec repetitions = pass::integers_uniform_in_range(1, 200, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 200, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -166,6 +166,8 @@ arma::mat pass::train(const int &examples)
   pass::parallel_swarm_search algorithm_parallel;
   //algorithm_parallel.maximal_duration = std::chrono::seconds(5);
   algorithm_parallel.maximal_iterations = 200;
+
+  repetitions = arma::sort(repetitions);
 
   for (int repetition : repetitions)
   {
