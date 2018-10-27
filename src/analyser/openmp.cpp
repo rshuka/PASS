@@ -25,7 +25,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   double your_time = pass::problem_evaluation_time(problem);
 
   std::cout << "                                                                            " << std::endl;
-  std::cout << " Evaluation time: " << your_time * 1e-6 << " milliseconds." << std::endl;
+  std::cout << " Evaluation time: " << your_time * 1e-3 << " microseconds." << std::endl;
   std::cout << "                                                                            " << std::endl;
   std::cout << " ============================= End Evaluation  ============================ " << std::endl;
   std::cout << "                                                                            " << std::endl;
@@ -142,7 +142,7 @@ arma::mat pass::train(const int &examples)
   arma::uword alg_runs = 2;
 
   // Array including all alg runtime, we want to test
-  std::array<int, 30> repetitions = {1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 20, 25, 28, 30, 33, 36,
+  std::array<int, 30> repetitions = {1, 2, 3, 80, 100, 140, 180, 190, 90, 100, 110, 120, 130, 160, 200, 240, 330, 333, 436,
                                      2, 45, 50, 60, 70, 80, 100, 120, 140, 160};
 
   //arma::rowvec repetitions = pass::integers_uniform_in_range(1, 200, examples);
@@ -170,14 +170,14 @@ arma::mat pass::train(const int &examples)
   for (int repetition : repetitions)
   {
     // Problem initialisation
-    pass::gtoc1 test_problem;
+    pass::de_jong_function test_problem(10);
     pass::evaluation_time_stall simulated_problem(test_problem);
     simulated_problem.repetitions = repetition;
 
     std::cout << "Repetion: " << repetition << std::endl;
 
     double ev_time = pass::problem_evaluation_time(simulated_problem);
-    summary(0, count) = ev_time * 1e-6;
+    summary(0, count) = ev_time * 1e-3;
 
     // Do the evaluation for serial and parallel for all the evaluations values
     for (arma::uword serial_run = 0; serial_run < alg_runs; ++serial_run)
@@ -188,7 +188,7 @@ arma::mat pass::train(const int &examples)
       usleep(1000000);
     }
 
-    std::cout << "Serial: " << arma::mean(serial) * 1e-6 << std::endl;
+    std::cout << "Serial: " << arma::mean(serial) * 1e-3 << std::endl;
 
     for (arma::uword parallel_run = 0; parallel_run < alg_runs; ++parallel_run)
     {
@@ -197,7 +197,7 @@ arma::mat pass::train(const int &examples)
       parallel(parallel_run) = parallel_alg.duration.count();
       usleep(1000000);
     }
-    std::cout << "Parallel: " << arma::mean(parallel) * 1e-6 << std::endl;
+    std::cout << "Parallel: " << arma::mean(parallel) * 1e-3 << std::endl;
 
     summary(1, count) = arma::mean(serial) / arma::mean(parallel);
 
