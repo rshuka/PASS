@@ -7,7 +7,8 @@
 #include "pass_bits/analyser/problem_evaluation_time.hpp"
 #include "pass_bits/helper/regression.hpp"
 #include "pass_bits/helper/random.hpp"
-#include <unistd.h>
+#include <unistd.h> // usleep
+#include <iomanip>  // setprecision, setfill
 
 bool pass::enable_openmp(const pass::problem &problem)
 {
@@ -41,12 +42,11 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training the data
-    summary = train(60);
+    summary = train(90);
     model = build_model(summary);
   }
   else
   {
-    std::cout << "                                                                            " << std::endl;
     std::cout << " - Model exists                                                             " << std::endl;
     std::cout << "                                                                            " << std::endl;
   }
@@ -141,7 +141,7 @@ arma::mat pass::train(const int &examples)
   // define the maximum of runs
   arma::uword alg_runs = 2;
 
-  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 10000, examples);
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 20000, examples);
 
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
@@ -194,7 +194,8 @@ arma::mat pass::train(const int &examples)
 
     // load bar
     double temp_count = static_cast<double>(examples) / static_cast<double>(count);
-    std::cout << " \r " << static_cast<double>(100.0 / temp_count) << "% completed." << std::flush;
+    std::cout << std::fixed << std::setprecision(2) << std::setfill(' ');
+    std::cout << " \r " << 100.0 / temp_count << " % completed." << std::flush;
   }
 
   std::cout << std::endl
@@ -205,8 +206,6 @@ arma::mat pass::train(const int &examples)
   std::cout << " ===========================  End Training  =============================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
-  std::cout << "Summary: \n"
-            << summary << std::endl;
   return summary;
 }
 
