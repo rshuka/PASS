@@ -34,7 +34,7 @@ arma::rowvec pass::integers_uniform_in_range(const int min, const int max, const
   arma::rowvec numbers(count);
 
   std::random_device rd;
-  std::mt19937 gen(rd());
+  std::mt19937_64 gen(rd());
   std::uniform_int_distribution<> dis(min, max);
 
   for (int n = 0; n < count; ++n)
