@@ -160,7 +160,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent()[0];
     }
     else
     {
@@ -336,7 +336,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent()[0];
     }
   } // end while for termination criteria
 

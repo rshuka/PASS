@@ -81,7 +81,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   {
     verbose(result.iterations, 0) = result.iterations;
     verbose(result.iterations, 1) = result.fitness_value;
-    verbose(result.iterations, 2) = result.normalised_agent[0];
+    verbose(result.iterations, 2) = result.agent()[0];
   }
   //end initialisation
 
@@ -205,7 +205,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     {
       verbose(result.iterations, 0) = result.iterations;
       verbose(result.iterations, 1) = result.fitness_value;
-      verbose(result.iterations, 2) = result.normalised_agent[0];
+      verbose(result.iterations, 2) = result.agent()[0];
     }
   }
   result.duration = stopwatch.get_elapsed();

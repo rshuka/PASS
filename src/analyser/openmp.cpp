@@ -41,7 +41,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   {
     std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
-    // Start training the data
+    // Start training + build model
     summary = train(90);
     model = build_model(summary);
   }
@@ -139,7 +139,7 @@ bool pass::enable_openmp(const pass::problem &problem)
 arma::mat pass::train(const int &examples)
 {
   // define the maximum of runs
-  arma::uword alg_runs = 2;
+  arma::uword alg_runs = 3;
 
   arma::rowvec repetitions = pass::integers_uniform_in_range(1, 20000, examples);
 
@@ -152,7 +152,6 @@ arma::mat pass::train(const int &examples)
 
   arma::mat summary(2, repetitions.size());
 
-  std::srand(time(0));
   int count = 0;
 
   pass::particle_swarm_optimisation algorithm_serial;

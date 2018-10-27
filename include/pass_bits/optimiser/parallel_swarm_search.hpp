@@ -57,14 +57,6 @@ public:
   double neighbourhood_probability;
 
   /**
-   * The number of threads if openMP is enabled
-   *
-   * Is initialized to maximum available threads
-   */
-#if defined(SUPPORT_OPENMP)
-  int number_threads;
-#endif
-  /**
    * Denotes the migration invervall for the MPI Communication
    *
    * Is initialized to 0 i.e. MPI after every iteration
@@ -76,5 +68,15 @@ public:
   parallel_swarm_search() noexcept;
 
   virtual optimise_result optimise(const pass::problem &problem);
+
+private:
+  /**
+   * The number of threads if openMP is enabled
+   *
+   * Is initialized to maximum available threads
+   */
+#if defined(SUPPORT_OPENMP)
+  int number_threads;
+#endif
 };
 } // namespace pass
