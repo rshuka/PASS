@@ -33,6 +33,13 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
         "benchmark: Please check your benchmark value, as we got not a valid value");
   }
 
+  // Output file
+  std::string file_name;
+  file_name = "adaptive_parameter_";
+  file_name += problem.name;
+  file_name += "_d" + std::to_string(problem.dimension());
+  file_name += ".pass";
+
   // Output information
   std::cout << " ==================== Start Parameter Optimisation ================== " << std::endl;
   std::cout << "                                                                      " << std::endl;
@@ -51,6 +58,37 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   }
   std::cout << " ==================================================================== " << std::endl;
   std::cout << "                                                                      " << std::endl;
+
+  arma::vec input(5);
+  // Check if the file exists
+  bool ok = input.load("./" + file_name);
+
+  // Output information
+  std::cout << " ============================== Check  ============================== " << std::endl;
+  std::cout << "                                                                      " << std::endl;
+  if (ok == true)
+  {
+    std::cout << " - Adaptive Parameters exists!                                      " << std::endl;
+    std::cout << "                                                                    " << std::endl;
+    // Output information
+    std::cout << " ======================== Adaptive Parameters ======================= " << std::endl;
+    std::cout << "                                                                      " << std::endl;
+    std::cout << " Swarm Size:                  " << input(0) << std::endl;
+    std::cout << " Neighbourhood Probability:   " << input(1) << std::endl;
+    std::cout << " Inertia:                     " << input(2) << std::endl;
+    std::cout << " Cognitive Acceleration:      " << input(3) << std::endl;
+    std::cout << " Social Acceleration:         " << input(4) << std::endl;
+    std::cout << " ==================================================================== " << std::endl;
+    std::cout << "                                                        " << std::endl;
+    std::cout << " Filename: '" << file_name << "'" << std::endl;
+    std::cout << "                                                        " << std::endl;
+    std::cout << " =============================== DONE =============================== " << std::endl;
+    return;
+  }
+
+  std::cout
+      << " - Adaptive Parameters does not exist!                              " << std::endl;
+  std::cout << "                                                                    " << std::endl;
 
   // ================================ Default Parameters ================================
 
@@ -353,17 +391,11 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   //
   // File where the parameters are saved
   arma::vec output(5);
-  output[0] = algorithm.swarm_size;
-  output[1] = algorithm.neighbourhood_probability;
-  output[2] = algorithm.inertia;
-  output[3] = algorithm.cognitive_acceleration;
-  output[4] = algorithm.social_acceleration;
-
-  std::string file_name;
-  file_name = "adaptive_parameter_";
-  file_name += problem.name;
-  file_name += "_d" + std::to_string(problem.dimension());
-  file_name += ".pass";
+  output(0) = algorithm.swarm_size;
+  output(1) = algorithm.neighbourhood_probability;
+  output(2) = algorithm.inertia;
+  output(3) = algorithm.cognitive_acceleration;
+  output(4) = algorithm.social_acceleration;
 
   output.save("./" + file_name, arma::raw_ascii);
 
@@ -433,7 +465,6 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   std::cout << " ==================================================================== " << std::endl;
   std::cout << "                                                                      " << std::endl;
   std::cout << " The adaptive parameters are saved in " << file_name << std::endl;
-  std::cout << "                                                        " << std::endl;
   std::cout << "                                                        " << std::endl;
   std::cout << " =============================== DONE =============================== " << std::endl;
 

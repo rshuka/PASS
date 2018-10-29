@@ -17,8 +17,7 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << "                                                                            " << std::endl;
   std::cout << " Your Problem:                " << problem.name << std::endl;
   std::cout << " Dimension:                   " << problem.dimension() << std::endl;
-  std::cout << " Number Threads:              " << pass::number_of_threads() << std::endl;
-  std::cout << " Maximum Speedup:             " << pass::number_of_threads() << std::endl;
+  std::cout << " Number of Threads:           " << pass::number_of_threads() << std::endl;
   std::cout << "                                                                            " << std::endl;
 
   std::cout << " ============================= Start Evaluation =========================== " << std::endl;
@@ -65,7 +64,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       predict_linear = 0.9 * pass::number_of_threads();
     }
     std::cout << "                                                                            " << std::endl;
-    std::cout << " Your speedUp would be approximately: " << predict_linear << std::endl;
+    std::cout << " Your speedUp will be approximately:  " << predict_linear << std::endl;
 
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
@@ -78,7 +77,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
-    if (predict_linear < 1) // is efficienty is more than 50 %
+    if (predict_linear <= 1) // is efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
@@ -89,7 +88,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     if (predict_linear > 1 && predict_linear < pass::number_of_threads() / 2) // efficienty is less than 50 %
     {
       std::cout << "                                                                            " << std::endl;
-      std::cout << " You should decide yourself if to activate openMP or not!                   " << std::endl;
+      std::cout << " Decide yourself if to activate openMP or not!                              " << std::endl;
       std::cout << "                                                                            " << std::endl;
     }
   }
@@ -102,7 +101,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       predict_poly = 0.9 * pass::number_of_threads();
     }
     std::cout << "                                                                            " << std::endl;
-    std::cout << " Your speedUp would be approximately: " << predict_poly << std::endl;
+    std::cout << " Your speedUp will be approximately: " << predict_poly << std::endl;
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
 
@@ -114,7 +113,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
-    if (predict_poly < 1) // is efficienty is more than 50 %
+    if (predict_poly <= 1) // is efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
@@ -125,8 +124,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     if (predict_poly > 1 && predict_poly < pass::number_of_threads() / 2) // is efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
-      std::cout << " You should decide yourself if to activate openMP or not!                   " << std::endl;
-      std::cout << "                                                                            " << std::endl;
+      std::cout << " Decide yourself if to activate openMP or not!                              " << std::endl;
     }
   }
 
@@ -138,31 +136,31 @@ bool pass::enable_openmp(const pass::problem &problem)
 
 arma::mat pass::train(const int &examples)
 {
-  // define the maximum of runs
-  arma::uword alg_runs = 3;
-
-  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 20000, examples);
-
   // Output information
   std::cout << " ============================= Start Trainining =========================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
+
+  // define the maximum of runs
+  arma::uword alg_runs = 3;
+  int max_iter = 200;
+
+  arma::rowvec repetitions = pass::integers_uniform_in_range(1, 20000, examples);
 
   arma::vec serial(alg_runs);
   arma::vec parallel(alg_runs);
 
   arma::mat summary(2, repetitions.size());
 
-  int count = 0;
-
   pass::particle_swarm_optimisation algorithm_serial;
-  algorithm_serial.maximal_iterations = 200;
+  algorithm_serial.maximal_iterations = max_iter;
 
   pass::parallel_swarm_search algorithm_parallel;
-  algorithm_parallel.maximal_iterations = 200;
+  algorithm_parallel.maximal_iterations = max_iter;
 
   repetitions = arma::sort(repetitions);
 
-  for (int repetition : repetitions)
+  arma::uword count = 0;
+  for (arma::uword repetition : repetitions)
   {
     // Problem initialisation
     pass::de_jong_function test_problem(10);
@@ -228,7 +226,6 @@ arma::rowvec pass::build_model(const arma::mat &training_points)
   std::cout << "                                                                            " << std::endl;
 
   // Generating the linear model
-
   arma::rowvec linear_model = r.linear_model(x_values, y_values);
 
   if (linear_model(2) >= 0.9)
@@ -249,10 +246,11 @@ arma::rowvec pass::build_model(const arma::mat &training_points)
   std::cout << "                                                                            " << std::endl;
   std::cout << " Linear Model is NOT suitable.                                              " << std::endl;
   std::cout << "                                                                            " << std::endl;
-  std::cout << " Building polynomial model for the training data.                           " << std::endl;
+  std::cout << " Building polynomial model.                                                 " << std::endl;
   std::cout << "                                                                            " << std::endl;
 
   arma::rowvec poly_model = r.poly_model(x_values, y_values, 3);
+
   std::cout << " ========================= Done Building Models  ========================== " << std::endl;
   std::cout << "                                                                            " << std::endl;
 

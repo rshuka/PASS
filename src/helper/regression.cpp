@@ -6,7 +6,7 @@ arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const 
   assert(x_values.n_elem > 1 && y_values.n_elem > 1 && "The training data should have more than one element");
   assert(x_values.n_elem == y_values.n_elem && "`x_values` and `y_values` must have the same dimension");
 
-  const int elements = x_values.n_elem;
+  const arma::uword elements = x_values.n_elem;
 
   arma::rowvec model(3);
 
@@ -16,7 +16,7 @@ arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const 
   double sum_y = 0.0;  // sum of y
   double sum_y2 = 0.0; // sum of y^2
 
-  for (int i = 0; i < elements; i++)
+  for (arma::uword i = 0; i < elements; i++)
   {
     sum_x += x_values(i);
     sum_x2 += std::pow(x_values(i), 2);
@@ -43,7 +43,7 @@ arma::rowvec pass::regression::linear_model(const arma::rowvec &x_values, const 
              std::sqrt((sum_x2 - std::pow(sum_x, 2) / elements) *
                        (sum_y2 - std::pow(sum_y, 2) / elements));
 
-  model(2) = std::pow(model(2), 2);
+  model(2) = std::pow(model(2), 2); // R^2
 
   return model;
 }
