@@ -130,6 +130,8 @@ bool pass::enable_openmp(const pass::problem &problem)
 
   std::cout << "                                                                            " << std::endl;
   std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
+  std::cout << "                                                                            " << std::endl;
+  std::cout << "                                                                            " << std::endl;
 
   return true;
 }
