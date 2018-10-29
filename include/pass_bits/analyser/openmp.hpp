@@ -22,6 +22,4 @@ arma::mat train(const int &examples);
 
 arma::rowvec build_model(const arma::mat &training_points);
 
-double predict_model(const arma::rowvec &model);
-
 } // namespace pass

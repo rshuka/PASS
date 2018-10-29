@@ -41,7 +41,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << " - Model does not exist                                                     " << std::endl;
     std::cout << "                                                                            " << std::endl;
     // Start training + build model
-    summary = train(90);
+    summary = train(120);
     model = build_model(summary);
   }
   else
@@ -143,7 +143,7 @@ arma::mat pass::train(const int &examples)
   std::cout << "                                                                            " << std::endl;
 
   // define the maximum of runs
-  arma::uword alg_runs = 3;
+  arma::uword alg_runs = 2;
   int max_iter = 200;
 
   arma::rowvec repetitions = pass::integers_uniform_in_range(1, 20000, examples);
