@@ -20,6 +20,14 @@ bool pass::enable_openmp(const pass::problem &problem)
   std::cout << " Number of Threads:           " << pass::number_of_threads() << std::endl;
   std::cout << "                                                                            " << std::endl;
 
+  if (pass::number_of_threads() == 1)
+  {
+    std::cout << " - You have only one thread! openMP is not possible! " << std::endl;
+    std::cout << "                                                                            " << std::endl;
+    std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
+    return false;
+  }
+
   std::cout << " ============================= Start Evaluation =========================== " << std::endl;
 
   double your_time = pass::problem_evaluation_time(problem);
