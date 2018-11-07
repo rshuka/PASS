@@ -69,7 +69,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
 
-    if (predict_linear > pass::number_of_threads() / 2) // efficienty is more than 50 %
+    if (predict_linear >= pass::number_of_threads() * 0.5) // efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should activate openMP!                                                " << std::endl;
@@ -77,7 +77,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
-    if (predict_linear <= 1) // is efficienty is more than 50 %
+    if (predict_linear <= pass::number_of_threads() * 0.2) // efficienty is less than 20 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
@@ -85,7 +85,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return false;
     }
-    if (predict_linear > 1 && predict_linear < pass::number_of_threads() / 2) // efficienty is less than 50 %
+    if (predict_linear > pass::number_of_threads() * 0.2 && predict_linear < pass::number_of_threads() * 0.5)
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " Decide yourself if to activate openMP or not!                              " << std::endl;
@@ -105,7 +105,7 @@ bool pass::enable_openmp(const pass::problem &problem)
     std::cout << "                                                                            " << std::endl;
     std::cout << " ========================== Done SpeedUp Prediction ======================= " << std::endl;
 
-    if (predict_poly > pass::number_of_threads() / 2) // is efficienty is more than 50 %
+    if (predict_poly >= pass::number_of_threads() * 0.5) // is efficienty is more than 50 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should activate openMP!                                                " << std::endl;
@@ -113,7 +113,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return true;
     }
-    if (predict_poly <= 1) // is efficienty is more than 50 %
+    if (predict_poly <= pass::number_of_threads() * 0.2) // efficienty is less than 20 %
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " You should NOT activate openMP!                                            " << std::endl;
@@ -121,7 +121,7 @@ bool pass::enable_openmp(const pass::problem &problem)
       std::cout << " =========================  Done openMP Analyse  ========================== " << std::endl;
       return false;
     }
-    if (predict_poly > 1 && predict_poly < pass::number_of_threads() / 2) // is efficienty is more than 50 %
+    if (predict_poly > pass::number_of_threads() * 0.2 && predict_poly < pass::number_of_threads() * 0.5)
     {
       std::cout << "                                                                            " << std::endl;
       std::cout << " Decide yourself if to activate openMP or not!                              " << std::endl;
