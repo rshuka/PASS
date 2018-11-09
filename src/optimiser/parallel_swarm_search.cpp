@@ -10,13 +10,13 @@ pass::parallel_swarm_search::parallel_swarm_search() noexcept
       social_acceleration(cognitive_acceleration),
       neighbourhood_probability(1.0 -
                                 std::pow(1.0 - 1.0 / static_cast<double>(swarm_size), 3.0))
-#if defined(SUPPORT_OPENMP)
-      ,
-      number_threads(pass::number_of_threads())
-#endif
 #if defined(SUPPORT_MPI)
       ,
       migration_stall(0)
+#endif
+#if defined(SUPPORT_OPENMP)
+      ,
+      number_threads(pass::number_of_threads())
 #endif
 {
 }
