@@ -2,11 +2,8 @@
 
 // Armadillo
 #define ARMA_DONT_PRINT_ERRORS
-#define ARMA_USE_BLAS
-#define ARMA_BLAS_LONG
 #define ARMA_USE_CXX11
 #include <armadillo>
-#include <cblas.h>
 
 // MPI support must be added via CMake, to ensure that we also link against it.
 // Therefore, CMake will decide whether SUPPORT_MPI is to be defined or not.
