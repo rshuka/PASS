@@ -27,7 +27,6 @@ bool is_verbose(false);
 int global_number_of_runs(1);
 double precision(1e-06);
 arma::uword parameter_setting_number_of_runs(10);
-openblas_set_num_threads(1);
 
 /**
  * Use OpenMP
