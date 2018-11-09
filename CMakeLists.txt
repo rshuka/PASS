@@ -1,7 +1,6 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-cmake_policy(PUSH)
 cmake_policy(SET CMP0012 NEW) # if() recognizes numbers and booleans
 cmake_policy(SET CMP0054 NEW) # if() quoted variables not dereferenced
 cmake_policy(SET CMP0057 NEW) # if IN_LIST
