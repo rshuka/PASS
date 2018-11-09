@@ -6,6 +6,8 @@
 #define ARMA_DONT_USE_BLAS
 #define ARMA_DONT_USE_LAPACK
 #define ARMA_DONT_USE_NEWARP
+#define ARMA_DONT_USE_ARPACK
+#define ARMA_DONT_USE_SUPERLU
 #define ARMA_USE_CXX11
 #include <armadillo>
 
