@@ -2,6 +2,7 @@
 
 // Armadillo
 #define ARMA_DONT_PRINT_ERRORS
+#define ARMA_USE_BLAS
 #define ARMA_USE_CXX11
 #include <armadillo>
 #include <cblas.h>
