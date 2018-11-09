@@ -1,6 +1,12 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
+cmake_policy(PUSH)
+cmake_policy(SET CMP0012 NEW) # if() recognizes numbers and booleans
+cmake_policy(SET CMP0054 NEW) # if() quoted variables not dereferenced
+cmake_policy(SET CMP0057 NEW) # if IN_LIST
+
+
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
 file(STRINGS "./include/pass" PASS_HEADER_CONTENTS REGEX "#define PASS_VERSION_[A-Z]+ ")
 string(REGEX REPLACE ".*#define PASS_VERSION_MAJOR ([0-9]+).*" "\\1" PASS_VERSION_MAJOR "${PASS_HEADER_CONTENTS}")
@@ -84,6 +90,7 @@ if (SUPPORT_OPENMP)
   else()
     find_package(OpenMP)
     if (OPENMP_FOUND)
+      set(OMP_FLAG_GNU "-fopenmp")
       message(STATUS "  - Adding OpenMP support (optimising for ${MAXIMAL_NUMBER_OF_THREADS} threads(s)).")
       message(STATUS "  - Use 'cmake ... -DMAXIMAL_NUMBER_OF_THREADS=...' to specify the maximal number of threads (>= 1) manually.")
       message(STATUS "  - Alternatively, set `#define MAXIMAL_NUMBER_OF_THREADS ...` in your source code, prior to including PASS the first time.")
