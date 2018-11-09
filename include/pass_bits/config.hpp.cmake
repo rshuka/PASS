@@ -5,7 +5,6 @@
 #define ARMA_DONT_USE_BLAS
 #define ARMA_DONT_USE_LAPACK
 #define ARMA_USE_CXX11
-#define ARMA_USE_OPENMP
 #include <armadillo>
 
 // MPI support must be added via CMake, to ensure that we also link against it.
