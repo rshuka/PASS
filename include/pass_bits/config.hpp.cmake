@@ -2,6 +2,7 @@
 
 // Armadillo
 #define ARMA_DONT_PRINT_ERRORS
+#define ARMA_DONT_USE_BLAS
 #include <armadillo>
 
 // MPI support must be added via CMake, to ensure that we also link against it.
