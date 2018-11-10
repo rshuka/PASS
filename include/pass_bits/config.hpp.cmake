@@ -24,9 +24,29 @@
 
 namespace pass
 {
+  /**
+  * Global variables used for evaluations
+  * @is_verbose: analyse the behaviour of the algorithm
+  * Is initialized to `false`.
+  */
   extern bool is_verbose;
+  /**
+  * Global variables used for evaluations
+  * @global_number_of_runs: to help saving raw data
+  * Starts from '1'
+  */
   extern int global_number_of_runs;
+  /**
+  * Global variables used for evaluations
+  * @precision: the precision to stop algorithms and set restart
+  * Is initialized to `1e-06`.
+  */
   extern double precision;
+  /**
+  * Global variables used for evaluations
+  * @parameter_setting_number_of_runs: number of the runs
+  * Is initialized to `10`.
+  */
   extern arma::uword parameter_setting_number_of_runs;
 
   int thread_number();

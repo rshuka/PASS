@@ -15,14 +15,7 @@
  */
 namespace pass
 {
-/**
-  * Global variables used for evaluations
-  * @is_verbose: analyse the behaviour of the algorithm
-  *
-  * @number_of_runs: to help saving raw data
-  *
-  * @precision: the precision to stop algorithms and set restart
-  */
+
 bool is_verbose(false);
 int global_number_of_runs(1);
 double precision(1e-06);
@@ -31,7 +24,6 @@ arma::uword parameter_setting_number_of_runs(10);
 /**
  * Use OpenMP
  * @number_of_threads: returns the number of the threads
- * @thread_number: returns which number the thread have
  */
 int number_of_threads()
 {
@@ -42,6 +34,10 @@ int number_of_threads()
 #endif
 }
 
+/**
+ * Use OpenMP
+ * @thread_number: returns which number the thread have
+ */
 int thread_number()
 {
 #if defined(SUPPORT_OPENMP)
@@ -54,7 +50,6 @@ int thread_number()
 /**
  * Use MPI
  * @number_of_nodes: returns the number of the nodes
- * @node_rank: returns which number a.k.a rank the node have
  */
 int number_of_nodes()
 {
@@ -75,6 +70,10 @@ int number_of_nodes()
 #endif
 }
 
+/**
+ * Use MPI
+ * @node_rank: returns which number a.k.a rank the node have
+ */
 int node_rank()
 {
 #if defined(SUPPORT_MPI)

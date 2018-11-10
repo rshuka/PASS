@@ -56,12 +56,12 @@ public:
    */
   double neighbourhood_probability;
 
+#if defined(SUPPORT_MPI)
   /**
    * Denotes the migration invervall for the MPI Communication
    *
    * Is initialized to 0 i.e. MPI after every iteration
    */
-#if defined(SUPPORT_MPI)
   arma::uword migration_stall;
 #endif
 

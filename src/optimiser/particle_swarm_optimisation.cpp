@@ -69,7 +69,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
   }
   ++result.iterations;
 
-  /**
+  /*
    * +------------+---------------+----------+
    * | Iterations | Fitness Value | Position |
    * +------------+---------------+----------+
@@ -193,7 +193,7 @@ pass::optimise_result pass::particle_swarm_optimisation::optimise(
     }
     ++result.iterations;
 
-    /**
+    /*
      * +------------+---------------+----------+
      * | Iterations | Fitness Value | Position |
      * +------------+---------------+----------+

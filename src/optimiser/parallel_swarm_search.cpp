@@ -146,7 +146,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
   }
 #endif
 
-  /**
+  /*
    * +------------+---------------+----------+
    * | Iterations | Fitness Value | Position |
    * +------------+---------------+----------+
@@ -324,7 +324,7 @@ pass::optimise_result pass::parallel_swarm_search::optimise(
     }
 #endif
 
-    /**
+    /*
      * +------------+---------------+----------+
      * | Iterations | Fitness Value | Position |
      * +------------+---------------+----------+
