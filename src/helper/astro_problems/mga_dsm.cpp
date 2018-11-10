@@ -14,7 +14,6 @@
 #include "pass_bits/helper/astro_problems/pl_eph_an.hpp"
 #include "pass_bits/helper/astro_problems/propagate_kep.hpp"
 
-// [MR] TODO: exctract these somewhere...
 const double MU[9] = {
     1.32712428e11,      // SUN                                  = 0
     22321,              // Gravitational constant of Mercury	= 1
@@ -28,7 +27,6 @@ const double MU[9] = {
 };
 
 //  Definition of planetari radii
-//  TODO: maybe put missing values here so that indices correspond to those from MU[]?
 const double RPL[6] = {
     2440,  // Mercury
     6052,  // Venus
@@ -38,7 +36,6 @@ const double RPL[6] = {
     60330  // Saturn
 };
 
-//TODO: move somewhere else
 void vector_normalize(const double in[3], double out[3])
 {
   double norm = norm2(in);
@@ -319,19 +316,20 @@ void final_block(const mgadsmproblem &problem, const std::vector<double *> &v, c
 
 double time2distance(const double *r0, const double *v0, double rtarget)
 {
-  double temp = 0.0;
+
   double E[6];
   double r0norm = norm2(r0);
-  double a, e, E0, p, ni, Et;
-  int i;
+  double e, E0, p, ni, Et;
 
   if (r0norm < rtarget)
   {
-    for (i = 0; i < 3; i++)
+    double temp = 0.0;
+
+    for (int i = 0; i < 3; i++)
       temp += r0[i] * v0[i];
 
     IC2par(r0, v0, 1, E);
-    a = E[0];
+    double a = E[0];
     e = E[1];
     E0 = E[5];
     p = a * (1 - e * e);

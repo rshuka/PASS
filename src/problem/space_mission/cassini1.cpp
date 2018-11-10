@@ -21,18 +21,18 @@ double pass::cassini1::evaluate(const arma::vec &agent) const
   const int CASSINI_DIM = 6;
   std::vector<double> Delta_V(CASSINI_DIM);
   rp.resize(CASSINI_DIM - 2);
-  std::vector<double> t(CASSINI_DIM);
+
   mgaproblem problem;
 
   //Filling up the problem parameters
   problem.type = 1; // type 1 is Cassini 1; compare with mga_dsm.cpp
 
   int sequence_[CASSINI_DIM] = {3, 2, 2, 3, 5, 6}; // sequence of planets
-  std::vector<int> sequence(CASSINI_DIM);
+
   problem.sequence.insert(problem.sequence.begin(), sequence_, sequence_ + CASSINI_DIM);
 
   const int rev_[CASSINI_DIM] = {0, 0, 0, 0, 0, 0}; // sequence of clockwise legs
-  std::vector<int> rev(CASSINI_DIM);
+
   problem.rev_flag.insert(problem.rev_flag.begin(), rev_, rev_ + CASSINI_DIM);
 
   problem.e = 0.98;     // Final orbit eccentricity

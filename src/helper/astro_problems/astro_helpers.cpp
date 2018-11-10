@@ -63,11 +63,11 @@ pass::lambert_solution pass::lambert(std::array<double, 3> r1,
     double error = 1;
 
     // Newton iterations
-    double x_new = 0.0, y_new;
+    double x_new = 0.0;
     while ((error > tolerance) && (y1 != y2))
     {
       x_new = (x1 * y2 - y1 * x2) / (y2 - y1);
-      y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) - logf(t);
+      double y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) - logf(t);
       x1 = x2;
       y1 = y2;
       x2 = x_new;
@@ -148,8 +148,7 @@ std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
   const int maxiter = 30;
   int i = 0;
   double err = 1.0;
-  double f, df; // function and its derivative
-  double rp_new;
+  double df; // function and its derivative
   const double tolerance = 1e-8;
 
   double aIN = 1.0 / pow(Vin, 2);   // semimajor axis of the incoming hyperbola
@@ -159,10 +158,10 @@ std::pair<double, double> pass::pow_swing_by_inv(const double Vin,
   while ((err > tolerance) && (i < maxiter))
   {
     i++;
-    f = asin(aIN / (aIN + rp)) + asin(aOUT / (aOUT + rp)) - alpha;
+    double f = asin(aIN / (aIN + rp)) + asin(aOUT / (aOUT + rp)) - alpha;
     df = -aIN / sqrt((rp + 2 * aIN) * rp) / (aIN + rp) -
          aOUT / sqrt((rp + 2 * aOUT) * rp) / (aOUT + rp);
-    rp_new = rp - f / df;
+    double rp_new = rp - f / df;
     if (rp_new > 0)
     {
       err = fabs(rp_new - rp);

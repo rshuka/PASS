@@ -23,13 +23,13 @@ public:
 
 double Mean2Eccentric(const double M, const double e)
 {
-  double tolerance = 1e-13;
-  int n_of_it = 0; // Number of iterations
   double Eccentric, Ecc_New;
-  double err = 1.0;
 
   if (e < 1.0)
   {
+    double tolerance = 1e-13;
+    int n_of_it = 0; // Number of iterations
+    double err = 1.0;
     Eccentric = M + e * cos(M); // Initial guess
     while ((err > tolerance) && (n_of_it < 100))
     {

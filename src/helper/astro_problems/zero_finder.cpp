@@ -115,7 +115,9 @@ double zero_finder::FZero::FindZero(Function1D &f)
       // the left endpoint of the inverval.  If it appears that the  //
       // interval is not decreasing fast enough, use bisection.      //
       if ((c - a) < tolerance)
+      {
         return 0.5 * (a + c);
+      }
       if ((b - a) < tolerance)
       {
         if (fb > 0)
