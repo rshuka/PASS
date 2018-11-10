@@ -318,7 +318,7 @@ double time2distance(const double *r0, const double *v0, double rtarget)
 {
   double E[6];
   double r0norm = norm2(r0);
-  double e, E0, p, ni, Et;
+  double E0, p, ni, Et;
 
   if (r0norm < rtarget)
   {
@@ -329,7 +329,7 @@ double time2distance(const double *r0, const double *v0, double rtarget)
 
     IC2par(r0, v0, 1, E);
     double a = E[0];
-    e = E[1];
+    double e = E[1];
     E0 = E[5];
     p = a * (1 - e * e);
     // If the solution is an ellipse
