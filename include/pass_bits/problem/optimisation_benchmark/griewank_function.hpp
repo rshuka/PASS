@@ -21,7 +21,7 @@ public:
    * Initialises a Griewank function with `dimension` dimensions, lower bounds of
    * -600.0 and upper bounds of 600.0.
    */
-  griewank_function(const arma::uword dimension);
+  explicit griewank_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

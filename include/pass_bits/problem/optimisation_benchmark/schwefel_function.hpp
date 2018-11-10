@@ -21,7 +21,7 @@ public:
    * Initialises a schwefel function with `dimension` dimensions, lower bounds
    * of -500.0 and upper bounds of 500.0.
    */
-  schwefel_function(const arma::uword dimension);
+  explicit schwefel_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

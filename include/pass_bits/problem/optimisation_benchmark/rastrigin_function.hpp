@@ -26,7 +26,7 @@ public:
    * Initialises a rastrigin function with `dimension` dimensions, lower bounds
    * of -5.12 and upper bounds of 5.12.
    */
-  rastrigin_function(const arma::uword dimension);
+  explicit rastrigin_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

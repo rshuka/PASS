@@ -7,8 +7,8 @@ namespace pass
 /**
  * Ackley’s is a widely used multimodal test function. It is named after David
  * H. Ackley and was first published 1987 in "A Connectionist Machine for
- * Genetic Hillclimbing. Kluwer Academic Publishers". 
- * 
+ * Genetic Hillclimbing. Kluwer Academic Publishers".
+ *
  * Its optimal parameter = (0, ..., 0) and optimal function value = 0.
  *
  *          ⎛        ⎛ D      ⎞⎞      ⎛ D               ⎞
@@ -24,7 +24,7 @@ public:
    * Initialises a ackley function with `dimension` dimensions, lower bounds of
    * -32.768 and upper bounds of 32.768.
    */
-  ackley_function(const arma::uword dimension);
+  explicit ackley_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

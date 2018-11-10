@@ -74,7 +74,7 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
       s,              // non dimesnional semi-perimeter
       am,             // minimum energy ellipse semi major axis
       lambda,         // lambda parameter defined in Battin's Book
-      x, x1, x2, y1, y2, x_new = 0, y_new, err, alfa, beta, psi, eta, eta2,
+      x, x1, x2, y1, y2, x_new = 0, err, alfa, beta, psi, eta, eta2,
       sigma1, vr1, vt1, vt2, vr2, R = 0.0;
   int i_count, i;
   const double tolerance = 1e-11;
@@ -145,8 +145,8 @@ void LambertI(const double *r1_in, const double *r2_in, double t,
   {
     i_count++;
     x_new = (x1 * y2 - y1 * x2) / (y2 - y1);
-    y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) -
-            logf(t); //[MR] Why ...f() functions? Loss of data!
+    double y_new = logf(x2tof(expf(x_new) - 1, s, c, lw)) -
+                   logf(t); //[MR] Why ...f() functions? Loss of data!
     x1 = x2;
     y1 = y2;
     x2 = x_new;

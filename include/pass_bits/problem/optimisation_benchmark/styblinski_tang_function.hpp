@@ -7,7 +7,7 @@ namespace pass
 /**
  * The styblinski function is a common *toy* problem with a very small computational
  * cost, used for testing and benchmarking algorithms. It is a multimodal function.
- * 
+ *
  * Its optimal parameter = (-2.903534, ..., -2.903534) and optimal function value = -39.16599 * Dimension.
  *
  *           D ⎛                             ⎞
@@ -21,7 +21,7 @@ public:
    * Initialises a styblinski function with `dimension` dimensions, lower bounds of
    * -5.0 and upper bounds of 5.0.
    */
-  styblinski_tang_function(const arma::uword dimension);
+  explicit styblinski_tang_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

@@ -21,7 +21,7 @@ public:
    * Initialises a De Jong's function with `dimension` dimensions, lower bounds of
    * -5.12 and upper bounds of 5.12.
    */
-  de_jong_function(const arma::uword dimension);
+  explicit de_jong_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

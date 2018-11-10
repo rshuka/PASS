@@ -20,7 +20,7 @@ public:
    * Initialises a different powers function with `dimension` dimensions, lower
    * bounds of -1.0 and upper bounds of 1.0.
    */
-  sum_of_different_powers_function(const arma::uword dimension);
+  explicit sum_of_different_powers_function(const arma::uword dimension);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };

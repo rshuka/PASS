@@ -56,14 +56,14 @@ public:
    * Initialises an `dimension`-dimensional problem with uniform lower and upper
    * bounds and a problem name.
    */
-  problem(const arma::uword dimension, const double lower_bound,
-          const double upper_bound, const std::string name);
+  problem(const arma::uword dimension, const double &lower_bound,
+          const double &upper_bound, const std::string &name);
 
   /**
    * Initialises this problem with custom lower and upper bounds and a problem name.
    * The problem dimension is derived from the bounds dimensions, which have to be equal.
    */
-  problem(const arma::vec &lower_bounds, const arma::vec &upper_bounds, const std::string name);
+  problem(const arma::vec &lower_bounds, const arma::vec &upper_bounds, const std::string &name);
 
   /**
    * Evaluates this problem at `agent`, which must match the dimensions of

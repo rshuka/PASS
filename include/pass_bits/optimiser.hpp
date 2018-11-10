@@ -120,7 +120,7 @@ public:
   /**
    * Initialises an optimiser with its own name
    */
-  optimiser(const std::string name);
+  optimiser(const std::string &name);
 
   /**
    * Optimises `problem`, storing the result and performance characteristics of

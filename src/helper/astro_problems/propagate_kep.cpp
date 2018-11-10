@@ -277,7 +277,6 @@ void par2IC(const double *E, double mu, double *r0, double *v0)
   double b, n, xper, yper, xdotper, ydotper;
   double R[3][3];
   double cosomg, cosomp, sinomg, sinomp, cosi, sini;
-  double dNdZeta;
 
   // Grandezze definite nel piano dell'orbita
 
@@ -296,7 +295,7 @@ void par2IC(const double *E, double mu, double *r0, double *v0)
     b = -a * sqrt(e * e - 1);
     n = sqrt(-mu / (a * a * a));
 
-    dNdZeta = e * (1 + tan(EA) * tan(EA)) - (0.5 + 0.5 * pow(tan(0.5 * EA + 0.25 * M_PI), 2)) / tan(0.5 * EA + 0.25 * M_PI);
+    double dNdZeta = e * (1 + tan(EA) * tan(EA)) - (0.5 + 0.5 * pow(tan(0.5 * EA + 0.25 * M_PI), 2)) / tan(0.5 * EA + 0.25 * M_PI);
 
     xper = a / cos(EA) - a * e;
     yper = b * tan(EA);

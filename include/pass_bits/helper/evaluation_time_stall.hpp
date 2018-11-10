@@ -32,7 +32,7 @@ public:
    * Initializes this object with the same bounds as `wrapped_problem` and
    * `repetitions` set to 1.
    */
-  evaluation_time_stall(const pass::problem &wrapped_problem);
+  explicit evaluation_time_stall(const pass::problem &wrapped_problem);
 
   virtual double evaluate(const arma::vec &agent) const override;
 };
