@@ -34,6 +34,6 @@ public:
    */
   explicit evaluation_time_stall(const pass::problem &wrapped_problem);
 
-  virtual double evaluate(const arma::vec &agent) const override;
+  double evaluate(const arma::vec &agent) const override;
 };
 } // namespace pass

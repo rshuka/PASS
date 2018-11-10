@@ -16,6 +16,6 @@ public:
    */
   messenger_full();
 
-  virtual double evaluate(const arma::vec &agent) const override;
+  double evaluate(const arma::vec &agent) const override;
 };
 } // namespace pass

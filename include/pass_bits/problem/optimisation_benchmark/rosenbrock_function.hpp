@@ -31,6 +31,6 @@ public:
    */
   explicit rosenbrock_function(const arma::uword dimension);
 
-  virtual double evaluate(const arma::vec &agent) const override;
+  double evaluate(const arma::vec &agent) const override;
 };
 } // namespace pass

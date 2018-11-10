@@ -36,6 +36,6 @@ public:
   search_space_constraint(const pass::problem &wrapped_problem,
                           arma::uword segment, arma::uword total_segments);
 
-  virtual double evaluate(const arma::vec &agent) const override;
+  double evaluate(const arma::vec &agent) const override;
 };
 } // namespace pass
