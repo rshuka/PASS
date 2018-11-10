@@ -105,8 +105,9 @@ double zero_finder::FZero::FindZero(Function1D &f)
       // Are the two endpoints within the user specified tolerance ?
 
       if ((c - a) < tolerance)
+      {
         return 0.5 * (a + c);
-
+      }
       // No, Continue iteration.
 
       fb = f(b);
