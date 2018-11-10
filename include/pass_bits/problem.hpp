@@ -56,8 +56,8 @@ public:
    * Initialises an `dimension`-dimensional problem with uniform lower and upper
    * bounds and a problem name.
    */
-  problem(const arma::uword dimension, const double &lower_bound,
-          const double &upper_bound, const std::string &name);
+  problem(const arma::uword dimension, const double lower_bound,
+          const double upper_bound, const std::string &name);
 
   /**
    * Initialises this problem with custom lower and upper bounds and a problem name.

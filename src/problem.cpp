@@ -13,7 +13,7 @@ arma::uword pass::problem::dimension() const noexcept
 }
 
 pass::problem::problem(const arma::uword dimension, const double lower_bound,
-                       const double upper_bound, const std::string name)
+                       const double upper_bound, const std::string &name)
     : lower_bounds(arma::vec(dimension).fill(lower_bound)),
       upper_bounds(arma::vec(dimension).fill(upper_bound)),
       name(name)
@@ -23,7 +23,7 @@ pass::problem::problem(const arma::uword dimension, const double lower_bound,
 }
 
 pass::problem::problem(const arma::vec &lower_bounds,
-                       const arma::vec &upper_bounds, const std::string name)
+                       const arma::vec &upper_bounds, const std::string &name)
     : lower_bounds(lower_bounds),
       upper_bounds(upper_bounds),
       name(name)

@@ -20,7 +20,7 @@ arma::vec pass::optimise_result::agent() const
   return normalised_agent % problem.bounds_range() + problem.lower_bounds;
 }
 
-pass::optimiser::optimiser(const std::string name)
+pass::optimiser::optimiser(const std::string &name)
     : acceptable_fitness_value(-std::numeric_limits<double>::infinity()),
       maximal_iterations(std::numeric_limits<arma::uword>::max()),
       maximal_evaluations(std::numeric_limits<arma::uword>::max()),
