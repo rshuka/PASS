@@ -316,7 +316,6 @@ void final_block(const mgadsmproblem &problem, const std::vector<double *> &v, c
 
 double time2distance(const double *r0, const double *v0, double rtarget)
 {
-
   double E[6];
   double r0norm = norm2(r0);
   double e, E0, p, ni, Et;

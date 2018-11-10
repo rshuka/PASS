@@ -34,12 +34,11 @@
 void propagateKEP(const double *r0_in, const double *v0_in, double t, double mu,
                   double *r, double *v)
 {
-
   /*
    The matrix DD will be almost always the unit matrix, except for orbits
    with little inclination in which cases a rotation is performed so that
    par2IC is always defined
-*/
+  */
 
   double DD[9] = {1, 0, 0,
                   0, 1, 0,

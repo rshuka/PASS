@@ -177,7 +177,6 @@ double pass::regression::predict_linear(const double &x, const arma::rowvec &mod
 
 double pass::regression::predict_poly(const double &x, const arma::rowvec &model)
 {
-
   double predict = 0;
 
   for (arma::uword i = 0; i < model.n_elem; i++)

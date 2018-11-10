@@ -473,12 +473,10 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
 
 arma::mat pass::parameter_evaluate(pass::optimiser &optimiser, const pass::problem &problem)
 {
-
   arma::mat runtimes(pass::parameter_setting_number_of_runs, 2);
 
   for (arma::uword r = 0; r < pass::parameter_setting_number_of_runs; ++r)
   {
-
     pass::optimise_result results = optimiser.optimise(problem);
 
     if (results.solved())

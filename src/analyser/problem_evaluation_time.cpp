@@ -3,7 +3,6 @@
 
 double pass::problem_evaluation_time(const pass::problem &problem)
 {
-
   arma::vec times(1000);
   std::chrono::high_resolution_clock::time_point start, end;
 
