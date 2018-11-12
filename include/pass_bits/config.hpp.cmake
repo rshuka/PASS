@@ -30,6 +30,7 @@ namespace pass
   * Is initialized to `false`.
   */
   extern bool is_verbose;
+
   /**
   * Global variables used for evaluations
   * @global_number_of_runs: to help saving raw data

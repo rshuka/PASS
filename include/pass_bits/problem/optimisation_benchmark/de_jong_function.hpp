@@ -10,10 +10,23 @@ namespace pass
  *
  * Its optimal parameter = (0, ..., 0) and optimal function value = 0.
  *
- *      D
- *      Σ (p(i)²)
- *     i=1
+ * \f[
+ *   f(x_1 \cdots x_n) = \sum_{i=1}^n x_i^2
+ * \f]
+ *
+ *  \f[
+ *   -5.12 \leq x_i \leq 5.12
+ * \f]
+ *   \f[
+ *   \text{minimum at }f(0, \cdots, 0) = 0
+ * \f]
  */
+
+//
+//     D
+//     Σ (p(i)²)
+//    i=1
+
 class de_jong_function : public problem
 {
 public:

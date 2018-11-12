@@ -65,6 +65,9 @@ public:
   arma::uword migration_stall;
 #endif
 
+  /**
+   * Initializes an object of this type.
+   */
   parallel_swarm_search() noexcept;
 
   virtual optimise_result optimise(const pass::problem &problem);

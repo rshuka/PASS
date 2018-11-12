@@ -13,7 +13,7 @@
 #pragma once
 
 #define PASS_VERSION_MAJOR 1
-#define PASS_VERSION_MINOR 00
+#define PASS_VERSION_MINOR 10
 #define PASS_VERSION_PATCH 0
 
 //

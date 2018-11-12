@@ -5,7 +5,7 @@ namespace pass
 {
 /**
  * Depending on your problem it returns if you should use openMP or not
- * Outputs are given through all the analyse process
+ * Outputs are given through all the analyse process.
  *
  * Steps:
  * 1. Estimate the evaluation time of your problem
@@ -18,8 +18,21 @@ namespace pass
  */
 bool enable_openmp(const pass::problem &problem);
 
+/**
+ * Machine Learning - Step 1.
+ *
+ * Collects trainingdata for the model.
+ * Default: 120 trainingspoint are collected
+ * The more data you collect (better data), the better the model performs.
+ */
 arma::mat train(const int &examples);
 
+/**
+ * Machine Learning - Step 2.
+ *
+ * Builds the model from the trainingdata.
+ * Tests two models: linear and polynomial.
+ */
 arma::rowvec build_model(const arma::mat &training_points);
 
 } // namespace pass

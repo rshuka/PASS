@@ -16,12 +16,27 @@ namespace pass
  *
  * Its optimal parameter = (1, ..., 1) and optimal function value = 0.
  *
- *         ⎛      ⎛                     ⎞²    ⎛          ⎞²  ⎞
- *     D-1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
- *      ∑  ⎜100 * ⎜ p(i + 1) - (p(i))²  ⎟   + ⎜ p(i) - 1 ⎟   ⎟
- *     i=1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
- *         ⎝      ⎝                     ⎠     ⎝          ⎠   ⎠
+ * \f[
+ *   f(x_1 \cdots x_n) = \sum_{i=1}^{n-1} (100(x_i^2 - x_{i+1})^2 + (1-x_i)^2)
+ * \f]
+ *
+ * \f[
+ *   -2.048 \leq x_i \leq 2.048
+ * \f]
+ *
+ * \f[
+ *   \text{minimum at }f(1, 1, \cdots, 1) = 0
+ * \f]
  */
+
+//
+//        ⎛      ⎛                     ⎞²    ⎛          ⎞²  ⎞
+//    D-1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
+//     ∑  ⎜100 * ⎜ p(i + 1) - (p(i))²  ⎟   + ⎜ p(i) - 1 ⎟   ⎟
+//    i=1 ⎜      ⎜                     ⎟     ⎜          ⎟   ⎟
+//        ⎝      ⎝                     ⎠     ⎝          ⎠   ⎠
+//
+
 class rosenbrock_function : public problem
 {
 public:

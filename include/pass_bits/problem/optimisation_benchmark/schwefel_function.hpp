@@ -10,10 +10,28 @@ namespace pass
  * Its optimal parameter = (420.9687, ..., 420.9687) and optimal function value = 0.
  * In this implementation for the optimal parameter the function value = 5.42627e-10.
  *
- *                          D ⎛                        ⎞
- *  418.9828872724338 * D - ∑ ⎜ p(i) * sin(√ ||p(i)||) ⎟
- *                         i=1⎝                        ⎠
+ * \f[
+ *   f(x_1 \cdots x_n) = \sum_{i=1}^n (-x_i sin(\sqrt{|x_i|})) + \alpha \cdot n
+ * \f]
+ *
+ * \f[
+ * \alpha = 418.982887
+ * \f]
+ *
+ * \f[
+ *   500.00 \leq x_i \leq 500.00
+ * \f]
+ *
+ * \f[
+ *   \text{minimum at }f(420.968746, 420.968746, \cdots, 420.968746) = 0
+ * \f]
  */
+
+//
+//                         D ⎛                        ⎞
+// 418.9828872724338 * D - ∑ ⎜ p(i) * sin(√ ||p(i)||) ⎟
+//                        i=1⎝                        ⎠
+//
 class schwefel_function : public problem
 {
 public:

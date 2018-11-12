@@ -10,15 +10,35 @@
 #include <omp.h>
 #endif
 
-/**
- * If parallelization is activated some useful variables are provided
- */
 namespace pass
 {
 
+/**
+  * Global variables used for evaluations
+  * @is_verbose: analyse the behaviour of the algorithm
+  * Is initialized to `false`.
+  */
 bool is_verbose(false);
+
+/**
+  * Global variables used for evaluations
+  * @global_number_of_runs: to help saving raw data
+  * Starts from '1'
+  */
 int global_number_of_runs(1);
+
+/**
+  * Global variables used for evaluations
+  * @precision: the precision to stop algorithms and set restart
+  * Is initialized to `1e-06`.
+  */
 double precision(1e-06);
+
+/**
+  * Global variables used for evaluations
+  * @parameter_setting_number_of_runs: number of the runs
+  * Is initialized to `10`.
+  */
 arma::uword parameter_setting_number_of_runs(10);
 
 /**

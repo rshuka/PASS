@@ -11,7 +11,8 @@
 
 namespace zero_finder
 {
-/** Class for one dimensional functions with some parameters
+/**
+ * Class for one dimensional functions with some parameters
  *
  *  The ()-operator with one double argument
  *  has to be overloaded for a derived class

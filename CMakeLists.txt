@@ -1,11 +1,6 @@
 # Require minimum Version of CMAKE
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-#!!! APPLE USER !!! Change the Path of the GCC Compiler if necessary
-if(APPLE)
-set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-8")
-endif()
-
 # Retrieves the version numbers from "include/pass", avoiding possible inconsistency.
 file(STRINGS "./include/pass" PASS_HEADER_CONTENTS REGEX "#define PASS_VERSION_[A-Z]+ ")
 string(REGEX REPLACE ".*#define PASS_VERSION_MAJOR ([0-9]+).*" "\\1" PASS_VERSION_MAJOR "${PASS_HEADER_CONTENTS}")
@@ -18,7 +13,7 @@ project(PASS VERSION "${PASS_VERSION}" LANGUAGES CXX)
 
 # Adding additional support
 option(SUPPORT_SIMD "Add SSE2, SSE3, SSE4, AVX, etc. support" OFF)
-option(SUPPORT_OPENMP "Add OpenMP support" ON)
+option(SUPPORT_OPENMP "Add OpenMP support" OFF)
 option(SUPPORT_MPI "Add MPI support" OFF)
 
 if (NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
