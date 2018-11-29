@@ -9,7 +9,7 @@ void pass::search_parameters(const pass::problem &problem, const bool benchmark)
   pass::parallel_swarm_search algorithm;
 
   // Time to run a black box problem
-  const arma::uword time_in_seconds = 10;
+  const arma::uword time_in_seconds = 60;
 
   // Global Winner
   arma::uword global_winner;
