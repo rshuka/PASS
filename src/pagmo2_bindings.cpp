@@ -119,11 +119,12 @@ pass::optimise_result pass::pagmo2::cmaes::optimise(
   return result;
 }
 
-pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &) const
+pagmo::algorithm pass::pagmo2::cmaes::get_algorithm(const pass::problem &problem) const
 {
   return pagmo::algorithm{pagmo::cmaes{
       // gen: number of generations (default value: 1)
-      1,
+      //static_cast<unsigned int>(problem.dimension()),
+      6,
       // cc: backward time horizon for the evolution path (default value: -1)
       -1,
       // cs: makes partly up for the small variance loss in case the indicator is
@@ -192,7 +193,7 @@ arma::uword pass::pagmo2::differential_evolution::calculate_iterations(const pas
 
 arma::uword pass::pagmo2::differential_evolution::calculate_population_size(const pass::problem &) const
 {
-  return 5;
+  return 20;
 }
 
 // ----------------------------------------------
@@ -243,7 +244,7 @@ arma::uword pass::pagmo2::artifical_bee_colony::calculate_iterations(const pass:
 
 arma::uword pass::pagmo2::artifical_bee_colony::calculate_population_size(const pass::problem &) const
 {
-  return 5;
+  return 20;
 }
 
 // ----------------------------------------------
