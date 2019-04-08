@@ -196,7 +196,7 @@ arma::mat pass::train(const int &examples)
     }
 
     summary(1, count) = arma::mean(serial) / arma::mean(parallel);
-
+    summary.save("./model.mat", arma::raw_ascii);
     count++;
 
     // load bar
