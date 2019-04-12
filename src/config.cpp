@@ -39,7 +39,7 @@ double precision(1e-06);
   * @parameter_setting_number_of_runs: number of the runs
   * Is initialized to `10`.
   */
-arma::uword parameter_setting_number_of_runs(10);
+arma::uword parameter_setting_number_of_runs(30);
 
 /**
  * Use OpenMP
